@@ -1,0 +1,215 @@
+{
+  "id": "ds-lady-writer",
+  "title": "Lady Writer",
+  "artist": "Dire Straits",
+  "album": "Communiqué",
+  "year": 1979,
+  "genre": "Classic rock",
+  "level": 3,
+  "key": "C#m",
+  "bpm": 148,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 225,
+  "note": "A fast song on one two-bar figure: A and B share the first bar, C sharp minor fills the second, and every fourth time it lands on G sharp minor instead. Keep the strum light and clipped. B, C#m, G#m and F#m are all barre chords, so rest the hand in the long A of the chorus. Lead fills and solos are left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes",
+    "barre-a",
+    "barre-am",
+    "barre-em"
+  ],
+  "scale": {
+    "root": "C#",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "C#m",
+        "G#m",
+        "F#m",
+        "Am",
+        "C#m",
+        "C#m"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "C#m",
+        "G#m",
+        "F#m",
+        "Am",
+        "C#m",
+        "C#m"
+      ]
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "G#m",
+        "G#m",
+        "F#m",
+        "F#m"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A",
+        "C#m",
+        "G#m",
+        "F#m",
+        "Am",
+        "C#m",
+        "C#m"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m",
+        "A B",
+        "C#m"
+      ],
+      "repeat": 5
+    }
+  ],
+  "sources": [
+    "https://www.e-chords.com/chords/dire-straits/lady-writer",
+    "https://www.guitartabsexplorer.com/dire-straits/lady-writer-chords",
+    "https://www.guitartabsexplorer.com/dire-straits/lady-writer-btab",
+    "https://www.guitartabsexplorer.com/dire-straits/lady-writer-tab",
+    "https://songbpm.com/@dire-straits/lady-writer",
+    "https://en.wikipedia.org/wiki/Lady_Writer",
+    "https://en.wikipedia.org/wiki/Communiqu%C3%A9_(Dire_Straits_album)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Two chart families agree on the chords; bars come from a bass tab with bar lines (2-bar figure, 12-bar chorus, 8-bar bridge). One chart has a passing E in the chorus and a quick B, A ending the figure; one hears F#m7 for Am. Sections up to verse 4 give about 2:40; the fading outro fills the rest (five rounds, a guess).",
+  "createdAt": 1791648364419,
+  "updatedAt": 1791648364419
+}

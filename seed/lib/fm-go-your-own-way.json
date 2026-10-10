@@ -1,0 +1,152 @@
+{
+  "id": "fm-go-your-own-way",
+  "title": "Go Your Own Way",
+  "artist": "Fleetwood Mac",
+  "album": "Rumours",
+  "year": 1977,
+  "genre": "Classic rock",
+  "level": 3,
+  "key": "F",
+  "bpm": 136,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 218,
+  "note": "Two barre shapes carry the song: F on the sixth string and Bb on the fifth. The verse stays on F for three bars and on Bb for three, so keep the eighth-note strum going and save your attention for the single bar of C. The chorus opens out to Dm, Bb and two bars of C. The lead guitar parts are left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "barre-e",
+    "barre-a"
+  ],
+  "scale": {
+    "root": "F",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "F",
+        "C",
+        "Bb",
+        "Bb",
+        "Bb",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "F",
+        "C",
+        "Bb",
+        "Bb",
+        "Bb",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Solo 1",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "F",
+        "C",
+        "Bb",
+        "Bb",
+        "Bb",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Solo 2",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 5
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Go+Your+Own+Way",
+    "https://www.e-chords.com/chords/fleetwood-mac/go-your-own-way",
+    "https://www.guitartabsexplorer.com/fleetwood-mac/go-your-own-way-chords",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/go-your-own-way",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/FLEETMAC_GH1/FLEETMAC_GH1-03.html",
+    "https://en.wikipedia.org/wiki/Go_Your_Own_Way"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "All sources agree on F, C, Bb in the verse and Dm, Bb, C in the chorus. Bar counts follow the ChordWiki chart, which has bar lines, and fit the length. Left out: the passing F/E in the last verse bar and the Fsus embellishments two charts mention. The number of rounds under the closing solo and fade is approximate.",
+  "createdAt": 1791647288366,
+  "updatedAt": 1791647288366
+}

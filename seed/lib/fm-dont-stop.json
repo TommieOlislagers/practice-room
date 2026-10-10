@@ -1,0 +1,195 @@
+{
+  "id": "fm-dont-stop",
+  "title": "Don't Stop",
+  "artist": "Fleetwood Mac",
+  "album": "Rumours",
+  "year": 1977,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 119,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 193,
+  "note": "A bouncy shuffle: swing the eighths, long then short. Verse and chorus share one eight-bar pattern, E and D splitting a bar, a full bar of A, three times, then two bars of B. The quick E to D change is the thing to drill. B is a barre on the fifth string; B7 is an easier stand-in while you build it.",
+  "strum": "D DUD DU",
+  "needs": [
+    "shuffle",
+    "strum-pattern",
+    "quick-changes",
+    "barre-a"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "A/E",
+      "s": "002220"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "E A/E",
+        "E A/E",
+        "E A/E",
+        "E A/E"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Turnaround",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Chorus 4",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "E D",
+        "A",
+        "B",
+        "B"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E D",
+        "A"
+      ],
+      "repeat": 6
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Dont+stop",
+    "https://www.e-chords.com/chords/fleetwood-mac/dont-stop",
+    "https://www.guitartabsexplorer.com/fleetwood-mac/dont-stop-chords",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/dont-stop",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/FLEETMAC_GH1/FLEETMAC_GH1-02.html",
+    "https://en.wikipedia.org/wiki/Don%27t_Stop_(Fleetwood_Mac_song)"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "Three charts agree on the chords. Bar counts follow the ChordWiki chart, which has bar lines: the extra two bars of B after chorus 2 and after the solo, and the four-bar turnaround, come from it alone. In the choruses the charts write D/E (D over an E bass); plain D is given here. The outro fades.",
+  "createdAt": 1791647288366,
+  "updatedAt": 1791647288366
+}

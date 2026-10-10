@@ -1,0 +1,205 @@
+{
+  "id": "ds-brothers-in-arms",
+  "title": "Brothers in Arms",
+  "artist": "Dire Straits",
+  "album": "Brothers in Arms",
+  "year": 1985,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "G#m",
+  "bpm": 79,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 4,
+  "tuning": "standard",
+  "lengthSec": 420,
+  "note": "Capo 4 turns the record's G sharp minor into Em, C, D, G, Am and Bm. It is slow: strum softly or pick each chord one string at a time and let it ring. Mind the bars with two chords, C to D early in the verse and C to Am near its end. The guitar fills and solos are left out; their backing chords are charted.",
+  "strum": "D D DUDU",
+  "needs": [
+    "strum-quarters",
+    "strum-eighths",
+    "arpeggio",
+    "quick-changes",
+    "bass-walk",
+    "barre-am"
+  ],
+  "scale": {
+    "root": "G#",
+    "type": "penta-minor"
+  },
+  "shapes": [
+    {
+      "n": "G/F#",
+      "s": "2x0003"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "Em",
+        "C",
+        "Em",
+        "C",
+        "Am",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C D",
+        "G",
+        "G G/F#",
+        "Em",
+        "Bm",
+        "C",
+        "D",
+        "Em",
+        "Bm",
+        "C Am",
+        "D",
+        "Em",
+        "C",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "Am",
+        "C",
+        "Em",
+        "C",
+        "Am",
+        "Em"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C D",
+        "G",
+        "G G/F#",
+        "Em",
+        "Bm",
+        "C",
+        "D",
+        "Em",
+        "Bm",
+        "C Am",
+        "D",
+        "Em",
+        "C",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "Am",
+        "C",
+        "Em",
+        "C",
+        "Am",
+        "Em"
+      ]
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "Em D",
+        "Em D",
+        "G",
+        "C",
+        "D",
+        "Em D",
+        "G",
+        "C"
+      ]
+    },
+    {
+      "name": "Interlude 3",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "Am",
+        "C",
+        "Em",
+        "C",
+        "Am",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C D",
+        "G",
+        "G G/F#",
+        "Em",
+        "Bm",
+        "C",
+        "D",
+        "Em",
+        "Bm",
+        "C Am",
+        "D",
+        "Em",
+        "C",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "Am",
+        "C",
+        "Em",
+        "C",
+        "Am",
+        "C D"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/dire-straits/brothers-in-arms-chords",
+    "https://www.guitartabsexplorer.com/dire-straits/brothers-in-arms-right-(ver4)-chords",
+    "https://www.e-chords.com/chords/dire-straits/brothers-in-arms",
+    "https://www.gitaartabs.nl/song/chords/dire-straits/brothers-in-arms",
+    "https://www.hooktheory.com/theorytab/view/dire-straits/brothers-in-arms",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DIRESTR8_GH1/DIRESTR8_GH1-12.html",
+    "https://en.wikipedia.org/wiki/Brothers_in_Arms_(song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in G#m; chords are capo-4 shapes (one chart uses them). Four charts agree on the chords; none has bar lines, so the 16-bar verse and 8-bar bridge are worked out from 79 BPM and 7:00, a guess. Sus4 touches are left out. The first intro round is the free opening. Charts differ on bar 3 of the interludes.",
+  "createdAt": 1791648364419,
+  "updatedAt": 1791648364419
+}

@@ -1,0 +1,162 @@
+{
+  "id": "ds-why-worry",
+  "title": "Why Worry",
+  "artist": "Dire Straits",
+  "album": "Brothers in Arms",
+  "year": 1985,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 94,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 220,
+  "note": "A gentle song to pick rather than strum: thumb on the bass note, fingers on the top strings, one chord to a bar. Learn the climb at the end of each verse half first: A, F sharp with A sharp in the bass, B, C sharp minor 7, B. B7 is fine wherever B is new. The picked figures between the sung parts are left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "arpeggio",
+    "strum-eighths",
+    "sevenths",
+    "quick-changes",
+    "bass-walk",
+    "barre-a",
+    "barre-am"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "F#/A#",
+      "s": "x1432x"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B7",
+        "E",
+        "B7",
+        "E",
+        "A",
+        "F#/A#",
+        "B",
+        "C#m7",
+        "B"
+      ]
+    },
+    {
+      "name": "Riff 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "A B",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B7",
+        "E",
+        "B7",
+        "E",
+        "A",
+        "F#/A#",
+        "B",
+        "C#m7",
+        "B"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B"
+      ]
+    },
+    {
+      "name": "Riff 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "A B",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B7",
+        "E",
+        "B7",
+        "E",
+        "A",
+        "F#/A#",
+        "B",
+        "C#m7",
+        "B"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B",
+        "E",
+        "A B"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/dire-straits-why-worry-2",
+    "https://www.e-chords.com/chords/dire-straits/why-worry",
+    "https://www.guitartabsexplorer.com/dire-straits/why-worry-chords",
+    "https://www.guitartabsexplorer.com/dire-straits/why-worry-tab",
+    "https://songbpm.com/@dire-straits/why-worry",
+    "https://en.wikipedia.org/wiki/Brothers_in_Arms_(album)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "CD track is 8:31 (LP 5:22). The long instrumental ending after chorus 2 is in no chart found and is left out; lengthSec is the charted part. Bars follow a chart with bar lines (it once puts A and F#/A# in one bar); two more agree on the chords. Riff bars are simplified (odd bar lengths, A/C#). A tab says 100 BPM.",
+  "createdAt": 1791648364419,
+  "updatedAt": 1791648364419
+}

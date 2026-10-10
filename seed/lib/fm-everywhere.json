@@ -1,0 +1,179 @@
+{
+  "id": "fm-everywhere",
+  "title": "Everywhere",
+  "artist": "Fleetwood Mac",
+  "album": "Tango in the Night",
+  "year": 1987,
+  "genre": "Soft rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 115,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 2,
+  "tuning": "standard",
+  "lengthSec": 222,
+  "note": "Capo 2 turns the record's E, B, C#m and A into D, A, Bm and G. Nearly every bar holds two chords, so practise the pairs slowly first: D to A, Bm to G, and A to Bm in the chorus. Keep the strum light and even. In the chiming intro, hold G and move to A/G and back. The keyboard and guitar hook is left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes",
+    "barre-am"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "A/G",
+      "s": "3x2220"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G A/G",
+        "G A/G",
+        "G A/G",
+        "G A/G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Intro 2",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "D A",
+        "D A",
+        "Bm G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "D A",
+        "D A",
+        "Bm G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A Bm",
+        "G A",
+        "Bm A",
+        "G A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "D A",
+        "D A",
+        "Bm G"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "D A",
+        "D A",
+        "Bm G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A Bm",
+        "G A",
+        "Bm A",
+        "G A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "G A/G",
+        "G A/G",
+        "G A/G",
+        "G A/G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "D A",
+        "D A",
+        "Bm G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A Bm",
+        "G A",
+        "Bm A",
+        "G A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro chorus",
+      "type": "chords",
+      "bars": [
+        "A Bm",
+        "G A",
+        "Bm A",
+        "G A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Ending",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-everywhere-5",
+    "https://www.e-chords.com/chords/fleetwood-mac/everywhere",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-everywhere-7",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-everywhere-3",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/everywhere",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/FLEETMAC_GH1/FLEETMAC_GH1-05.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in E. Shapes follow the capo 2 chart; two charts in E and Hooktheory agree on the chords. Two chords to a bar is worked out from 115 BPM and the length. Guesses: the intro length (charts give 6 to 8 bars of the A to B/A figure, written A(b5) in one) and how many choruses run into the fade (charts say 2 or 3).",
+  "createdAt": 1791647288366,
+  "updatedAt": 1791647288366
+}

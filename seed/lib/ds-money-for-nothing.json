@@ -1,0 +1,213 @@
+{
+  "id": "ds-money-for-nothing",
+  "title": "Money for Nothing",
+  "artist": "Dire Straits",
+  "album": "Brothers in Arms",
+  "year": 1985,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "Gm",
+  "bpm": 134,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 248,
+  "note": "Play it all with two-finger power chords and a little palm muting. One round under the riff is eight bars; the quick pairs come in bar four (B flat to C) and bar eight (F back to G). The bridge ends by climbing C, D, E. The picked riff itself and the opening before the guitar are left out.",
+  "strum": "D D DUDU",
+  "needs": [
+    "power-chords",
+    "palm-mute",
+    "strum-eighths",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "penta-minor"
+  },
+  "shapes": [
+    {
+      "n": "D5",
+      "s": "x577xx"
+    },
+    {
+      "n": "E5",
+      "s": "x799xx"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Bridge 1",
+      "type": "chords",
+      "bars": [
+        "Eb5",
+        "Bb5",
+        "Eb5",
+        "F5",
+        "G5",
+        "G5",
+        "C5",
+        "D5 E5"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ]
+    },
+    {
+      "name": "Bridge 2",
+      "type": "chords",
+      "bars": [
+        "Eb5",
+        "Bb5",
+        "Eb5",
+        "F5",
+        "G5",
+        "G5",
+        "C5",
+        "D5 E5"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Bridge 3",
+      "type": "chords",
+      "bars": [
+        "Eb5",
+        "Bb5",
+        "Eb5",
+        "F5",
+        "G5",
+        "G5",
+        "C5",
+        "D5 E5"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "C5",
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "G5",
+        "G5",
+        "F5 G5"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://ukutabs.com/d/dire-straits/money-for-nothing/",
+    "https://www.e-chords.com/chords/dire-straits/money-for-nothing",
+    "https://www.guitartabsexplorer.com/dire-straits/money-for-nothing-chords",
+    "https://tabs4acoustic.com/en/guitar-tabs/dire-straits-tabs/money-for-nothing-acoustic-tab-343.html",
+    "https://www.gitaartabs.nl/song/chords/dire-straits/money-for-nothing",
+    "https://www.hooktheory.com/theorytab/view/dire-straits/money-for-nothing",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DIRESTR8_GH1/DIRESTR8_GH1-11.html",
+    "https://en.wikipedia.org/wiki/Money_for_Nothing_(song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Single is 4:38; the opening before the guitar (about 30 s, not timed) is not charted, so lengthSec is the rest. Charts agree on Gm7, C, Bb, F and Eb, Bb, F, Gm7, C, D, E; written here as power chords. They follow the album cut: the single's section order and the bridge's last two bars are guesses. Outro fades.",
+  "createdAt": 1791648364419,
+  "updatedAt": 1791648364419
+}

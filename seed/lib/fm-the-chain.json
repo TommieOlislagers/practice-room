@@ -1,0 +1,178 @@
+{
+  "id": "fm-the-chain",
+  "title": "The Chain",
+  "artist": "Fleetwood Mac",
+  "album": "Rumours",
+  "year": 1977,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "Em",
+  "bpm": 152,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 268,
+  "note": "The first half stomps at half speed: count four, but lean on beats one and three with muted downstrokes on Em. Each verse line ends with a short walk through A, A7, D and C back to Em. After the breakdown the bass plays alone for eight bars; come back in with Am, C, G, Em. The dobro riff and the bass riff are left out.",
+  "strum": "D D D DU",
+  "needs": [
+    "strum-quarters",
+    "palm-mute",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "Em",
+        "Em",
+        "Em"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "Em",
+        "A",
+        "A7",
+        "D",
+        "C",
+        "Em",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "Am",
+        "Am",
+        "Em",
+        "C",
+        "D",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "Em",
+        "Em",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "Em",
+        "A",
+        "A7",
+        "D",
+        "C",
+        "Em",
+        "Em"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "Am",
+        "Am",
+        "Em",
+        "C",
+        "D",
+        "D"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Breakdown",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "Em"
+      ],
+      "repeat": 5
+    },
+    {
+      "name": "Bass riff",
+      "type": "chords",
+      "bars": [
+        "N.C.",
+        "N.C.",
+        "N.C.",
+        "N.C."
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Build",
+      "type": "chords",
+      "bars": [
+        "Am C",
+        "G",
+        "Em",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "Am C",
+        "G",
+        "Em",
+        "Em"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Am C",
+        "G",
+        "Em",
+        "Em"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://www.e-chords.com/chords/fleetwood-mac/the-chain-ver-1",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/the-chain",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-the-chain-17",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-the-chain-10",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-the-chain-12",
+    "https://en.wikipedia.org/wiki/The_Chain"
+  ],
+  "checked": true,
+  "confidence": "low",
+  "remarks": "Record: drop D, capo 2; charted in standard. Chords agree across two charts and Hooktheory (D, C stand for Bm/D, Am/C; D for Dsus4). No source has usable bar lines: where chords fall, and all bar counts, are worked out from 152 BPM and the length. The Am C G Em ending rests on one transcription. The outro fades.",
+  "createdAt": 1791647288366,
+  "updatedAt": 1791647288366
+}

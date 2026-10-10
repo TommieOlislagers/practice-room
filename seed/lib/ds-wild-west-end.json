@@ -1,0 +1,247 @@
+{
+  "id": "ds-wild-west-end",
+  "title": "Wild West End",
+  "artist": "Dire Straits",
+  "album": "Dire Straits",
+  "year": 1978,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "D",
+  "bpm": 131,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 282,
+  "note": "One four-bar round carries almost the whole song: two bars of D, one of E minor, one of G. Strum it loosely and let the open strings ring. After each chorus comes a short turn: Am, G to F, D to C, D. F is the one barre there. The record's resonator guitar part, played in an open tuning, is left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "G F",
+        "D C",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "G F",
+        "D C",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G",
+        "D",
+        "D",
+        "Em",
+        "G"
+      ]
+    },
+    {
+      "name": "Interlude 3",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "G F",
+        "D C",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Coda",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "G F",
+        "D",
+        "D"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/dire-straits-wild-west-end-7",
+    "https://www.e-chords.com/chords/dire-straits/wild-west-end",
+    "https://www.chords-and-tabs.net/song/name/dire-straits-wild-west-end",
+    "https://songbpm.com/@dire-straits/wild-west-end",
+    "https://en.wikipedia.org/wiki/Dire_Straits_(album)"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "Bars follow a chart with bar lines; at 131 BPM they add up to the record's 4:42 (it can also be counted at half speed). Two more charts agree: D, Em or Em7, G, and Am, G, F, D, C, D after the chorus. D6, G6, C/D are left out. A stop in verse 1 and uneven lines in verse 2 are evened out. Record: open G tuning.",
+  "createdAt": 1791648364419,
+  "updatedAt": 1791648364419
+}

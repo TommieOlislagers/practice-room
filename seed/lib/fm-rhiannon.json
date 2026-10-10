@@ -1,0 +1,174 @@
+{
+  "id": "fm-rhiannon",
+  "title": "Rhiannon",
+  "artist": "Fleetwood Mac",
+  "album": "Fleetwood Mac",
+  "year": 1975,
+  "genre": "Soft rock",
+  "level": 2,
+  "key": "Am",
+  "bpm": 129,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 251,
+  "note": "Three chords, two bars each: Am and F in the verses, C and F before the chorus, and the chorus turns the verse round and starts on F. Changes come slowly, so work on a steady, quiet strum that grows into the chorus. Fmaj7 is an easier stand-in for the F barre. The picked guitar riff is left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "A",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Pre-chorus 1",
+      "type": "chords",
+      "bars": [
+        "C",
+        "C",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Pre-chorus 2",
+      "type": "chords",
+      "bars": [
+        "C",
+        "C",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "Am",
+        "Am"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Break",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Pre-chorus 3",
+      "type": "chords",
+      "bars": [
+        "C",
+        "C",
+        "F",
+        "F"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "Am",
+        "Am"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Coda",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro solo",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "Am",
+        "F",
+        "F"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://ukutabs.com/f/fleetwood-mac/rhiannon/",
+    "https://www.e-chords.com/chords/fleetwood-mac/rhiannon-ver-beginners",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-rhiannon-6",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/rhiannon",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/FLEETMAC_GH1/FLEETMAC_GH1-01.html",
+    "https://en.wikipedia.org/wiki/Rhiannon_(song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Album version (4:11). Sources agree on Am and F, C and F before the chorus, and a chorus that starts on F; one writes Fmaj7 for F. None has bar lines: two bars per chord is worked out from 129 BPM and the length. The length of the break, and of the coda and solo (a long fade), are estimates.",
+  "createdAt": 1791647288366,
+  "updatedAt": 1791647288366
+}
