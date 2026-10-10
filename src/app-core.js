@@ -66,6 +66,8 @@
     lock: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.500 10V7.500a4.500 4.500 0 0 1 9 0V10h.5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zm2 0h5V7.500a2.500 2.500 0 0 0-5 0z"/></svg>',
     crown: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-1.800 10H4.800z"/></svg>',
     hand: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8h14l-3.500-3.500 1.400-1.400L22.800 9l-5.900 5.900-1.400-1.400L19 10H5zM19 16H5l3.500 3.500-1.400 1.400L1.200 15l5.900-5.900 1.400 1.400L5 14h14z" transform="scale(.82) translate(2.600 2.600)"/></svg>',
+    github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    cloud: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 19a5 5 0 0 1-.6-9.96 6 6 0 0 1 11.5 1.02A4.5 4.5 0 0 1 17.5 19z"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
   };
 
@@ -135,7 +137,8 @@
   }
 
   /* ---------- storage: the artifact's database when there is one, this browser otherwise ---------- */
-  var LS = { songs: 'pr.songs.v1', sessions: 'pr.sessions.v1', settings: 'pr.settings.v1', pending: 'pr.pending.v1', starters: 'pr.starters.v1', diag: 'pr.diag.v1', device: 'pr.device.v1' };
+  var LS = { songs: 'pr.songs.v1', sessions: 'pr.sessions.v1', settings: 'pr.settings.v1', pending: 'pr.pending.v1', starters: 'pr.starters.v1', diag: 'pr.diag.v1', device: 'pr.device.v1',
+    gone: 'pr.gone.v1', setAt: 'pr.settingsAt.v1', account: 'pr.account.v1', accountHide: 'pr.account.hide.v1' };
   function lsGet(k) { try { var v = root.localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
   function lsSet(k, v) { try { root.localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage may be unavailable */ } }
   function isFramed() { try { return root.self !== root.top; } catch (e) { return true; } }
@@ -198,8 +201,17 @@
        fresh snapshot cannot wipe it, and sent the next time the database answers. */
     pending: { songs: {}, gone: {}, sessions: [] },
     cloudSongs: null, cloudSessions: null, flushing: false,
+    /* For the copy that saves to the player's own account (app-account.js): when each song was deleted and when
+       the settings last changed, so two devices can tell which side is newer. */
+    gone: {}, settingsAt: 0,
+    /* how many sessions are kept on the device: the database hands over 500, a browser on its own keeps more */
+    cap: function () { return Store.db ? 500 : 2000; },
+    changed: function (what) { if (App.acct) App.acct.touch(what); },
     loadLocal: function () {
-      var songs = lsGet(LS.songs), sessions = lsGet(LS.sessions), settings = lsGet(LS.settings), pend = lsGet(LS.pending);
+      var songs = lsGet(LS.songs), sessions = lsGet(LS.sessions), settings = lsGet(LS.settings), pend = lsGet(LS.pending), gone = lsGet(LS.gone);
+      if (gone && typeof gone === 'object') Store.gone = gone;
+      /* settings changed before changes were timed still count as changed, just long ago */
+      Store.settingsAt = +lsGet(LS.setAt) || (settings && typeof settings === 'object' ? 1 : 0);
       if (songs && typeof songs === 'object') S.songs = songs;
       if (Array.isArray(sessions)) S.sessions = sessions;
       if (settings && typeof settings === 'object') Object.assign(S.settings, settings);
@@ -318,33 +330,40 @@
       if (!doc.createdAt) doc.createdAt = doc.updatedAt;
       S.songs[id] = Object.assign({ id: id }, doc);
       lsSet(LS.songs, S.songs);
+      if (Store.gone[id]) { delete Store.gone[id]; lsSet(LS.gone, Store.gone); }
       var p = Store.pending, later = function () { p.songs[id] = doc; delete p.gone[id]; };
       if (Store.db) Store.db.doc('songs/' + id).set(doc).catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('song');
       return id;
     },
     deleteSong: function (id) {
       delete S.songs[id];
       lsSet(LS.songs, S.songs);
+      Store.gone[id] = Date.now(); lsSet(LS.gone, Store.gone);
       var p = Store.pending, later = function () { delete p.songs[id]; p.gone[id] = 1; };
       if (Store.db) Store.db.doc('songs/' + id).delete().catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('song');
     },
     addSession: function (sess) {
       var id = uid('p');
       var doc = Object.assign({ at: Date.now() }, sess);
       var mine = Object.assign({ id: id }, doc);
       S.sessions.unshift(mine);
-      if (S.sessions.length > 500) S.sessions.length = 500;
+      if (S.sessions.length > Store.cap()) S.sessions.length = Store.cap();
       lsSet(LS.sessions, S.sessions);
       var p = Store.pending, later = function () { p.sessions.push(mine); if (p.sessions.length > 500) p.sessions.splice(0, p.sessions.length - 500); };
       if (Store.db) Store.db.doc('sessions/' + id).set(doc).catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('session');
       return id;
     },
     saveSettings: function () {
       lsSet(LS.settings, S.settings);
+      Store.settingsAt = Date.now(); lsSet(LS.setAt, Store.settingsAt);
       if (Store.db) Store.db.doc('meta/settings').set(Object.assign({}, S.settings)).catch(function () {});
+      Store.changed('settings');
     }
   };
 
@@ -577,7 +596,7 @@
     isOpen: function () { return !$('#sheet').hidden; }
   };
 
-  App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.isFramed = isFramed;
+  App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.LS = LS; App.isFramed = isFramed; App.pad2 = pad2; App.MONTH = MONTH;
   App.fmtDur = fmtDur; App.fmtMin = fmtMin; App.pct = pct; App.fmtDay = fmtDay; App.ago = ago; App.dayKey = dayKey; App.WEEKDAY = WEEKDAY;
   App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.songShapes = songShapes;
   App.computeStats = computeStats; App.songStatus = songStatus;

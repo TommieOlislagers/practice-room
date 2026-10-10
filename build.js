@@ -7,7 +7,7 @@ const src = f => fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
 const starters = {};
 [['eyes-original', 'eyes.json'], ['eyes-capo4', 'eyes-capo4.json']].forEach(([id, f]) => { starters[id] = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', f), 'utf8')); });
 const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), '(typeof window !== "undefined" ? window : globalThis).PR.starters = ' + JSON.stringify(starters) + ';']
-  .concat(['app-core.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
+  .concat(['app-core.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
 if (/<\/script/i.test(js)) throw new Error('script end tag inside the script');
 const html = '<title>Tommie\'s Practice Room</title>\n' +
   '<style>\n' + src('style.css') + '</style>\n' + src('body.html') + '<script>\n' + js + '\n</script>\n';

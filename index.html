@@ -110,6 +110,9 @@ a { color: var(--tint-text); }
 .sync { font-size: 12px; font-weight: 500; color: var(--ink-3); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .sync i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); display: inline-block; }
 .sync.is-cloud i { background: var(--good-fill); }
+.sync.is-warn i { background: var(--adjust-fill); }
+.sync.is-bad i { background: var(--bad-fill); }
+button.sync { border: 0; background: none; padding: 0; margin: 0; min-height: 36px; }
 .icon-btn { width: 36px; height: 36px; display: inline-grid; place-items: center; border: 0; background: var(--fill); border-radius: 50%; color: var(--tint-text); flex: none; }
 .icon-btn svg { width: 19px; height: 19px; }
 .icon-btn.plain { background: transparent; }
@@ -318,6 +321,14 @@ details > summary::-webkit-details-marker { display: none; }
 .toggle input:checked::after { transform: translateX(20px); }
 .setrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font-size: 17px; }
 
+/* ---- the account on GitHub ---- */
+.avatar { border-radius: 50%; flex: none; background: var(--fill); object-fit: cover; display: block; }
+.avatar-none { display: inline-grid; place-items: center; color: var(--ink); }
+.avatar-none svg { width: 58%; height: 58%; }
+.step-n { width: 24px; height: 24px; border-radius: 50%; background: var(--tint); color: var(--tint-ink); display: inline-grid; place-items: center; font-family: var(--f-round); font-weight: 700; font-size: 14px; flex: none; }
+.btn.btn-gh { background: var(--ink); color: var(--bg); }
+.btn-gh svg:last-child { opacity: .6; }
+
 /* ---- sheets ---- */
 .sheet-wrap { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .4); display: flex; align-items: flex-end; justify-content: center; animation: fade .2s ease; }
 .sheet { width: 100%; max-width: 640px; max-height: 94%; overflow: auto; background: var(--sheet); --card: var(--sheet-card); border-radius: 22px 22px 0 0; padding: 8px 16px calc(24px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; overscroll-behavior: contain; animation: rise .32s cubic-bezier(.2, .9, .3, 1); }
@@ -485,7 +496,7 @@ details > summary::-webkit-details-marker { display: none; }
 </style>
 <div class="app" id="app">
   <header class="topbar">
-    <span class="sync" id="sync"><i></i>Loading</span>
+    <button class="sync" id="sync" data-act="account"><i></i>Loading</button>
     <button class="icon-btn" data-act="settings" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg></button>
   </header>
   <main id="main"></main>
@@ -2702,6 +2713,8 @@ details > summary::-webkit-details-marker { display: none; }
     lock: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.500 10V7.500a4.500 4.500 0 0 1 9 0V10h.5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zm2 0h5V7.500a2.500 2.500 0 0 0-5 0z"/></svg>',
     crown: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-1.800 10H4.800z"/></svg>',
     hand: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8h14l-3.500-3.500 1.400-1.400L22.800 9l-5.900 5.900-1.400-1.400L19 10H5zM19 16H5l3.500 3.500-1.400 1.400L1.200 15l5.900-5.900 1.400 1.400L5 14h14z" transform="scale(.82) translate(2.600 2.600)"/></svg>',
+    github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    cloud: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 19a5 5 0 0 1-.6-9.96 6 6 0 0 1 11.5 1.02A4.5 4.5 0 0 1 17.5 19z"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
   };
 
@@ -2771,7 +2784,8 @@ details > summary::-webkit-details-marker { display: none; }
   }
 
   /* ---------- storage: the artifact's database when there is one, this browser otherwise ---------- */
-  var LS = { songs: 'pr.songs.v1', sessions: 'pr.sessions.v1', settings: 'pr.settings.v1', pending: 'pr.pending.v1', starters: 'pr.starters.v1', diag: 'pr.diag.v1', device: 'pr.device.v1' };
+  var LS = { songs: 'pr.songs.v1', sessions: 'pr.sessions.v1', settings: 'pr.settings.v1', pending: 'pr.pending.v1', starters: 'pr.starters.v1', diag: 'pr.diag.v1', device: 'pr.device.v1',
+    gone: 'pr.gone.v1', setAt: 'pr.settingsAt.v1', account: 'pr.account.v1', accountHide: 'pr.account.hide.v1' };
   function lsGet(k) { try { var v = root.localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
   function lsSet(k, v) { try { root.localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage may be unavailable */ } }
   function isFramed() { try { return root.self !== root.top; } catch (e) { return true; } }
@@ -2834,8 +2848,17 @@ details > summary::-webkit-details-marker { display: none; }
        fresh snapshot cannot wipe it, and sent the next time the database answers. */
     pending: { songs: {}, gone: {}, sessions: [] },
     cloudSongs: null, cloudSessions: null, flushing: false,
+    /* For the copy that saves to the player's own account (app-account.js): when each song was deleted and when
+       the settings last changed, so two devices can tell which side is newer. */
+    gone: {}, settingsAt: 0,
+    /* how many sessions are kept on the device: the database hands over 500, a browser on its own keeps more */
+    cap: function () { return Store.db ? 500 : 2000; },
+    changed: function (what) { if (App.acct) App.acct.touch(what); },
     loadLocal: function () {
-      var songs = lsGet(LS.songs), sessions = lsGet(LS.sessions), settings = lsGet(LS.settings), pend = lsGet(LS.pending);
+      var songs = lsGet(LS.songs), sessions = lsGet(LS.sessions), settings = lsGet(LS.settings), pend = lsGet(LS.pending), gone = lsGet(LS.gone);
+      if (gone && typeof gone === 'object') Store.gone = gone;
+      /* settings changed before changes were timed still count as changed, just long ago */
+      Store.settingsAt = +lsGet(LS.setAt) || (settings && typeof settings === 'object' ? 1 : 0);
       if (songs && typeof songs === 'object') S.songs = songs;
       if (Array.isArray(sessions)) S.sessions = sessions;
       if (settings && typeof settings === 'object') Object.assign(S.settings, settings);
@@ -2954,33 +2977,40 @@ details > summary::-webkit-details-marker { display: none; }
       if (!doc.createdAt) doc.createdAt = doc.updatedAt;
       S.songs[id] = Object.assign({ id: id }, doc);
       lsSet(LS.songs, S.songs);
+      if (Store.gone[id]) { delete Store.gone[id]; lsSet(LS.gone, Store.gone); }
       var p = Store.pending, later = function () { p.songs[id] = doc; delete p.gone[id]; };
       if (Store.db) Store.db.doc('songs/' + id).set(doc).catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('song');
       return id;
     },
     deleteSong: function (id) {
       delete S.songs[id];
       lsSet(LS.songs, S.songs);
+      Store.gone[id] = Date.now(); lsSet(LS.gone, Store.gone);
       var p = Store.pending, later = function () { delete p.songs[id]; p.gone[id] = 1; };
       if (Store.db) Store.db.doc('songs/' + id).delete().catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('song');
     },
     addSession: function (sess) {
       var id = uid('p');
       var doc = Object.assign({ at: Date.now() }, sess);
       var mine = Object.assign({ id: id }, doc);
       S.sessions.unshift(mine);
-      if (S.sessions.length > 500) S.sessions.length = 500;
+      if (S.sessions.length > Store.cap()) S.sessions.length = Store.cap();
       lsSet(LS.sessions, S.sessions);
       var p = Store.pending, later = function () { p.sessions.push(mine); if (p.sessions.length > 500) p.sessions.splice(0, p.sessions.length - 500); };
       if (Store.db) Store.db.doc('sessions/' + id).set(doc).catch(function (e) { Store.writeErr(e, later); });
       else { later(); Store.keep(); }
+      Store.changed('session');
       return id;
     },
     saveSettings: function () {
       lsSet(LS.settings, S.settings);
+      Store.settingsAt = Date.now(); lsSet(LS.setAt, Store.settingsAt);
       if (Store.db) Store.db.doc('meta/settings').set(Object.assign({}, S.settings)).catch(function () {});
+      Store.changed('settings');
     }
   };
 
@@ -3213,11 +3243,351 @@ details > summary::-webkit-details-marker { display: none; }
     isOpen: function () { return !$('#sheet').hidden; }
   };
 
-  App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.isFramed = isFramed;
+  App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.LS = LS; App.isFramed = isFramed; App.pad2 = pad2; App.MONTH = MONTH;
   App.fmtDur = fmtDur; App.fmtMin = fmtMin; App.pct = pct; App.fmtDay = fmtDay; App.ago = ago; App.dayKey = dayKey; App.WEEKDAY = WEEKDAY;
   App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.songShapes = songShapes;
   App.computeStats = computeStats; App.songStatus = songStatus;
   App.computeGame = computeGame; App.starsFor = starsFor; App.scoreItems = scoreItems; App.multOf = multOf; App.starsHtml = starsHtml; App.xpOfSession = xpOfSession;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* app-account.js: signing in with GitHub, and keeping the player's progress in their own GitHub account.
+
+   This is for the copy of the page on an ordinary web address. (Inside Claude the page has a database of its
+   own and none of this is offered.) There is no server behind the page, and GitHub's sign-in for websites
+   needs one: the step that turns a sign-in into a key wants a secret and refuses calls from a browser. So the
+   player makes a key themselves, once per device, with a link that fills the form in: a fine-grained personal
+   access token whose only permission is reading and writing gists.
+
+   The data is one secret gist on their account:
+     practice-room.json       songs, when songs were deleted, settings
+     sessions-YYYY-MM.json    the session log, one file per month (UTC), one session per line
+   Saving is always: read what the account holds, join it with what this device holds, write back only the
+   files that differ. Sessions are joined by id and never dropped; for a song the newer of edit and delete
+   wins; settings go to whichever side changed them last. The game layer is worked out from the session log,
+   so level, stars, streaks and badges follow without being stored. */
+(function (root) {
+  'use strict';
+  var PR = root.PR, App = PR.app, S = App.S, Store = App.Store, Diag = App.diag, LS = App.LS, ls = App.ls;
+  var API = 'https://api.github.com', MAIN = 'practice-room.json', SESS = /^sessions-\d{4}-\d{2}\.json$/;
+  var DESC = 'Practice Room progress. Written by the app: songs, session log, settings.';
+
+  function num(v) { return typeof v === 'number' && isFinite(v) ? v : 0; }
+  /* The same data gives the same text whichever device wrote it (keys in order at every depth), so a file
+     only counts as changed when its data changed. */
+  function canon(v) {
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object') return '{' + Object.keys(v).sort().filter(function (k) { return v[k] !== undefined; }).map(function (k) { return JSON.stringify(k) + ':' + canon(v[k]); }).join(',') + '}';
+    var t = JSON.stringify(v);
+    return t === undefined ? 'null' : t;
+  }
+  function monthOf(at) { try { return new Date(num(at)).toISOString().slice(0, 7); } catch (e) { return '1970-01'; } }
+  function cleanSettings(v) {
+    var o = {};
+    if (num(v.a4) >= 425 && v.a4 <= 455) o.a4 = v.a4;
+    if (typeof v.tuning === 'string' || Array.isArray(v.tuning)) o.tuning = v.tuning;
+    ['tones', 'countIn', 'click', 'guide'].forEach(function (k) { if (typeof v[k] === 'boolean') o[k] = v[k]; });
+    if (typeof v.trim === 'number' && Math.abs(v.trim) <= 200) o.trim = v.trim;
+    if (num(v.goal) >= 5 && v.goal <= 120) o.goal = v.goal;
+    return o;
+  }
+
+  /* Fields the page prints as numbers must be numbers (or absent). The app never writes anything else, so a
+     record that has text there was not written by the app and is left out. */
+  var SONG_NUMS = ['level', 'levelAuto', 'bpm', 'capo', 'beatsPerSlot', 'createdAt', 'updatedAt'];
+  var SESS_NUMS = ['secs', 'pct', 'bpm', 'level', 'acc', 'hits', 'total', 'cents', 'count', 'score', 'combo', 'stars'];
+  function numbersOnly(o, keys) { return keys.every(function (k) { var v = o[k]; return v === undefined || v === null || typeof v === 'number'; }); }
+  /* files: {name: text}, as read from the gist. Anything that is not what the app writes is left out. */
+  function readFiles(files) {
+    var out = { songs: {}, gone: {}, sessions: [], settings: null, settingsAt: 0, bad: [] }, seen = {};
+    Object.keys(files || {}).forEach(function (name) {
+      if (name !== MAIN && !SESS.test(name)) return;
+      var v;
+      try { v = JSON.parse(files[name]); } catch (e) { out.bad.push(name); return; }
+      if (!v || typeof v !== 'object') { out.bad.push(name); return; }
+      if (name === MAIN) {
+        if (v.songs && typeof v.songs === 'object') Object.keys(v.songs).forEach(function (id) { var d = v.songs[id]; if (d && typeof d === 'object' && Array.isArray(d.sections) && numbersOnly(d, SONG_NUMS)) out.songs[id] = Object.assign({}, d, { id: id }); });
+        if (v.gone && typeof v.gone === 'object') Object.keys(v.gone).forEach(function (id) { if (num(v.gone[id])) out.gone[id] = v.gone[id]; });
+        if (v.settings && typeof v.settings === 'object') { out.settings = cleanSettings(v.settings); out.settingsAt = num(v.settingsAt); }
+      } else if (Array.isArray(v.sessions)) {
+        v.sessions.forEach(function (x) { if (x && typeof x === 'object' && typeof x.id === 'string' && num(x.at) && numbersOnly(x, SESS_NUMS) && !seen[x.id]) { seen[x.id] = 1; out.sessions.push(x); } });
+      }
+    });
+    return out;
+  }
+  /* a: this device, b: the account. Nothing either side has is lost, except to a newer edit or delete. */
+  function mergeData(a, b) {
+    var out = { songs: {}, gone: {}, sessions: [], settings: a.settings, settingsAt: num(a.settingsAt) }, ids = {}, seen = {};
+    [a.songs, b.songs, a.gone, b.gone].forEach(function (m) { Object.keys(m || {}).forEach(function (id) { ids[id] = 1; }); });
+    Object.keys(ids).forEach(function (id) {
+      var x = a.songs && a.songs[id], y = b.songs && b.songs[id];
+      var song = x && y ? (num(x.updatedAt) > num(y.updatedAt) ? x : y) : (x || y);
+      var gone = Math.max(num(a.gone && a.gone[id]), num(b.gone && b.gone[id]));
+      if (song && num(song.updatedAt) >= gone) out.songs[id] = song;
+      else if (gone) out.gone[id] = gone;
+    });
+    (b.sessions || []).concat(a.sessions || []).forEach(function (x) { if (x && x.id && !seen[x.id]) { seen[x.id] = 1; out.sessions.push(x); } });
+    out.sessions.sort(function (p, q) { return num(q.at) - num(p.at) || (p.id < q.id ? -1 : p.id > q.id ? 1 : 0); });
+    if (b.settings && (num(b.settingsAt) > num(a.settingsAt) || !a.settings)) { out.settings = b.settings; out.settingsAt = num(b.settingsAt); }
+    return out;
+  }
+  function filesOf(d) {
+    var songs = {}, out = {}, by = {};
+    Object.keys(d.songs).forEach(function (id) { var c = Object.assign({}, d.songs[id]); delete c.id; delete c.drill; songs[id] = c; });
+    out[MAIN] = canon({ app: 'practice-room', v: 1, songs: songs, gone: d.gone || {}, settings: d.settings || {}, settingsAt: num(d.settingsAt) });
+    d.sessions.forEach(function (x) { var m = monthOf(x.at); (by[m] || (by[m] = [])).push(x); });
+    Object.keys(by).forEach(function (m) {
+      var list = by[m].slice().sort(function (p, q) { return num(p.at) - num(q.at) || (p.id < q.id ? -1 : p.id > q.id ? 1 : 0); });
+      out['sessions-' + m + '.json'] = '{"v":1,"sessions":[\n' + list.map(canon).join(',\n') + '\n]}';
+    });
+    return out;
+  }
+
+  var Acct = App.acct = {
+    offered: false,        /* false inside Claude, where the page's own database does this job */
+    token: '', user: null, gist: '', url: '', last: 0,
+    state: 'out',          /* out | in | saving | offline | expired | error */
+    err: '', blind: false, busy: false, dirty: false, checked: false, timer: null, wait: 0, running: null,
+    canon: canon, mergeData: mergeData, filesOf: filesOf, readFiles: readFiles, monthOf: monthOf
+  };
+  function keep() { ls.set(LS.account, Acct.token ? { token: Acct.token, user: Acct.user, gist: Acct.gist, url: Acct.url, last: Acct.last } : null); }
+  function stuck(st) { return st === 'expired' || st === 'error'; }
+  function show(state) {
+    var was = Acct.state;
+    Acct.state = state;
+    if (App.pill) App.pill();
+    if (stuck(was) !== stuck(state) && App.render) App.render();     /* Today carries a warning while saving has stopped */
+    if (App.accountRefresh) App.accountRefresh();
+  }
+  function playing() { var P = App.practice, T = App.tuner, O = App.omc; return !!((P && P.st && (P.st.run || P.st.busy)) || (T && (T.on || T.busy)) || (O && O.st && O.st.on)); }
+  function defer(ms) { clearTimeout(Acct.timer); Acct.timer = setTimeout(function () { Acct.timer = null; Acct.sync('later'); }, ms); }
+
+  function api(method, path, body, open) {
+    var headers = { Accept: 'application/vnd.github+json' }, opt = { method: method, headers: headers, cache: 'no-store' };
+    if (!open) headers.Authorization = 'Bearer ' + Acct.token;
+    if (body) { headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+    return root.fetch(path.indexOf('https://') === 0 ? path : API + path, opt).then(function (res) {
+      return res.text().then(function (txt) {
+        if (res.ok) { if (open) return txt; try { return txt ? JSON.parse(txt) : null; } catch (e) { return null; } }
+        var data = null, limited = false;
+        try { data = JSON.parse(txt); } catch (e2) { /* not every refusal has a body */ }
+        try { limited = res.headers.get('X-RateLimit-Remaining') === '0' || !!res.headers.get('Retry-After'); } catch (e3) { /* headers not shown to the page */ }
+        var err = new Error((data && data.message) || ('GitHub answered ' + res.status));
+        err.status = res.status; err.limited = limited; err.call = method + ' ' + path.replace(API, '').split('?')[0].replace(/\/[0-9a-f]{20,}/, '/…');
+        throw err;
+      });
+    }, function () { var err = new Error('GitHub could not be reached'); err.status = 0; throw err; });
+  }
+  function kindOf(e) {
+    var s = e && e.status;
+    if (s === 401) return 'expired';
+    if (!s || s >= 500 || s === 429 || e.limited) return 'offline';
+    if (s === 403 || s === 404 || s === 422) return 'perm';
+    return 'offline';
+  }
+  /* every gist of this account that holds the app's file, oldest first */
+  function listMine(page, acc) {
+    return api('GET', '/gists?per_page=100&page=' + page).then(function (list) {
+      (list || []).forEach(function (g) { if (g && g.id && g.files && g.files[MAIN]) acc.push({ id: g.id, at: g.created_at || '' }); });
+      return (list || []).length === 100 && page < 5 ? listMine(page + 1, acc) : acc;
+    });
+  }
+  function readGist(id) {
+    return api('GET', '/gists/' + id).then(function (g) {
+      var files = {}, jobs = [];
+      Object.keys((g && g.files) || {}).forEach(function (name) {
+        var f = g.files[name];
+        if (!f || (name !== MAIN && !SESS.test(name))) return;
+        if (f.truncated && f.raw_url) jobs.push(api('GET', f.raw_url, null, true).then(function (txt) { files[name] = txt; }));   /* over a megabyte: the whole file is at its own address */
+        else files[name] = String(f.content || '');
+      });
+      return Promise.all(jobs).then(function () { return { files: files, url: (g && g.html_url) || '' }; });
+    });
+  }
+  /* Which gist is this account's? Asked once per visit, so a second device finds the first one's file instead
+     of starting its own, and so two files (two devices signing in at the same moment) are joined into the older. */
+  function pick() {
+    if (Acct.checked && Acct.gist) return Promise.resolve([Acct.gist]);
+    return listMine(1, []).then(function (list) {
+      Acct.checked = true;
+      list.sort(function (p, q) { return p.at < q.at ? -1 : p.at > q.at ? 1 : 0; });
+      var ids = list.map(function (g) { return g.id; });
+      /* a file this device wrote that GitHub does not list for this key: other devices will not find it either */
+      Acct.blind = !!Acct.gist && ids.indexOf(Acct.gist) < 0;
+      if (!ids.length) return Acct.gist ? [Acct.gist] : [];
+      if (Acct.gist && ids.indexOf(Acct.gist) < 0) ids.push(Acct.gist);
+      if (ids.length > 1) Diag.add('account', ids.length + ' saved files found, joined into the oldest');
+      Acct.gist = ids[0];
+      return ids;
+    });
+  }
+  function sig() { return canon(S.songs) + '|' + S.sessions.length + '|' + (S.sessions[0] ? S.sessions[0].id : '') + '|' + canon(S.settings); }
+  function apply(m) {
+    var before = sig(), songs = {};
+    Object.keys(m.songs).forEach(function (id) { songs[id] = Object.assign({}, m.songs[id], { id: id }); });
+    S.songs = songs; ls.set(LS.songs, songs);
+    Store.gone = m.gone; ls.set(LS.gone, m.gone);
+    S.sessions = m.sessions.slice(0, Store.cap()); ls.set(LS.sessions, S.sessions);
+    if (m.settings && num(m.settingsAt) > Store.settingsAt) {
+      Object.assign(S.settings, m.settings); ls.set(LS.settings, S.settings);
+      Store.settingsAt = m.settingsAt; ls.set(LS.setAt, m.settingsAt);
+    }
+    return sig() !== before;
+  }
+  /* one round: read, join, write what differs. Resolves with what happened, rejects with GitHub's refusal. */
+  function run() {
+    var texts = {}, hadRemote = false;
+    return pick().then(function (ids) {
+      var remote = readFiles({}), chain = Promise.resolve();
+      ids.forEach(function (id, i) {
+        chain = chain.then(function () {
+          return readGist(id).then(function (g) {
+            var r = readFiles(g.files);
+            if (r.bad.length) Diag.add('account', 'unreadable in the saved file: ' + r.bad.join(', '));
+            if (i === 0) { texts = g.files; Acct.url = g.url; hadRemote = true; remote = r; } else remote = mergeData(remote, r);
+          }, function (e) {
+            if (i > 0) return;                                                   /* an extra copy that has gone: nothing to join */
+            if (e.status === 404) { Acct.gist = ''; Acct.url = ''; Acct.blind = false; return; }   /* deleted on GitHub: start a new one */
+            throw e;
+          });
+        });
+      });
+      return chain.then(function () { return remote; });
+    }).then(function (remote) {
+      var hereBefore = S.sessions.length;
+      var m = mergeData({ songs: S.songs, gone: Store.gone, sessions: S.sessions, settings: Object.assign({}, S.settings), settingsAt: Store.settingsAt }, remote);
+      var out = { changed: apply(m), made: false, wrote: 0, fromAccount: Math.max(0, S.sessions.length - hereBefore), hadRemote: hadRemote };
+      var files = filesOf(m), body = {};
+      Object.keys(files).forEach(function (name) { if (files[name] !== texts[name]) { body[name] = { content: files[name] }; out.wrote++; } });
+      if (!Acct.gist) {
+        return api('POST', '/gists', { description: DESC, public: false, files: body }).then(function (g) {
+          if (!g || !g.id) { var e = new Error('GitHub did not create the file'); e.status = 422; throw e; }
+          Acct.gist = g.id; Acct.url = g.html_url || ''; out.made = true; return out;
+        });
+      }
+      if (out.wrote) return api('PATCH', '/gists/' + Acct.gist, { files: body }).then(function () { return out; });
+      return out;
+    });
+  }
+
+  Acct.sync = function (why) {
+    if (!Acct.offered || !Acct.token || Acct.state === 'expired') return Promise.resolve(false);
+    if (Acct.busy) { Acct.dirty = true; return Acct.running || Promise.resolve(false); }
+    if (playing()) { defer(4000); return Promise.resolve(false); }     /* never in the middle of a run */
+    clearTimeout(Acct.timer); Acct.timer = null;
+    Acct.busy = true; Acct.dirty = false; show('saving');
+    Acct.running = run().then(function (r) {
+      Acct.busy = false; Acct.last = Date.now(); Acct.err = ''; Acct.wait = 0; keep();
+      if (r.made) Diag.add('account', 'started a saved file on GitHub');
+      else if (r.fromAccount) Diag.add('account', r.fromAccount + ' sessions came from the account');
+      show('in');
+      if (r.changed && App.render) App.render();
+      if (Acct.dirty) defer(1500);
+      return true;
+    }, function (e) {
+      Acct.busy = false;
+      var kind = kindOf(e), next = kind === 'expired' ? 'expired' : kind === 'perm' ? 'error' : 'offline';
+      Acct.err = (e && e.message) || 'error';
+      if (next !== Acct.state) Diag.add('account', (why || 'save') + ' failed: ' + ((e && e.call) || '') + ' ' + ((e && e.status) || 'no answer') + ' ' + Acct.err);
+      show(next);
+      if (next === 'offline') { Acct.wait = Math.min(300000, (Acct.wait || 15000) * 2); defer(Acct.wait); }
+      return false;
+    });
+    return Acct.running;
+  };
+  /* something was saved on this device: send it along shortly, once, however many things changed */
+  Acct.touch = function () {
+    if (!Acct.offered || !Acct.token || Acct.state === 'expired') return;
+    if (Acct.busy) { Acct.dirty = true; return; }
+    defer(1500);
+  };
+
+  function fail(code, message) { var e = new Error(message); e.code = code; return e; }
+  /* Resolves with the account once the key has been shown to work end to end (the account was read and the
+     saved file was found or made). Until then nothing about the key is kept. */
+  Acct.signIn = function (raw) {
+    var token = String(raw || '').replace(/\s+/g, '');
+    if (!/^(github_pat_|gh[a-z]_)[A-Za-z0-9_]{20,}$/.test(token)) return Promise.reject(fail('shape', token ? 'That is not a GitHub key. A key starts with github_pat_ and is one long word; copy it with the copy button on GitHub.' : 'Paste the key first.'));
+    if (Acct.busy) return Promise.reject(fail('busy', 'Still saving. Try again in a moment.'));
+    var prev = { token: Acct.token, user: Acct.user, gist: Acct.gist, url: Acct.url, state: Acct.state, checked: Acct.checked };
+    clearTimeout(Acct.timer); Acct.timer = null;
+    Acct.token = token; Acct.busy = true;
+    return api('GET', '/user').then(function (u) {
+      if (!u || !u.login) throw fail('odd', 'GitHub did not say whose key this is.');
+      var same = prev.user && prev.user.login === u.login;
+      Acct.user = { login: String(u.login), name: String(u.name || u.login), avatar: String(u.avatar_url || ''), url: String(u.html_url || '') };
+      Acct.gist = same ? prev.gist : ''; Acct.url = same ? prev.url : ''; Acct.checked = false; Acct.blind = false;
+      return run();
+    }).then(function (r) {
+      Acct.busy = false; Acct.last = Date.now(); Acct.err = ''; Acct.wait = 0; keep();
+      Diag.add('account', 'signed in as ' + Acct.user.login + (r.made ? ', started a saved file' : ', found the saved file' + (r.fromAccount ? ' with ' + r.fromAccount + ' sessions new to this device' : '')));
+      show('in');
+      if (App.render) App.render();
+      if (Acct.dirty) defer(1500);
+      return { user: Acct.user, made: r.made, fromAccount: r.fromAccount };
+    }, function (e) {
+      Acct.busy = false;
+      Acct.token = prev.token; Acct.user = prev.user; Acct.gist = prev.gist; Acct.url = prev.url; Acct.checked = prev.checked; Acct.state = prev.state;
+      if (e && e.code) throw e;
+      var kind = kindOf(e), call = (e && e.call) || '';
+      Diag.add('account', 'sign-in failed: ' + call + ' ' + ((e && e.status) || 'no answer') + ' ' + ((e && e.message) || ''));
+      if (kind === 'expired') throw fail('refused', 'GitHub did not accept that key. Copy it again from the page where you made it, or make a new one.');
+      if (kind === 'perm') throw fail('perm', 'The key works, but it is not allowed to save gists. Make it with the button above, which sets that up, and do not change the permissions on that page.');
+      throw fail('offline', e && e.limited ? 'GitHub is asking for a pause. Try again in a few minutes.' : 'GitHub could not be reached. Check the connection and try again.');
+    });
+  };
+  /* What is on this device stays; the saved file on GitHub stays. Only the key is forgotten. */
+  Acct.signOut = function () {
+    clearTimeout(Acct.timer); Acct.timer = null;
+    var who = Acct.user && Acct.user.login;
+    Acct.token = ''; Acct.user = null; Acct.gist = ''; Acct.url = ''; Acct.last = 0; Acct.err = ''; Acct.checked = false; Acct.blind = false; Acct.dirty = false; Acct.wait = 0;
+    keep();
+    Diag.add('account', 'signed out' + (who ? ' of ' + who : ''));
+    show('out');
+  };
+  /* The page on GitHub where the key is made, with the form filled in. Names must differ between keys, so the
+     name carries the device and the time. */
+  Acct.keyUrl = function (classic) {
+    var nav = root.navigator || {}, ua = String(nav.userAgent || ''), d = new Date();
+    var dev = /iPhone/.test(ua) ? 'iPhone' : /iPad/.test(ua) ? 'iPad' : /Android/.test(ua) ? 'Android' : /Mac/.test(ua) ? 'Mac' : /Windows/.test(ua) ? 'Windows' : 'browser';
+    var name = 'Practice Room ' + dev + ' ' + d.getDate() + ' ' + App.MONTH[d.getMonth()] + ' ' + App.pad2(d.getHours()) + App.pad2(d.getMinutes());
+    if (classic) return 'https://github.com/settings/tokens/new?scopes=gist&description=' + encodeURIComponent(name);
+    return 'https://github.com/settings/personal-access-tokens/new?name=' + encodeURIComponent(name) +
+      '&description=' + encodeURIComponent('Lets the Practice Room app save guitar practice progress to a secret gist. It can read and write gists and nothing else.') +
+      '&expires_in=none&gists=write';
+  };
+  Acct.label = function () {
+    var st = Acct.state;
+    if (!Acct.offered || st === 'out') return null;
+    if (st === 'saving') return { text: 'Saving', cls: ' is-cloud', title: 'Saving to your GitHub account' };
+    if (st === 'in') return { text: 'Saved to GitHub', cls: ' is-cloud', title: 'Songs and sessions are saved to your GitHub account' };
+    if (st === 'expired') return { text: 'Sign in again', cls: ' is-bad', title: 'GitHub no longer accepts the key on this device' };
+    if (st === 'error') return { text: 'Not saved to GitHub', cls: ' is-bad', title: 'GitHub refused to save' };
+    return { text: 'Saved here, GitHub later', cls: ' is-warn', title: 'GitHub cannot be reached right now. Everything is kept on this device and sent later.' };
+  };
+  Acct.since = function () {
+    if (!Acct.last) return '';
+    var s = Math.round((Date.now() - Acct.last) / 1000);
+    if (s < 50) return 'just now';
+    if (s < 3000) return Math.max(1, Math.round(s / 60)) + ' min ago';
+    if (s < 80000) return Math.round(s / 3600) + ' h ago';
+    return App.ago(Acct.last);
+  };
+  /* called once the page knows whether it has a database of its own */
+  Acct.init = function () {
+    Acct.offered = !Store.db && !(root.claude && typeof root.claude.use === 'function') && typeof root.fetch === 'function';
+    if (!Acct.offered) return;
+    var k = ls.get(LS.account);
+    if (k && typeof k.token === 'string' && k.token && k.user && k.user.login) {
+      Acct.token = k.token; Acct.user = k.user; Acct.gist = String(k.gist || ''); Acct.url = String(k.url || ''); Acct.last = num(k.last); Acct.state = 'in';
+    }
+    if (root.addEventListener) {
+      root.addEventListener('online', function () { if (Acct.token && Acct.state !== 'in') Acct.sync('online'); });
+      if (root.document) root.document.addEventListener('visibilitychange', function () {
+        if (!root.document.hidden && Acct.token && Date.now() - Acct.last > 60000) Acct.sync('back');      /* another device may have played since */
+      });
+    }
+    if (Acct.token) Acct.sync('open');
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 /* app-audio.js: microphone, tones, metronome, and reading recorded takes. */
@@ -3982,6 +4352,7 @@ details > summary::-webkit-details-marker { display: none; }
       '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-primary btn-play grow" data-act="open" data-id="' + esc(next.id) + '">' + IC.play + 'Practise</button><button class="btn btn-play" data-act="go" data-to="tuner" aria-label="Tune first">' + IC.gauge + 'Tune</button></div>' +
       '</section>';
     html += micNotice(false);
+    html += accountCard();
     html += questsHtml(gm);
     html += weekHtml(gm);
     /* slowest changes */
@@ -4287,6 +4658,82 @@ details > summary::-webkit-details-marker { display: none; }
     App.render();
   }
 
+  /* ----- account: signing in with GitHub. Only where the page has no database of its own (app-account.js). ----- */
+  function avatarHtml(u, size) {
+    var ok = u && /^https:\/\/[a-z0-9.-]*githubusercontent\.com\//.test(u.avatar || '');
+    var box = 'width:' + size + 'px;height:' + size + 'px';
+    return ok ? '<img class="avatar" src="' + esc(u.avatar) + '" alt="" style="' + box + '" referrerpolicy="no-referrer">' : '<span class="avatar avatar-none" style="' + box + '">' + IC.github + '</span>';
+  }
+  /* the two steps: make a key on GitHub, paste it here */
+  function keyForm(again) {
+    var A = App.acct, canPaste = !!(root.navigator && root.navigator.clipboard && root.navigator.clipboard.readText);
+    return '<div class="panel stack"><div class="row" style="flex-wrap:nowrap"><span class="step-n">1</span><b>Make a key on GitHub</b></div>' +
+      '<p class="small muted">The key lets this app save one file to your account. It can read and write your gists. It cannot touch your repositories or your account.</p>' +
+      '<a class="btn btn-gh btn-block" href="' + esc(A.keyUrl()) + '" target="_blank" rel="noopener" data-act="acct-key">' + IC.github + 'Create my key' + IC.ext + '</a>' +
+      '<p class="small muted">The form is filled in. Scroll to the bottom, tap <b>Generate token</b>, then tap the copy button next to the key.</p></div>' +
+      '<div class="panel stack"><div class="row" style="flex-wrap:nowrap"><span class="step-n">2</span><b>Paste it here</b></div>' +
+      '<div class="row" style="flex-wrap:nowrap"><input class="input mono grow" id="ghKey" style="background:var(--fill);font-size:15px;min-width:0" placeholder="github_pat_…" aria-label="Your GitHub key" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">' +
+      (canPaste ? '<button class="btn" data-act="acct-paste">Paste</button>' : '') + '</div>' +
+      '<div id="ghErr"></div>' +
+      '<button class="btn btn-primary btn-block" data-act="acct-in" id="ghGo">' + (again ? 'Sign in again' : 'Sign in') + '</button></div>';
+  }
+  function accountHtml() {
+    var A = App.acct, u = A.user, x = IC.x;
+    var close = '<button class="icon-btn" data-act="sheet-close" aria-label="Close">' + x + '</button>';
+    var about = '<details><summary>What is saved, and where</summary><p class="small muted" style="padding:4px 4px 0">One secret gist on your account, named "Practice Room progress": your songs, the session log and your settings. Level, stars, streaks and badges are worked out from that log. Secret means unlisted: it is not on your profile and cannot be searched for, but anyone who has its exact address can read it. The key itself stays in this browser and is sent only to GitHub.</p></details>' +
+      '<details><summary>Why a key, and what if it does not work</summary><p class="small muted" style="padding:4px 4px 0">GitHub\'s sign-in button for websites needs a server that holds a secret, and this app is one page with no server. A key you make yourself does the same job, once per device. The link sets it to never run out; change Expiration on that page if you would rather renew it. You can remove a key at any time on GitHub under Settings, Developer settings, Personal access tokens.<br><br>If GitHub will not make the key, or the app cannot find your progress on a second device, <a href="' + esc(A.keyUrl(true)) + '" target="_blank" rel="noopener">make a classic key</a> instead (set Expiration yourself, leave only "gist" ticked) and paste that.</p></details>';
+    if (!u) {
+      return '<div id="acctSheet" class="stack" style="gap:16px"><div class="sheet-head"><h2 class="title">Sign in with GitHub</h2>' + close + '</div>' +
+        '<p>Your level, stars, streak, songs and settings are saved to your GitHub account, and are there on any phone or computer you sign in on.</p>' +
+        keyForm(false) + about + '</div>';
+    }
+    var st = A.state, line;
+    if (st === 'saving') line = '<span class="row small muted" style="flex-wrap:nowrap"><span class="spinner"></span>Saving to GitHub</span>';
+    else if (st === 'in') line = '<span class="small" style="color:var(--good);font-weight:600">Saved to GitHub' + (A.since() ? ' · ' + esc(A.since()) : '') + '</span>';
+    else if (st === 'offline') line = '<div class="notice notice-warn">' + IC.warn + '<div>GitHub cannot be reached right now. Everything is kept on this device and sent as soon as it answers.</div></div>';
+    else if (st === 'expired') line = '<div class="notice notice-warn">' + IC.warn + '<div><b>GitHub no longer accepts the key on this device.</b> It ran out or was removed. Nothing is lost: your progress is on this device, and a new key carries on saving it.</div></div>';
+    else line = '<div class="notice notice-bad">' + IC.warn + '<div><b>GitHub refused to save.</b> ' + esc(A.err || '') + ' Signing out and in again with a new key usually fixes it.</div></div>';
+    return '<div id="acctSheet" class="stack" style="gap:16px"><div class="sheet-head"><h2 class="title">Account</h2>' + close + '</div>' +
+      '<div class="panel stack"><div class="row" style="flex-wrap:nowrap;gap:14px">' + avatarHtml(u, 56) + '<div class="item-main"><span class="item-title" style="font-size:20px">' + esc(u.name) + '</span><span class="item-sub">@' + esc(u.login) + ' on GitHub</span></div></div>' +
+      line +
+      (A.blind && st !== 'expired' ? '<div class="notice notice-warn">' + IC.warn + '<div><b>Other devices may not find this progress.</b> GitHub does not show this key the file it saved. Sign out, then sign in with a classic key (under "Why a key" on the sign-in screen).</div></div>' : '') +
+      '<span class="small muted num">' + Object.keys(S.songs).length + (Object.keys(S.songs).length === 1 ? ' song' : ' songs') + ' · ' + S.sessions.length + (S.sessions.length === 1 ? ' session' : ' sessions') + ' on this device</span>' +
+      (st === 'expired' ? '' : '<div class="row"><button class="btn btn-sm btn-tinted" data-act="acct-sync"' + (st === 'saving' ? ' disabled' : '') + '>Save now</button>' +
+        (/^https:\/\/gist\.github\.com\//.test(A.url || '') ? '<a class="btn btn-sm" href="' + esc(A.url) + '" target="_blank" rel="noopener">Open the saved file' + IC.ext + '</a>' : '') + '</div>') +
+      '</div>' +
+      (st === 'expired' ? keyForm(true) : '') +
+      '<div class="panel stack"><button class="btn btn-block" data-act="acct-out" style="color:var(--bad)">Sign out</button>' +
+      '<span class="small muted">Signing out forgets the key on this device. What is on this device stays, and so does the file on GitHub.</span></div>' +
+      (st === 'expired' ? about : '') + '</div>';
+  }
+  function accountSheet() { App.sheet.open(accountHtml(), function () { App.render(); }); }
+  /* the account changed state while its sheet is showing: redraw it, unless a key is being typed in */
+  App.accountRefresh = function () {
+    var body = $('#sheetBody');
+    if (!body || !$('#acctSheet') || !App.sheet.isOpen()) return;
+    var key = $('#ghKey'), go = $('#ghGo');
+    if ((key && key.value) || (go && go.disabled)) return;
+    body.innerHTML = accountHtml();
+  };
+  /* on Today: an invitation while signed out, and a warning when saving has stopped */
+  function accountCard() {
+    var A = App.acct;
+    if (!A || !A.offered) return '';
+    if (A.token && A.state === 'expired') return '<div class="notice notice-warn">' + IC.warn + '<div class="notice-body"><div><b>Sign in again to keep saving to GitHub.</b> The key on this device is no longer accepted. Your progress is still here.</div><div class="row"><button class="btn btn-sm btn-primary" data-act="account">Sign in again</button></div></div></div>';
+    if (A.token && A.state === 'error') return '<div class="notice notice-bad">' + IC.warn + '<div class="notice-body"><div><b>GitHub refused to save your progress.</b> It is still kept on this device.</div><div class="row"><button class="btn btn-sm btn-primary" data-act="account">Look at it</button></div></div></div>';
+    if (A.token || App.ls.get(App.LS.accountHide)) return '';
+    return '<section class="card stack acct-card"><div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px"><span class="avatar avatar-none" style="width:40px;height:40px">' + IC.github + '</span>' +
+      '<div class="grow"><div class="item-title">Keep your progress</div><div class="item-sub">Your level, stars and songs are on this device only. Sign in with GitHub and they are saved to your account.</div></div></div>' +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-gh grow" data-act="account">' + IC.github + 'Sign in with GitHub</button><button class="btn" data-act="acct-hide">Not now</button></div></section>';
+  }
+  function accountRow() {
+    var A = App.acct;
+    if (!A || !A.offered) return '';
+    var lab = A.label(), sub = A.user ? (lab ? lab.text : '') + (A.state === 'in' && A.since() ? ' · ' + A.since() : '') : 'Save your progress to your account';
+    return '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Account</span><div class="group"><button class="item" data-act="account">' + avatarHtml(A.user, 40) +
+      '<div class="item-main"><span class="item-title">' + (A.user ? esc(A.user.name) : 'Sign in with GitHub') + '</span><span class="item-sub">' + esc(sub) + '</span></div>' + IC.chev + '</button></div></div>';
+  }
+
   /* ----- settings ----- */
   function settingsSheet() {
     var st = S.settings, m = S.mic;
@@ -4296,6 +4743,7 @@ details > summary::-webkit-details-marker { display: none; }
     var own = App.audio.ownUrl();
     var logLines = App.diag.lines(10);
     App.sheet.open('<div class="sheet-head"><h2 class="title">Settings</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+      accountRow() +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Game</span><div class="panel stack">' +
       '<div class="setrow"><span>Daily goal</span><span class="stepper"><button data-act="set-step" data-key="goal" data-d="-5" aria-label="Less">−</button><output id="oGoal">' + (st.goal || 10) + ' min</output><button data-act="set-step" data-key="goal" data-d="5" aria-label="More">+</button></span></div></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Listening</span><div class="panel stack">' +
@@ -4312,7 +4760,7 @@ details > summary::-webkit-details-marker { display: none; }
       '<label class="toggle"><input type="checkbox" data-in="set-tones"' + (st.tones ? ' checked' : '') + '><span>Play a tone when I tap a string in the tuner</span></label>' +
       '<p class="small muted">No sound on an iPhone? Flip the ring switch on the side to ring, and turn the volume up.</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Your data</span><div class="panel stack"><p class="small">' +
-      (S.store === 'cloud' ? 'Songs and sessions are saved with this page in your Claude account, so they follow you to any device and Claude can read them when you ask for coaching.' : 'Songs and sessions are saved in this browser only.') + '</p>' +
+      (S.store === 'cloud' ? 'Songs and sessions are saved with this page in your Claude account, so they follow you to any device and Claude can read them when you ask for coaching.' : (App.acct && App.acct.token ? 'Songs and sessions are saved on this device and in your GitHub account.' : 'Songs and sessions are saved in this browser only.' + (App.acct && App.acct.offered ? ' Sign in with GitHub, at the top of this sheet, to save them to your account.' : ''))) + '</p>' +
       '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Technical log</span><div class="panel stack"><p class="small muted">What this device allowed and how recordings were read. ' + (S.store === 'cloud' ? 'It is saved with your data, so when something does not work you can ask Claude to look at it.' : 'When something does not work, a screenshot of this helps.') + '</p>' +
       (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div></div>' +
@@ -4456,6 +4904,7 @@ details > summary::-webkit-details-marker { display: none; }
   App.addSong = { open: function () { if (!draft) newDraft(); draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
+  App.accountSheet = accountSheet;
   App.tunerIdle = tunerIdle;
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -5141,13 +5590,19 @@ details > summary::-webkit-details-marker { display: none; }
     $('#app').classList.toggle('is-practice', r === 'practice');
     $('#tabs').hidden = r === 'practice';
     $all('#tabs .tab').forEach(function (b) { if (b.getAttribute('data-to') === r) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-    var sync = $('#sync');
-    if (sync) {
-      sync.className = 'sync' + (S.store === 'cloud' ? ' is-cloud' : '');
-      sync.innerHTML = '<i></i>' + (S.store === 'cloud' ? 'Synced' : S.store === 'local' ? 'This device only' : 'Loading');
-      sync.title = S.store === 'cloud' ? 'Songs and sessions are saved to your Claude account' : 'Songs and sessions are saved in this browser only';
-    }
+    App.pill();
     if (keep) { var q = $('#q'); if (q) { q.focus(); try { q.setSelectionRange(keep[0], keep[1]); } catch (e) { /* ignore */ } } }
+  };
+
+  /* the small line in the top bar that says where the data is saved */
+  App.pill = function () {
+    var sync = $('#sync');
+    if (!sync) return;
+    var lab = S.store === 'cloud' ? { text: 'Synced', cls: ' is-cloud', title: 'Songs and sessions are saved to your Claude account' } :
+      (App.acct.label() || { text: S.store === 'local' ? 'This device only' : 'Loading', cls: '', title: 'Songs and sessions are saved in this browser only' });
+    sync.className = 'sync' + lab.cls;
+    sync.innerHTML = '<i></i>' + App.esc(lab.text);
+    sync.title = lab.title;
   };
 
   var actions = {
@@ -5156,6 +5611,30 @@ details > summary::-webkit-details-marker { display: none; }
     level: function (el) { S.filter.level = parseInt(el.getAttribute('data-level'), 10) || 0; if (S.route.name !== 'songs') App.go({ name: 'songs' }); else App.render(true); },
     settings: function () { App.settingsSheet(); App.sheet.onClose = function () { App.render(); }; },
     'sheet-close': function () { App.sheet.close(); },
+
+    /* the account on GitHub (app-account.js); where the page has its own database this opens Settings instead */
+    account: function () { if (App.acct.offered) App.accountSheet(); else actions.settings(); },
+    'acct-hide': function () { App.ls.set(App.LS.accountHide, 1); App.render(true); },
+    'acct-key': function () { App.diag.add('account', 'opened GitHub to make a key'); },
+    'acct-paste': function () {
+      var inp = $('#ghKey');
+      root.navigator.clipboard.readText().then(function (t) { if (inp && t) { inp.value = String(t).trim(); inp.focus(); } }, function () { App.toast('Paste did not work here. Tap the box and choose Paste.'); });
+    },
+    'acct-in': function () {
+      var inp = $('#ghKey'), btn = $('#ghGo'), box = $('#ghErr');
+      if (!inp || !btn || btn.disabled) return;
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Signing in'; box.innerHTML = '';
+      App.acct.signIn(inp.value).then(function (r) {
+        if (App.sheet.isOpen() && $('#acctSheet')) App.accountSheet();
+        App.toast('Signed in as ' + r.user.name + '. ' + (r.made ? 'Your progress is now saved to your account.' : r.fromAccount ? 'Your progress from the account is on this device now.' : 'This device and your account match.'));
+      }, function (e) {
+        var b = $('#ghGo'), x = $('#ghErr');
+        if (b) { b.disabled = false; b.textContent = 'Sign in'; }
+        if (x) x.innerHTML = '<div class="notice notice-bad">' + App.IC.warn + '<div>' + App.esc((e && e.message) || 'That did not work.') + '</div></div>';
+      });
+    },
+    'acct-sync': function () { App.acct.sync('button').then(function (ok) { App.toast(ok ? 'Saved to your GitHub account.' : 'Not saved to GitHub just now. It is kept on this device.'); }); },
+    'acct-out': function () { App.acct.signOut(); App.accountSheet(); App.toast('Signed out. Your progress stays on this device.'); },
 
     add: function () { App.addSong.open(); },
     'draft-mode': function (el) { var d = App.addSong.draft(); syncDraft(); d.mode = el.getAttribute('data-mode'); d.err = ''; App.addSong.refresh(); },
@@ -5269,7 +5748,10 @@ details > summary::-webkit-details-marker { display: none; }
     }
     document.addEventListener('input', onInput);
     document.addEventListener('change', onInput);
-    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close(); });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close();
+      if (ev.key === 'Enter' && ev.target && ev.target.id === 'ghKey') actions['acct-in']();
+    });
     document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.hasAttribute && el.hasAttribute('data-select')) { try { el.select(); } catch (e) { /* ignore */ } } });
     /* anything that goes wrong on a device nobody can look at ends up in the technical log */
     var errs = 0;
@@ -5292,9 +5774,11 @@ details > summary::-webkit-details-marker { display: none; }
       var m = S.mic;
       var where = '';
       try { where = root.location.protocol + '//' + root.location.host + (root.location.search ? ' ?' + root.location.search.length : '') + ', origin ' + (root.origin === 'null' ? 'opaque' : 'own'); } catch (e) { where = 'address unknown'; }
-      App.diag.add('open', (m.framed ? 'framed' : 'own page') + ' at ' + where + ', data ' + S.store + ', microphone ' + (m.pre === 'blocked' ? 'blocked (' + m.why + ')' : m.pre) + ', policy ' + (m.policy === null ? 'unknown' : m.policy) + ', browser permission ' + (m.perm || 'unknown') + ', ' + (root.isSecureContext === false ? 'not secure' : 'secure') + ', storage ' + App.diag.kept);
+      App.diag.add('open', (m.framed ? 'framed' : 'own page') + ' at ' + where + ', data ' + S.store + ', microphone ' + (m.pre === 'blocked' ? 'blocked (' + m.why + ')' : m.pre) + ', policy ' + (m.policy === null ? 'unknown' : m.policy) + ', browser permission ' + (m.perm || 'unknown') + ', ' + (root.isSecureContext === false ? 'not secure' : 'secure') + ', storage ' + App.diag.kept + ', account ' + (App.acct.offered ? (App.acct.token ? 'signed in' : 'signed out') : 'not offered'));
     };
-    App.Store.init().then(opened, opened);
+    /* only once the page knows whether it has a database can it tell whether the GitHub account applies */
+    var ready = function () { App.acct.init(); opened(); App.render(); };
+    App.Store.init().then(ready, ready);
     App.render(true);
   };
   if (typeof document !== 'undefined') {

@@ -91,6 +91,9 @@ a { color: var(--tint-text); }
 .sync { font-size: 12px; font-weight: 500; color: var(--ink-3); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .sync i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-3); display: inline-block; }
 .sync.is-cloud i { background: var(--good-fill); }
+.sync.is-warn i { background: var(--adjust-fill); }
+.sync.is-bad i { background: var(--bad-fill); }
+button.sync { border: 0; background: none; padding: 0; margin: 0; min-height: 36px; }
 .icon-btn { width: 36px; height: 36px; display: inline-grid; place-items: center; border: 0; background: var(--fill); border-radius: 50%; color: var(--tint-text); flex: none; }
 .icon-btn svg { width: 19px; height: 19px; }
 .icon-btn.plain { background: transparent; }
@@ -298,6 +301,14 @@ details > summary::-webkit-details-marker { display: none; }
 .toggle input:checked { background: var(--good-fill); }
 .toggle input:checked::after { transform: translateX(20px); }
 .setrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; font-size: 17px; }
+
+/* ---- the account on GitHub ---- */
+.avatar { border-radius: 50%; flex: none; background: var(--fill); object-fit: cover; display: block; }
+.avatar-none { display: inline-grid; place-items: center; color: var(--ink); }
+.avatar-none svg { width: 58%; height: 58%; }
+.step-n { width: 24px; height: 24px; border-radius: 50%; background: var(--tint); color: var(--tint-ink); display: inline-grid; place-items: center; font-family: var(--f-round); font-weight: 700; font-size: 14px; flex: none; }
+.btn.btn-gh { background: var(--ink); color: var(--bg); }
+.btn-gh svg:last-child { opacity: .6; }
 
 /* ---- sheets ---- */
 .sheet-wrap { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .4); display: flex; align-items: flex-end; justify-content: center; animation: fade .2s ease; }

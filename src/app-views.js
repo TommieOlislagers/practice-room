@@ -149,6 +149,7 @@
       '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-primary btn-play grow" data-act="open" data-id="' + esc(next.id) + '">' + IC.play + 'Practise</button><button class="btn btn-play" data-act="go" data-to="tuner" aria-label="Tune first">' + IC.gauge + 'Tune</button></div>' +
       '</section>';
     html += micNotice(false);
+    html += accountCard();
     html += questsHtml(gm);
     html += weekHtml(gm);
     /* slowest changes */
@@ -454,6 +455,82 @@
     App.render();
   }
 
+  /* ----- account: signing in with GitHub. Only where the page has no database of its own (app-account.js). ----- */
+  function avatarHtml(u, size) {
+    var ok = u && /^https:\/\/[a-z0-9.-]*githubusercontent\.com\//.test(u.avatar || '');
+    var box = 'width:' + size + 'px;height:' + size + 'px';
+    return ok ? '<img class="avatar" src="' + esc(u.avatar) + '" alt="" style="' + box + '" referrerpolicy="no-referrer">' : '<span class="avatar avatar-none" style="' + box + '">' + IC.github + '</span>';
+  }
+  /* the two steps: make a key on GitHub, paste it here */
+  function keyForm(again) {
+    var A = App.acct, canPaste = !!(root.navigator && root.navigator.clipboard && root.navigator.clipboard.readText);
+    return '<div class="panel stack"><div class="row" style="flex-wrap:nowrap"><span class="step-n">1</span><b>Make a key on GitHub</b></div>' +
+      '<p class="small muted">The key lets this app save one file to your account. It can read and write your gists. It cannot touch your repositories or your account.</p>' +
+      '<a class="btn btn-gh btn-block" href="' + esc(A.keyUrl()) + '" target="_blank" rel="noopener" data-act="acct-key">' + IC.github + 'Create my key' + IC.ext + '</a>' +
+      '<p class="small muted">The form is filled in. Scroll to the bottom, tap <b>Generate token</b>, then tap the copy button next to the key.</p></div>' +
+      '<div class="panel stack"><div class="row" style="flex-wrap:nowrap"><span class="step-n">2</span><b>Paste it here</b></div>' +
+      '<div class="row" style="flex-wrap:nowrap"><input class="input mono grow" id="ghKey" style="background:var(--fill);font-size:15px;min-width:0" placeholder="github_pat_…" aria-label="Your GitHub key" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">' +
+      (canPaste ? '<button class="btn" data-act="acct-paste">Paste</button>' : '') + '</div>' +
+      '<div id="ghErr"></div>' +
+      '<button class="btn btn-primary btn-block" data-act="acct-in" id="ghGo">' + (again ? 'Sign in again' : 'Sign in') + '</button></div>';
+  }
+  function accountHtml() {
+    var A = App.acct, u = A.user, x = IC.x;
+    var close = '<button class="icon-btn" data-act="sheet-close" aria-label="Close">' + x + '</button>';
+    var about = '<details><summary>What is saved, and where</summary><p class="small muted" style="padding:4px 4px 0">One secret gist on your account, named "Practice Room progress": your songs, the session log and your settings. Level, stars, streaks and badges are worked out from that log. Secret means unlisted: it is not on your profile and cannot be searched for, but anyone who has its exact address can read it. The key itself stays in this browser and is sent only to GitHub.</p></details>' +
+      '<details><summary>Why a key, and what if it does not work</summary><p class="small muted" style="padding:4px 4px 0">GitHub\'s sign-in button for websites needs a server that holds a secret, and this app is one page with no server. A key you make yourself does the same job, once per device. The link sets it to never run out; change Expiration on that page if you would rather renew it. You can remove a key at any time on GitHub under Settings, Developer settings, Personal access tokens.<br><br>If GitHub will not make the key, or the app cannot find your progress on a second device, <a href="' + esc(A.keyUrl(true)) + '" target="_blank" rel="noopener">make a classic key</a> instead (set Expiration yourself, leave only "gist" ticked) and paste that.</p></details>';
+    if (!u) {
+      return '<div id="acctSheet" class="stack" style="gap:16px"><div class="sheet-head"><h2 class="title">Sign in with GitHub</h2>' + close + '</div>' +
+        '<p>Your level, stars, streak, songs and settings are saved to your GitHub account, and are there on any phone or computer you sign in on.</p>' +
+        keyForm(false) + about + '</div>';
+    }
+    var st = A.state, line;
+    if (st === 'saving') line = '<span class="row small muted" style="flex-wrap:nowrap"><span class="spinner"></span>Saving to GitHub</span>';
+    else if (st === 'in') line = '<span class="small" style="color:var(--good);font-weight:600">Saved to GitHub' + (A.since() ? ' · ' + esc(A.since()) : '') + '</span>';
+    else if (st === 'offline') line = '<div class="notice notice-warn">' + IC.warn + '<div>GitHub cannot be reached right now. Everything is kept on this device and sent as soon as it answers.</div></div>';
+    else if (st === 'expired') line = '<div class="notice notice-warn">' + IC.warn + '<div><b>GitHub no longer accepts the key on this device.</b> It ran out or was removed. Nothing is lost: your progress is on this device, and a new key carries on saving it.</div></div>';
+    else line = '<div class="notice notice-bad">' + IC.warn + '<div><b>GitHub refused to save.</b> ' + esc(A.err || '') + ' Signing out and in again with a new key usually fixes it.</div></div>';
+    return '<div id="acctSheet" class="stack" style="gap:16px"><div class="sheet-head"><h2 class="title">Account</h2>' + close + '</div>' +
+      '<div class="panel stack"><div class="row" style="flex-wrap:nowrap;gap:14px">' + avatarHtml(u, 56) + '<div class="item-main"><span class="item-title" style="font-size:20px">' + esc(u.name) + '</span><span class="item-sub">@' + esc(u.login) + ' on GitHub</span></div></div>' +
+      line +
+      (A.blind && st !== 'expired' ? '<div class="notice notice-warn">' + IC.warn + '<div><b>Other devices may not find this progress.</b> GitHub does not show this key the file it saved. Sign out, then sign in with a classic key (under "Why a key" on the sign-in screen).</div></div>' : '') +
+      '<span class="small muted num">' + Object.keys(S.songs).length + (Object.keys(S.songs).length === 1 ? ' song' : ' songs') + ' · ' + S.sessions.length + (S.sessions.length === 1 ? ' session' : ' sessions') + ' on this device</span>' +
+      (st === 'expired' ? '' : '<div class="row"><button class="btn btn-sm btn-tinted" data-act="acct-sync"' + (st === 'saving' ? ' disabled' : '') + '>Save now</button>' +
+        (/^https:\/\/gist\.github\.com\//.test(A.url || '') ? '<a class="btn btn-sm" href="' + esc(A.url) + '" target="_blank" rel="noopener">Open the saved file' + IC.ext + '</a>' : '') + '</div>') +
+      '</div>' +
+      (st === 'expired' ? keyForm(true) : '') +
+      '<div class="panel stack"><button class="btn btn-block" data-act="acct-out" style="color:var(--bad)">Sign out</button>' +
+      '<span class="small muted">Signing out forgets the key on this device. What is on this device stays, and so does the file on GitHub.</span></div>' +
+      (st === 'expired' ? about : '') + '</div>';
+  }
+  function accountSheet() { App.sheet.open(accountHtml(), function () { App.render(); }); }
+  /* the account changed state while its sheet is showing: redraw it, unless a key is being typed in */
+  App.accountRefresh = function () {
+    var body = $('#sheetBody');
+    if (!body || !$('#acctSheet') || !App.sheet.isOpen()) return;
+    var key = $('#ghKey'), go = $('#ghGo');
+    if ((key && key.value) || (go && go.disabled)) return;
+    body.innerHTML = accountHtml();
+  };
+  /* on Today: an invitation while signed out, and a warning when saving has stopped */
+  function accountCard() {
+    var A = App.acct;
+    if (!A || !A.offered) return '';
+    if (A.token && A.state === 'expired') return '<div class="notice notice-warn">' + IC.warn + '<div class="notice-body"><div><b>Sign in again to keep saving to GitHub.</b> The key on this device is no longer accepted. Your progress is still here.</div><div class="row"><button class="btn btn-sm btn-primary" data-act="account">Sign in again</button></div></div></div>';
+    if (A.token && A.state === 'error') return '<div class="notice notice-bad">' + IC.warn + '<div class="notice-body"><div><b>GitHub refused to save your progress.</b> It is still kept on this device.</div><div class="row"><button class="btn btn-sm btn-primary" data-act="account">Look at it</button></div></div></div>';
+    if (A.token || App.ls.get(App.LS.accountHide)) return '';
+    return '<section class="card stack acct-card"><div class="row" style="flex-wrap:nowrap;align-items:flex-start;gap:12px"><span class="avatar avatar-none" style="width:40px;height:40px">' + IC.github + '</span>' +
+      '<div class="grow"><div class="item-title">Keep your progress</div><div class="item-sub">Your level, stars and songs are on this device only. Sign in with GitHub and they are saved to your account.</div></div></div>' +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-gh grow" data-act="account">' + IC.github + 'Sign in with GitHub</button><button class="btn" data-act="acct-hide">Not now</button></div></section>';
+  }
+  function accountRow() {
+    var A = App.acct;
+    if (!A || !A.offered) return '';
+    var lab = A.label(), sub = A.user ? (lab ? lab.text : '') + (A.state === 'in' && A.since() ? ' · ' + A.since() : '') : 'Save your progress to your account';
+    return '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Account</span><div class="group"><button class="item" data-act="account">' + avatarHtml(A.user, 40) +
+      '<div class="item-main"><span class="item-title">' + (A.user ? esc(A.user.name) : 'Sign in with GitHub') + '</span><span class="item-sub">' + esc(sub) + '</span></div>' + IC.chev + '</button></div></div>';
+  }
+
   /* ----- settings ----- */
   function settingsSheet() {
     var st = S.settings, m = S.mic;
@@ -463,6 +540,7 @@
     var own = App.audio.ownUrl();
     var logLines = App.diag.lines(10);
     App.sheet.open('<div class="sheet-head"><h2 class="title">Settings</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+      accountRow() +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Game</span><div class="panel stack">' +
       '<div class="setrow"><span>Daily goal</span><span class="stepper"><button data-act="set-step" data-key="goal" data-d="-5" aria-label="Less">−</button><output id="oGoal">' + (st.goal || 10) + ' min</output><button data-act="set-step" data-key="goal" data-d="5" aria-label="More">+</button></span></div></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Listening</span><div class="panel stack">' +
@@ -479,7 +557,7 @@
       '<label class="toggle"><input type="checkbox" data-in="set-tones"' + (st.tones ? ' checked' : '') + '><span>Play a tone when I tap a string in the tuner</span></label>' +
       '<p class="small muted">No sound on an iPhone? Flip the ring switch on the side to ring, and turn the volume up.</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Your data</span><div class="panel stack"><p class="small">' +
-      (S.store === 'cloud' ? 'Songs and sessions are saved with this page in your Claude account, so they follow you to any device and Claude can read them when you ask for coaching.' : 'Songs and sessions are saved in this browser only.') + '</p>' +
+      (S.store === 'cloud' ? 'Songs and sessions are saved with this page in your Claude account, so they follow you to any device and Claude can read them when you ask for coaching.' : (App.acct && App.acct.token ? 'Songs and sessions are saved on this device and in your GitHub account.' : 'Songs and sessions are saved in this browser only.' + (App.acct && App.acct.offered ? ' Sign in with GitHub, at the top of this sheet, to save them to your account.' : ''))) + '</p>' +
       '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Technical log</span><div class="panel stack"><p class="small muted">What this device allowed and how recordings were read. ' + (S.store === 'cloud' ? 'It is saved with your data, so when something does not work you can ask Claude to look at it.' : 'When something does not work, a screenshot of this helps.') + '</p>' +
       (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div></div>' +
@@ -623,5 +701,6 @@
   App.addSong = { open: function () { if (!draft) newDraft(); draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
+  App.accountSheet = accountSheet;
   App.tunerIdle = tunerIdle;
 })(typeof window !== 'undefined' ? window : globalThis);

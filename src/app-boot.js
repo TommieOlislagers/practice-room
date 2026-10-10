@@ -29,13 +29,19 @@
     $('#app').classList.toggle('is-practice', r === 'practice');
     $('#tabs').hidden = r === 'practice';
     $all('#tabs .tab').forEach(function (b) { if (b.getAttribute('data-to') === r) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-    var sync = $('#sync');
-    if (sync) {
-      sync.className = 'sync' + (S.store === 'cloud' ? ' is-cloud' : '');
-      sync.innerHTML = '<i></i>' + (S.store === 'cloud' ? 'Synced' : S.store === 'local' ? 'This device only' : 'Loading');
-      sync.title = S.store === 'cloud' ? 'Songs and sessions are saved to your Claude account' : 'Songs and sessions are saved in this browser only';
-    }
+    App.pill();
     if (keep) { var q = $('#q'); if (q) { q.focus(); try { q.setSelectionRange(keep[0], keep[1]); } catch (e) { /* ignore */ } } }
+  };
+
+  /* the small line in the top bar that says where the data is saved */
+  App.pill = function () {
+    var sync = $('#sync');
+    if (!sync) return;
+    var lab = S.store === 'cloud' ? { text: 'Synced', cls: ' is-cloud', title: 'Songs and sessions are saved to your Claude account' } :
+      (App.acct.label() || { text: S.store === 'local' ? 'This device only' : 'Loading', cls: '', title: 'Songs and sessions are saved in this browser only' });
+    sync.className = 'sync' + lab.cls;
+    sync.innerHTML = '<i></i>' + App.esc(lab.text);
+    sync.title = lab.title;
   };
 
   var actions = {
@@ -44,6 +50,30 @@
     level: function (el) { S.filter.level = parseInt(el.getAttribute('data-level'), 10) || 0; if (S.route.name !== 'songs') App.go({ name: 'songs' }); else App.render(true); },
     settings: function () { App.settingsSheet(); App.sheet.onClose = function () { App.render(); }; },
     'sheet-close': function () { App.sheet.close(); },
+
+    /* the account on GitHub (app-account.js); where the page has its own database this opens Settings instead */
+    account: function () { if (App.acct.offered) App.accountSheet(); else actions.settings(); },
+    'acct-hide': function () { App.ls.set(App.LS.accountHide, 1); App.render(true); },
+    'acct-key': function () { App.diag.add('account', 'opened GitHub to make a key'); },
+    'acct-paste': function () {
+      var inp = $('#ghKey');
+      root.navigator.clipboard.readText().then(function (t) { if (inp && t) { inp.value = String(t).trim(); inp.focus(); } }, function () { App.toast('Paste did not work here. Tap the box and choose Paste.'); });
+    },
+    'acct-in': function () {
+      var inp = $('#ghKey'), btn = $('#ghGo'), box = $('#ghErr');
+      if (!inp || !btn || btn.disabled) return;
+      btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Signing in'; box.innerHTML = '';
+      App.acct.signIn(inp.value).then(function (r) {
+        if (App.sheet.isOpen() && $('#acctSheet')) App.accountSheet();
+        App.toast('Signed in as ' + r.user.name + '. ' + (r.made ? 'Your progress is now saved to your account.' : r.fromAccount ? 'Your progress from the account is on this device now.' : 'This device and your account match.'));
+      }, function (e) {
+        var b = $('#ghGo'), x = $('#ghErr');
+        if (b) { b.disabled = false; b.textContent = 'Sign in'; }
+        if (x) x.innerHTML = '<div class="notice notice-bad">' + App.IC.warn + '<div>' + App.esc((e && e.message) || 'That did not work.') + '</div></div>';
+      });
+    },
+    'acct-sync': function () { App.acct.sync('button').then(function (ok) { App.toast(ok ? 'Saved to your GitHub account.' : 'Not saved to GitHub just now. It is kept on this device.'); }); },
+    'acct-out': function () { App.acct.signOut(); App.accountSheet(); App.toast('Signed out. Your progress stays on this device.'); },
 
     add: function () { App.addSong.open(); },
     'draft-mode': function (el) { var d = App.addSong.draft(); syncDraft(); d.mode = el.getAttribute('data-mode'); d.err = ''; App.addSong.refresh(); },
@@ -157,7 +187,10 @@
     }
     document.addEventListener('input', onInput);
     document.addEventListener('change', onInput);
-    document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close(); });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close();
+      if (ev.key === 'Enter' && ev.target && ev.target.id === 'ghKey') actions['acct-in']();
+    });
     document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.hasAttribute && el.hasAttribute('data-select')) { try { el.select(); } catch (e) { /* ignore */ } } });
     /* anything that goes wrong on a device nobody can look at ends up in the technical log */
     var errs = 0;
@@ -180,9 +213,11 @@
       var m = S.mic;
       var where = '';
       try { where = root.location.protocol + '//' + root.location.host + (root.location.search ? ' ?' + root.location.search.length : '') + ', origin ' + (root.origin === 'null' ? 'opaque' : 'own'); } catch (e) { where = 'address unknown'; }
-      App.diag.add('open', (m.framed ? 'framed' : 'own page') + ' at ' + where + ', data ' + S.store + ', microphone ' + (m.pre === 'blocked' ? 'blocked (' + m.why + ')' : m.pre) + ', policy ' + (m.policy === null ? 'unknown' : m.policy) + ', browser permission ' + (m.perm || 'unknown') + ', ' + (root.isSecureContext === false ? 'not secure' : 'secure') + ', storage ' + App.diag.kept);
+      App.diag.add('open', (m.framed ? 'framed' : 'own page') + ' at ' + where + ', data ' + S.store + ', microphone ' + (m.pre === 'blocked' ? 'blocked (' + m.why + ')' : m.pre) + ', policy ' + (m.policy === null ? 'unknown' : m.policy) + ', browser permission ' + (m.perm || 'unknown') + ', ' + (root.isSecureContext === false ? 'not secure' : 'secure') + ', storage ' + App.diag.kept + ', account ' + (App.acct.offered ? (App.acct.token ? 'signed in' : 'signed out') : 'not offered'));
     };
-    App.Store.init().then(opened, opened);
+    /* only once the page knows whether it has a database can it tell whether the GitHub account applies */
+    var ready = function () { App.acct.init(); opened(); App.render(); };
+    App.Store.init().then(ready, ready);
     App.render(true);
   };
   if (typeof document !== 'undefined') {

@@ -5,7 +5,8 @@ A personal guitar practice app for Tommie, who is learning guitar and uses an iP
 It is deployed in two places:
 
 - **GitHub Pages** (this repository, `index.html` on `main`): https://tommieolislagers.github.io/practice-room/
-  The browser can ask for the microphone here, so live listening works. Data lives in the browser's storage.
+  The browser can ask for the microphone here, so live listening works. Data lives in the browser's storage
+  and, once Tommie signs in, in a secret gist on his GitHub account (see "Account on GitHub").
 - **Inside Claude** as a published page with a database: https://claude.ai/artifact/AgBk9i1Ly1fBLJijN5DVQ3
   No microphone there (the viewer's frame is not given it); recorded takes only.
 
@@ -15,6 +16,28 @@ Run `node build.js` and commit `index.html` together with any change in `src/`. 
 
 Ideas not built yet for the Pages copy: a `library.json` in the repository that the page fetches, so songs
 can be added by a commit; a "copy my progress" export for coaching.
+
+## Account on GitHub (Pages copy only, `src/app-account.js`, added 10 Oct 2026)
+
+- Why a key and not a sign-in button: GitHub's sign-in for websites cannot be finished by a page without a
+  server (the exchange wants a client secret, and neither it nor the device flow answers calls from a
+  browser). So the player makes a fine-grained personal access token with one permission, Gists read and
+  write, through a link that fills GitHub's form in (`Acct.keyUrl()`), and pastes it once per device.
+  The key is kept in that browser's storage (`pr.account.v1`) and sent only to `api.github.com`.
+- The data is one secret gist, found by the file `practice-room.json` in it: that file holds songs, deletion
+  times (`gone`) and settings; `sessions-YYYY-MM.json` hold the session log, one file per UTC month.
+- Saving is read, join, write what differs (`mergeData`, `filesOf`): sessions are joined by id and never
+  dropped, the newer of a song's edit and delete wins, settings go to the side that changed them last.
+  It runs on opening, 1.5 s after anything is saved, when the page is shown again, and when the connection
+  returns; never during a run.
+- Offered only where the page has no `window.claude` (so never inside Claude, where the database does this).
+- Never tried against the real GitHub from here (the session's token cannot touch gists): the browser test
+  uses a stand-in. The one open question is whether GitHub lists a secret gist for a fine-grained key. If it
+  does not, the page notices on the next visit (`Acct.blind`) and points to a classic key with the `gist` scope.
+- To read Tommie's progress for coaching, ask him for the address of the saved file (Settings, Account,
+  "Open the saved file"); it is readable by address.
+- The device keeps the newest 2000 sessions (`Store.cap()`); the gist keeps all of them. The game layer counts
+  what the device holds. Inside Claude the database still hands over 500.
 
 ## Look and game (redesign of 10 Oct 2026)
 
@@ -49,6 +72,7 @@ can be added by a commit; a "copy my progress" export for coaching.
 | `mp4audio.js` | reads the AAC sound track out of MP4, M4A, MOV files; wraps it as M4A or ADTS |
 | (generated) | `PR.starters`: the songs in `seed/`, used only where the page has no database |
 | `app-core.js` | state, technical log, storage (database, browser cache, offline queue), statistics |
+| `app-account.js` | the GitHub account for the Pages copy: sign-in with a key, the gist, joining and saving |
 | `app-audio.js` | microphone, tones, metronome, reading recordings |
 | `stage.js` | the playing screen: the note highway, bursts, multiplier, stars |
 | `app-views.js` | Today, Songs, add and edit sheets, Settings, Tuner |
@@ -72,10 +96,10 @@ To load a song from a chat: research the chart, check it against a second source
 
 ## Tests
 
-Node (`node test/tN_*.js`): t1 pitch, t2 chords, t3 tracking, t4 false positives, t5 parsers, t6 sound-track reader, t7 game layer.
+Node (`node test/tN_*.js`): t1 pitch, t2 chords, t3 tracking, t4 false positives, t5 parsers, t6 sound-track reader, t7 game layer, t8 the rules for joining a device with the account.
 Browser (`node test/bN_*.js`, Playwright with the preinstalled Chromium): b1 smoke and screenshots, b2 live
 listening with a fake microphone, b3 database, b4 marks, b5 locked-down frame, b6 asking for the microphone,
-b7 recordings, b8 offline queue, b9 the iPhone case.
+b7 recordings, b8 offline queue, b9 the iPhone case, b10 the GitHub account (a stand-in GitHub, two devices).
 
 Test material is not in the kit: `scripts/get_samples.sh` (sampled guitar notes), `node test/mkwav.js`
 (test performances), `scripts/make_media.sh` (phone-style videos, needs ffmpeg), and
