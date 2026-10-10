@@ -9,6 +9,8 @@ It is deployed in two places:
 - **Inside Claude** as a published page with a database: https://claude.ai/artifact/AgBk9i1Ly1fBLJijN5DVQ3
   No microphone there (the viewer's frame is not given it); recorded takes only.
 
+GitHub Pages publishes the `gh-pages` branch (pushing that branch is what switched Pages on; the Pages settings API is not reachable from a Claude session). To deploy: `git push origin main && git push origin main:gh-pages`.
+
 Run `node build.js` and commit `index.html` together with any change in `src/`. Run the tests before pushing.
 
 Ideas not built yet for the Pages copy: a `library.json` in the repository that the page fetches, so songs
