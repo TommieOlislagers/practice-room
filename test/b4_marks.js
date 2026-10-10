@@ -1,0 +1,23 @@
+'use strict';
+const path = require('path');
+const { chromium } = require('/opt/npm-tools/node_modules/playwright');
+const serve = require('./serve.js');
+(async () => {
+  const srv = await serve(8768);
+  const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: 'dark', deviceScaleFactor: 2 });
+  const page = await ctx.newPage();
+  const errs = []; page.on('pageerror', e => errs.push(e.message));
+  await page.addInitScript(() => { localStorage.setItem('pr.songs.v1', JSON.stringify({ s1: { id: 's1', title: 'Eyes Without a Face', artist: 'Billy Idol', level: 3, bpm: 85, shapes: [{ n: 'Emaj7', s: 'x79897' }, { n: 'C#m', s: 'x46654' }, { n: 'G#m', s: '466444' }, { n: 'B', s: '799877' }], sections: [{ name: 'Verse', type: 'chords', bars: ['Emaj7', 'C#m', 'G#m', 'B'], repeat: 3 }, { name: 'Chorus', type: 'chords', bars: ['A', 'B', 'A', 'B', 'A', 'B', 'F#m', 'G#m'] }] } })); });
+  await page.goto('http://127.0.0.1:8768/dist/local.html');
+  await page.click('#tabs [data-to="songs"]'); await page.click('[data-act="open"][data-id="s1"]');
+  await page.click('[data-act="p-mode"][data-mode="take"]');
+  await page.setInputFiles('input[data-file="take"]:not([capture])', path.join(__dirname, '..', 'wav', 'eyes_take.wav'));
+  await page.waitForSelector('#sheet:not([hidden])', { timeout: 60000 });
+  await page.click('[data-act="sheet-close"]'); await page.waitForTimeout(300);
+  const marks = await page.evaluate(() => ({ hit: document.querySelectorAll('#pChart .is-hit').length, miss: document.querySelectorAll('#pChart .is-miss').length }));
+  await page.evaluate(() => document.querySelector('#pChart').scrollIntoView());
+  await page.screenshot({ path: path.join(__dirname, '..', 'shots', 'take-chart-marked.png') });
+  console.log('marks after closing the result:', JSON.stringify(marks), errs.length ? 'ERRORS ' + errs.join(';') : 'no errors');
+  await browser.close(); srv.close();
+})();

@@ -1,0 +1,149 @@
+{
+ "title": "Eyes Without a Face (capo 4, open shapes)",
+ "artist": "Billy Idol",
+ "level": 2,
+ "levelAuto": 2,
+ "bpm": 86,
+ "capo": 4,
+ "tuning": "standard",
+ "key": "E",
+ "beatsPerSlot": 4,
+ "origin": "claude",
+ "checked": true,
+ "note": "The same song with a capo on fret 4, so the verse becomes four open shapes. F is the only barre: play the small F (xx3211) if the full one buzzes. The heavy riff and the solo between the hold and verse 3 are left out.",
+ "source": {
+  "label": "Ultimate Guitar chords",
+  "url": "https://tabs.ultimate-guitar.com/tab/billy-idol/eyes-without-a-face-chords-4699499"
+ },
+ "shapes": [],
+ "sections": [
+  {
+   "name": "Intro",
+   "type": "chords",
+   "bars": [
+    "C",
+    "C",
+    "C",
+    "C",
+    "C",
+    "Am",
+    "Em",
+    "G"
+   ]
+  },
+  {
+   "name": "Verse 1",
+   "type": "chords",
+   "bars": [
+    "C",
+    "Am",
+    "Em",
+    "G"
+   ],
+   "repeat": 3
+  },
+  {
+   "name": "Chorus 1",
+   "type": "chords",
+   "bars": [
+    "F",
+    "G",
+    "F",
+    "G",
+    "F",
+    "G",
+    "Dm",
+    "Em"
+   ]
+  },
+  {
+   "name": "Link",
+   "type": "chords",
+   "bars": [
+    "C",
+    "Am",
+    "Em",
+    "G"
+   ]
+  },
+  {
+   "name": "Verse 2",
+   "type": "chords",
+   "bars": [
+    "C",
+    "Am",
+    "Em",
+    "G"
+   ],
+   "repeat": 2
+  },
+  {
+   "name": "Chorus 2",
+   "type": "chords",
+   "bars": [
+    "F",
+    "G",
+    "F",
+    "G",
+    "F",
+    "G",
+    "Dm",
+    "Em"
+   ]
+  },
+  {
+   "name": "Hold before the riff",
+   "type": "chords",
+   "bars": [
+    "C",
+    "C",
+    "C",
+    "C"
+   ]
+  },
+  {
+   "name": "Verse 3",
+   "type": "chords",
+   "bars": [
+    "C",
+    "Am",
+    "Em",
+    "G",
+    "C",
+    "Am",
+    "Em",
+    "G",
+    "Em",
+    "G"
+   ]
+  },
+  {
+   "name": "Last chorus",
+   "type": "chords",
+   "bars": [
+    "F",
+    "G",
+    "F",
+    "G",
+    "F",
+    "G",
+    "Dm",
+    "Em",
+    "Dm",
+    "Em"
+   ]
+  },
+  {
+   "name": "Outro",
+   "type": "chords",
+   "bars": [
+    "C",
+    "C",
+    "C",
+    "C"
+   ]
+  }
+ ],
+ "createdAt": 1791584352775,
+ "updatedAt": 1791584352775
+}

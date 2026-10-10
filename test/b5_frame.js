@@ -1,0 +1,52 @@
+'use strict';
+/* The page inside a locked-down frame on another origin, the way a host embeds it: no microphone, no storage. */
+const path = require('path'), fs = require('fs');
+const { chromium } = require('/opt/npm-tools/node_modules/playwright');
+const serve = require('./serve.js');
+let failures = 0;
+function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') + name + (detail ? '  -> ' + detail : '')); if (!cond) failures++; }
+(async () => {
+  const srv = await serve(8769);
+  fs.writeFileSync(path.join(__dirname, '..', 'dist', 'frame.html'), '<!doctype html><html><body style="margin:0;background:#888"><iframe id="f" src="http://localhost:8769/dist/local.html" sandbox="allow-scripts allow-forms" style="width:390px;height:844px;border:0"></iframe></body></html>');
+  const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required', '--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream'] });
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2 });
+  const page = await ctx.newPage();
+  const errs = []; page.on('pageerror', e => errs.push(e.message)); page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|ERR_|Access to font|Permissions policy violation/.test(m.text())) errs.push(m.text()); });
+  await page.goto('http://127.0.0.1:8769/dist/frame.html');
+  await page.waitForTimeout(900);
+  const f = page.frameLocator('#f');
+  const info = await page.frames()[1].evaluate(() => { let ls = 'ok'; try { localStorage.getItem('x'); } catch (e) { ls = e.name; } return { origin: location.origin, self: window.origin, ls, policy: document.featurePolicy ? document.featurePolicy.allowsFeature('microphone') : 'n/a', pre: window.PR.app.S.mic.pre, store: window.PR.app.S.store }; });
+  check('frame is on an opaque origin with storage and microphone refused', info.self === 'null' && info.ls === 'SecurityError' && info.policy === false && info.pre === 'blocked', JSON.stringify(info));
+  check('the page still renders and says where it saves', /Pick up the guitar|Ready when you are/.test(await f.locator('#main').textContent()) && /This device only/.test(await f.locator('#sync').textContent()));
+  const today = await f.locator('#main').textContent();
+  check('Today says whose decision it is, and still offers to ask', /Claude's viewer does not pass the microphone on to this page/.test(today) && /Nothing on your phone is set wrong/.test(today) && /Ask anyway/.test(today), today.replace(/\s+/g, ' ').slice(0, 0));
+  await f.locator('#main [data-act="mic-ask"]').click();
+  await page.waitForTimeout(600);
+  const asked = await page.frames()[1].evaluate(() => ({ toast: document.querySelector('#toast').textContent, main: document.querySelector('#main').textContent, mic: window.PR.app.S.mic, log: window.PR.app.diag.lines(6) }));
+  check('asking anyway makes a real request and reports the refusal as it happened', /Refused inside Claude's viewer, before your phone was asked/.test(asked.toast) && /The request was refused inside the viewer, before your phone was asked/.test(asked.main) && /Ask again anyway/.test(asked.main) && asked.mic.tried === true && asked.mic.why === 'frame' && asked.log.some(l => /mic: (SecurityError|NotAllowedError) after \d+ ms \(frame\), framed, policy false/.test(l)), asked.toast + ' | ' + asked.log.join(' | '));
+  check('the log says where the page was opened and that nothing is kept here', asked.log.some(l => /open: framed at http:\/\/localhost:8769, origin opaque, data local, microphone blocked \(frame\).*storage none/.test(l)), asked.log[asked.log.length - 1]);
+  await f.locator('#tabs [data-to="songs"]').click();
+  await f.locator('[data-act="open"][data-id="d-empent"]').click();
+  check('practice opens on "Check a take"', (await f.locator('[data-act="p-mode"][data-mode="take"]').getAttribute('aria-pressed')) === 'true');
+  await f.locator('[data-act="p-mode"][data-mode="live"]').click();
+  await f.locator('[data-act="p-start"]').click();
+  await page.waitForTimeout(500);
+  const micState = await page.frames()[1].evaluate(() => JSON.stringify(window.PR.app.S.mic));
+  check('a live attempt is refused cleanly and falls back', /Refused inside Claude's viewer/.test(await f.locator('#toast').textContent()) && (await f.locator('[data-act="p-mode"][data-mode="take"]').getAttribute('aria-pressed')) === 'true', (await f.locator('#toast').textContent()) + ' ' + micState);
+  await f.locator('input[data-file="take"]:not([capture])').setInputFiles(path.join(__dirname, '..', 'wav', 'pent_wait.wav'));
+  await f.locator('#sheet:not([hidden])').waitFor({ timeout: 40000 });
+  const txt = (await f.locator('#sheetBody').textContent()).replace(/\s+/g, ' ');
+  check('a picked recording is scored inside the frame', /100%\s*23 of 23 right/.test(txt), txt.slice(0, 120));
+  await page.screenshot({ path: path.join(__dirname, '..', 'shots', 'framed-result.png') });
+  await f.locator('[data-act="sheet-close"]').first().click();
+  await f.locator('#main [data-act="go"][data-to="songs"]').first().click();
+  await f.locator('#tabs [data-to="tuner"]').click();
+  await f.locator('[data-act="string"][data-i="5"]').click();
+  await page.waitForTimeout(300);
+  const tone = await page.frames()[1].evaluate(() => ({ voices: window.PR.app.audio.voices.length, state: window.PR.app.audio.ctx && window.PR.app.audio.ctx.state }));
+  check('reference tones play inside the frame', tone.voices === 1 && tone.state === 'running', JSON.stringify(tone));
+  await browser.close(); srv.close();
+  if (errs.length) { console.log('PAGE ERRORS:\n' + errs.join('\n')); failures += errs.length; }
+  console.log(failures ? '\nFRAMED: ' + failures + ' CHECK(S) FAILED' : '\nFRAMED: ALL CHECKS PASSED');
+  process.exit(failures ? 1 : 0);
+})().catch(e => { console.error('FAILED', e); process.exit(1); });
