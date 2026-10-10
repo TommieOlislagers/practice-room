@@ -1,0 +1,78 @@
+{
+  "id": "zelda-sarias-song",
+  "title": "Saria's Song (Lost Woods)",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 2,
+  "key": "C",
+  "bpm": 140,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 31,
+  "note": "Bouncy and light: bass note on the beat, short upstrokes off the beat. The tune leans on F, which gives it its bright Lydian colour, so let the F bars ring. In the middle part G lands on beat three. The last two bars hold E major. The tune itself is left out.",
+  "strum": "D U D U ",
+  "needs": [
+    "strum-eighths",
+    "offbeat",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "C",
+    "type": "major"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "A",
+      "type": "chords",
+      "bars": [
+        "F",
+        "F",
+        "C",
+        "C",
+        "F",
+        "F",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "B",
+      "type": "chords",
+      "bars": [
+        "Dm G",
+        "C",
+        "Dm G",
+        "C"
+      ]
+    },
+    {
+      "name": "Climb",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "F",
+        "Am",
+        "C",
+        "E",
+        "E"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/the-legend-of-zelda/lost-woods",
+    "https://www.hooktheory.com/theorytab/view/legend-of-zelda---ocarina-of-time/lost-woods-theme",
+    "https://thinkspace.ac.uk/blog/a-lesson-in-modes-from-the-legend-of-zelda/"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "No full chord chart could be reached. Sourced: C major and F Lydian, four-four, 140 to 142, opening on IV to I, about 71 beats (18 bars), tags for a secondary and a diminished chord. Two bars per chord in A, all of B and the climb are my reading of the usual harmony; the climb probably changes chord twice a bar.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}

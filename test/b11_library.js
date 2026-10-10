@@ -139,7 +139,7 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   console.log('8. the tune of a game piece is the player\'s to add');
   const game = await ev(() => { const s = window.PR.app.allSongs().find(x => x.melody); return s ? s.id : ''; });
   if (game) {
-    await ev(id => window.PR.app.go({ name: 'practice', id }), game);
+    await page.evaluate(id => window.PR.app.go({ name: 'practice', id }), game);
     check('a game piece says it is the chord backing and offers to take a pasted melody tab', /This is the chord backing/.test(await main()));
     await page.click('[data-act="melody-add"]');
     check('...with title and artist filled in', /\(melody\)$/.test(await page.inputValue('#dTitle')) && /Zelda/.test(await page.inputValue('#dArtist')));

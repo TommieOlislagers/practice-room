@@ -1,0 +1,225 @@
+{
+  "id": "ws-fool-for-your-loving",
+  "title": "Fool for Your Loving",
+  "artist": "Whitesnake",
+  "album": "Ready an' Willing",
+  "year": 1980,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "Gm",
+  "bpm": 120,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 258,
+  "note": "Standard tuning. The verse sits on a blues riff in G, left out here: play the power chords under it with a palm mute, G5 for a bar, then Bb5 to C5 (or F5) with the second chord pushed a little early. Pre-chorus and chorus are barre chords; lift off cleanly on the D stop before the link riff.",
+  "strum": "D D DUDU",
+  "needs": [
+    "power-chords",
+    "palm-mute",
+    "strum-eighths",
+    "quick-changes",
+    "barre-em",
+    "barre-am",
+    "barre-a",
+    "barre-e",
+    "bends"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "blues"
+  },
+  "shapes": [
+    {
+      "n": "F/A",
+      "s": "x03211"
+    },
+    {
+      "n": "Dm7",
+      "s": "x57565"
+    },
+    {
+      "n": "Dm",
+      "s": "x57765"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro (organ)",
+      "type": "chords",
+      "bars": [
+        "Gm",
+        "Gm",
+        "Gm",
+        "Gm"
+      ]
+    },
+    {
+      "name": "Intro (band)",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "Bb5 F5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "Bb5 F5"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Pre-chorus 1",
+      "type": "chords",
+      "bars": [
+        "Cm7",
+        "Dm7",
+        "Gm",
+        "Gm"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Dm Gm",
+        "Cm7",
+        "Dm",
+        "D N.C."
+      ]
+    },
+    {
+      "name": "Link 1",
+      "type": "chords",
+      "bars": [
+        "Gm",
+        "C F/A",
+        "Gm",
+        "C F/A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "Bb5 F5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Pre-chorus 2",
+      "type": "chords",
+      "bars": [
+        "Cm7",
+        "Dm7",
+        "Gm",
+        "Gm"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Dm Gm",
+        "Cm7",
+        "Dm",
+        "D N.C."
+      ]
+    },
+    {
+      "name": "Link 2",
+      "type": "chords",
+      "bars": [
+        "Gm",
+        "C F/A",
+        "Gm",
+        "C F/A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "G5",
+        "Bb5 C5",
+        "G5",
+        "Bb5 F5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo (pre-chorus chords)",
+      "type": "chords",
+      "bars": [
+        "Cm7",
+        "Dm7",
+        "Gm",
+        "Gm"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Gm",
+        "Eb F",
+        "Dm Gm",
+        "Cm7",
+        "Dm",
+        "D N.C."
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Gm",
+        "C F/A",
+        "Gm",
+        "C F/A"
+      ],
+      "repeat": 5
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Fool+for+Your+Loving",
+    "https://www.guitartabsexplorer.com/whitesnake/fool-for-your-loving-(Ver2)-tab",
+    "https://www.muzines.co.uk/articles/skill-centre-whitesnake/6879",
+    "https://en.wikipedia.org/wiki/Fool_for_Your_Loving"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "1980 original. Bars and tempo follow ChordWiki; the order matches a lesson by the band's bass player. Verse chords are power chords under the riff (ChordWiki: Gm, Bb, C, F). The tab passes through F into Gm in the pre-chorus and goes from Cm7 straight to D ending the chorus. Fade: five rounds of the link.",
+  "createdAt": 1791646050933,
+  "updatedAt": 1791646050933
+}

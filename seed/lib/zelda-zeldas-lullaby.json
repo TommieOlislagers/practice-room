@@ -1,0 +1,75 @@
+{
+  "id": "zelda-zeldas-lullaby",
+  "title": "Zelda's Lullaby",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 2,
+  "key": "G",
+  "bpm": 106,
+  "beatsPerBar": 3,
+  "beatsPerSlot": 3,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 41,
+  "note": "A slow waltz that floats on the four chord instead of resting on G. Keep the third finger on the low C through the first two shapes and move only the top fingers. Pick each chord one string at a time, bass note first, and let it ring. The tune itself is left out.",
+  "strum": "D D D ",
+  "needs": [
+    "waltz",
+    "arpeggio",
+    "sevenths"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "major"
+  },
+  "melody": true,
+  "shapes": [
+    {
+      "n": "D/C",
+      "s": "x30232"
+    }
+  ],
+  "sections": [
+    {
+      "name": "A",
+      "type": "chords",
+      "bars": [
+        "Cmaj7",
+        "D/C",
+        "Cmaj7",
+        "D/C",
+        "Cmaj7",
+        "D/C",
+        "Cmaj7",
+        "D/C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "B",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "Em7",
+        "Dm7",
+        "Cmaj7",
+        "Fmaj7",
+        "Em7",
+        "Dm7",
+        "Dm7"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/the-legend-of-zelda/zeldas-lullaby",
+    "https://tabs.ultimate-guitar.com/tab/misc-computer-games/the-legend-of-zelda-ocarina-of-time-zeldas-lullaby-ukulele-3290429"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "One usable chord source: Hooktheory (G major, three-four, 106; A is IVmaj7 to V7 over the same bass, B is Fmaj7 Em7 Dm7 Cmaj7 Fmaj7; 72 beats, so 24 bars). Its tags hint at more chords in A and a tritone substitute ending B that could not be read; B bars 6 to 8 are my guess. A UG ukulele sheet opens I to minor iv.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}

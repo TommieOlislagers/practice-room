@@ -1,0 +1,55 @@
+{
+  "id": "zelda-song-of-time",
+  "title": "Song of Time",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 1,
+  "key": "Dm",
+  "bpm": 72,
+  "beatsPerBar": 3,
+  "beatsPerSlot": 3,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 40,
+  "note": "A slow chant in three. Play it as a drone: one soft strum or a slow picked chord per bar and let it ring into the next. The G major bar is the bright Dorian colour of the piece, and C to Dm closes the phrase. The tune itself is left out.",
+  "strum": "D     ",
+  "needs": [
+    "waltz",
+    "arpeggio"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "dorian"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Theme",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Dm",
+        "Dm",
+        "G",
+        "Dm",
+        "C",
+        "Dm"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/koji-kondo/temple-of-time---ocarina-of-time",
+    "https://thinkspace.ac.uk/blog/a-lesson-in-modes-from-the-legend-of-zelda/"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "The original (Temple of Time) is an unaccompanied chant: the Hooktheory tab has no chords. Sourced: D Dorian, three-four, 72. The backing is my own fit, a Dm drone with the Dorian IV and a VII to i close, chords Hooktheory lists for the mode. The eight-bar phrase is my count. No chord chart could be reached.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}

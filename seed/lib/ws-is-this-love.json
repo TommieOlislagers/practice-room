@@ -1,0 +1,185 @@
+{
+  "id": "ws-is-this-love",
+  "title": "Is This Love",
+  "artist": "Whitesnake",
+  "album": "Whitesnake",
+  "year": 1987,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "Em",
+  "bpm": 90,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 283,
+  "note": "A slow ballad in standard tuning. Pick the verse chords one string at a time with a light palm mute and let the open strings ring; in the second bar of each pair Bm7 moves to Cadd9 just before beat three. The four-chord walk down from C to G goes one chord per beat: practise that bar alone first.",
+  "strum": "D DU UDU",
+  "needs": [
+    "arpeggio",
+    "palm-mute",
+    "strum-eighths",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "minor"
+  },
+  "shapes": [
+    {
+      "n": "Em9",
+      "s": "022032"
+    },
+    {
+      "n": "Bm7",
+      "s": "x20202"
+    },
+    {
+      "n": "D/C",
+      "s": "x30232"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Em9",
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "C Bm7 Am7 G",
+        "Fmaj7"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "C Bm7 Am7 G",
+        "Fmaj7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G",
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G",
+        "Fmaj7"
+      ]
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "Em9",
+        "Bm7 Cadd9",
+        "C Bm7 Am7 G",
+        "Fmaj7",
+        "Fmaj7"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G",
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G",
+        "Fmaj7"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "Em9",
+        "Bm7 Cadd9"
+      ],
+      "repeat": 7
+    },
+    {
+      "name": "Solo (turn)",
+      "type": "chords",
+      "bars": [
+        "C Bm7 Am7 G",
+        "Fmaj7",
+        "Fmaj7"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Last chorus",
+      "type": "chords",
+      "bars": [
+        "Cadd9",
+        "D/C",
+        "Bm7",
+        "C Bm7 Am7 G",
+        "Fmaj7",
+        "Fmaj7",
+        "Em9"
+      ]
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Is+this+love",
+    "https://www.guitartabsexplorer.com/whitesnake/is-this-love-(ver-2)-chords",
+    "https://www.guitartabsexplorer.com/whitesnake/is-this-love-tab",
+    "https://www.e-chords.com/chords/whitesnake/is-this-love",
+    "https://www.hooktheory.com/theorytab/view/whitesnake/is-this-love",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/POWERTRK_159/POWERTRK_159-18.html",
+    "https://en.wikipedia.org/wiki/Is_This_Love_(Whitesnake_song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Four charts agree on the chords; names simplified (the record adds b13 to Bm7, #11 to Cadd9 and F). Bars follow ChordWiki. Guessed: one F bar after each chorus, one extra after verse 2. Plays 25 s short: the record repeats the chorus longer. One chart says half step down; tab and measured key say standard.",
+  "createdAt": 1791646050933,
+  "updatedAt": 1791646050933
+}

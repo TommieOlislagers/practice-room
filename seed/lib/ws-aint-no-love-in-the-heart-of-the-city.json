@@ -1,0 +1,199 @@
+{
+  "id": "ws-aint-no-love-in-the-heart-of-the-city",
+  "title": "Ain't No Love in the Heart of the City",
+  "artist": "Whitesnake",
+  "album": "Snakebite",
+  "year": 1978,
+  "genre": "Blues",
+  "level": 2,
+  "key": "Am",
+  "bpm": 64,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 307,
+  "note": "Very slow, so count sixteenths to keep it steady. Most bars hold Am7 for three beats and lift to D on beat four with the open A string still ringing; the same move turns Dm7 into G. Play clean and soft, and softer still in the breakdown. The guitar figure and the fills are left out.",
+  "strum": "D DU UDUD DU UDU",
+  "needs": [
+    "strum-sixteenths",
+    "quick-changes",
+    "sevenths",
+    "double-stops",
+    "bends"
+  ],
+  "scale": {
+    "root": "A",
+    "type": "penta-minor"
+  },
+  "shapes": [
+    {
+      "n": "Am9",
+      "s": "x05557"
+    },
+    {
+      "n": "F",
+      "s": "xx3211"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Fmaj7 Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Break",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Fmaj7 Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Bridge 1",
+      "type": "chords",
+      "bars": [
+        "Am7 C",
+        "Dm7",
+        "G",
+        "Am",
+        "Am C",
+        "Dm7",
+        "G G F C",
+        "G/B"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Fmaj7 Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Solo 1",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Fmaj7 Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Bridge 2",
+      "type": "chords",
+      "bars": [
+        "Am7 C",
+        "Dm7",
+        "G",
+        "Am",
+        "Am C",
+        "Dm7",
+        "G G F C",
+        "G/B"
+      ]
+    },
+    {
+      "name": "Breakdown",
+      "type": "chords",
+      "bars": [
+        "Am7",
+        "Am7",
+        "Dm7",
+        "Am7",
+        "Am7",
+        "Am7",
+        "Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Solo 2",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Fmaj7 Dm7",
+        "Am7"
+      ]
+    },
+    {
+      "name": "Last chorus",
+      "type": "chords",
+      "bars": [
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Dm7 Dm7 G/D",
+        "Am7",
+        "Am7 Am7 Am7 D/A",
+        "Am7 Am7 Am7 D/A",
+        "Dm7 Em7",
+        "Dm7 N.C.",
+        "Am9",
+        "Am9"
+      ]
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Aint+no+love+in+the+heart+of+the+city",
+    "https://www.guitartabsexplorer.com/whitesnake/aint-no-love-in-the-heart-of-the-city-chords",
+    "https://www.guitartabsexplorer.com/whitesnake/aint-no-love-in-the-heart-of-the-city-tab",
+    "https://www.chords-and-tabs.net/song/name/whitesnake-aint-no-love-in-the-heart-of-the-city-2",
+    "https://en.wikipedia.org/wiki/Ain%27t_No_Love_in_the_Heart_of_the_City"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Bars follow ChordWiki; tempo 64 and section order from a bass tab; a timed guitar tab fits. The other chart names the lifts D/F# and G/B, not D/A and G/D. Guessed: how the eight bridge bars divide, above all F and C before G/B. The bass tab has ten bars for solo 2. The slowing end is two bars of Am9.",
+  "createdAt": 1791646050933,
+  "updatedAt": 1791646050933
+}

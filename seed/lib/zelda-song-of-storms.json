@@ -1,0 +1,76 @@
+{
+  "id": "zelda-song-of-storms",
+  "title": "Song of Storms",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 2,
+  "key": "Dm",
+  "bpm": 200,
+  "beatsPerBar": 3,
+  "beatsPerSlot": 3,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 22,
+  "note": "A fast waltz felt as one big beat per bar: bass note on one, two light strums after it. Start at half speed. The first four bars climb and fall by one step each bar, so keep the fingers close to the strings. Bbmaj7 is the A-shape barre at the first fret. The tune itself is left out.",
+  "strum": "D D D ",
+  "needs": [
+    "waltz",
+    "strum-quarters"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "minor"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Em",
+        "F",
+        "Em"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Em",
+        "F",
+        "Em",
+        "Bbmaj7",
+        "F",
+        "Bbmaj7",
+        "A",
+        "Dm",
+        "Em",
+        "F",
+        "Em",
+        "Bbmaj7",
+        "Bbmaj7",
+        "A",
+        "A"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.cifraclub.com/zelda/song-of-storms/",
+    "https://www.hooktheory.com/theorytab/view/the-legend-of-zelda/song-of-storms",
+    "https://www.hooktheory.com/theorytab/view/koji-kondo/windmill-hut",
+    "https://thinkspace.ac.uk/blog/zelda-lesson-part-2/",
+    "https://tabs.ultimate-guitar.com/tab/misc-computer-games/the-legend-of-zelda-ocarina-of-time-song-of-storms-chords-2108337"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "From the Windmill Hut track. All sources agree on Dm, Em, F, Em, then B flat chords and A. Layout follows Cifra Club: two intro lines, then 16 bars (Hooktheory: 48 beats). Its last line names only Bbmaj7 and A; two bars each is my reading. Tempo: 201 on Hooktheory, 100 on a second tab. Another UG sheet has Am for Em.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}

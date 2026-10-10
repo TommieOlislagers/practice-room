@@ -1,0 +1,104 @@
+{
+  "id": "zelda-eponas-song",
+  "title": "Epona's Song (Lon Lon Ranch)",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 3,
+  "key": "D",
+  "bpm": 85,
+  "beatsPerBar": 2,
+  "beatsPerSlot": 2,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 45,
+  "note": "A slow six-eight lilt: count two beats to the bar, three even strokes in each. In the theme the bass walks down one fret at a time under the D chord, so learn those four bars as a single move. The middle part visits F major, with Bb and Gm7 as barre shapes. The tune itself is left out.",
+  "strum": "D  DDD",
+  "needs": [
+    "twelve-eight",
+    "arpeggio",
+    "bass-walk"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "major"
+  },
+  "melody": true,
+  "shapes": [
+    {
+      "n": "D7/C",
+      "s": "x30212"
+    },
+    {
+      "n": "Bbaug",
+      "s": "x10332"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "G",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A/C#",
+        "D7/C",
+        "G/B Bbaug",
+        "D/A",
+        "D/A",
+        "A7",
+        "A7"
+      ]
+    },
+    {
+      "name": "Middle (F major)",
+      "type": "chords",
+      "bars": [
+        "Bb",
+        "C7",
+        "F",
+        "Dm",
+        "Gm7",
+        "C7",
+        "F",
+        "A7"
+      ]
+    },
+    {
+      "name": "Theme again",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A/C#",
+        "D7/C",
+        "G/B Bbaug",
+        "D/A",
+        "D/A",
+        "A7",
+        "A7"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/nintendo/lon-lon-ranch",
+    "https://www.e-chords.com/tabs/the-legend-of-zelda/ocarina-of-time-lon-lon-ranch",
+    "https://tabs.ultimate-guitar.com/tab/misc-computer-games/the-legend-of-zelda-ocarina-of-time-lon-lon-ranch-ukulele-4913299"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "From the Lon Lon Ranch track. Hooktheory (D major, six-eight, 85, middle in F) gives the first five chords of each part; a UG ukulele sheet agrees on D, A, C, G, A and the e-chords tab on D, G, then F, C. Bars 5 to 8 of each part, the spot of the augmented chord and the section order are guesses. A/C# is A augmented.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}

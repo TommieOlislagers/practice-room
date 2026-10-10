@@ -1,0 +1,214 @@
+{
+  "id": "ws-here-i-go-again",
+  "title": "Here I Go Again",
+  "artist": "Whitesnake",
+  "album": "Whitesnake",
+  "year": 1987,
+  "genre": "Hard rock",
+  "level": 2,
+  "key": "G",
+  "bpm": 91,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 276,
+  "note": "Standard tuning, open chords. On the record the first verse is keyboards and voice only: strum it softly, then dig in when the band arrives. Verse bars split G and D two beats each. Each chorus line ends with quick D, C, D stabs on beats three and four, so keep the right hand moving in eighths.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "quick-changes",
+    "bass-walk",
+    "palm-mute"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro (keyboards)",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "C",
+        "G D",
+        "C"
+      ]
+    },
+    {
+      "name": "Verse 1 (quiet)",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "C",
+        "G D",
+        "C",
+        "G D",
+        "C C C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D",
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7 Am7 C D"
+      ]
+    },
+    {
+      "name": "Verse 2 (band in)",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "C",
+        "G D",
+        "C",
+        "G D",
+        "C C C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D D C D"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D D C D"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "C",
+        "G D",
+        "C",
+        "G D",
+        "C C C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D D C D"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D"
+      ]
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7 Am7 C D"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "C",
+        "G D",
+        "C",
+        "G D",
+        "C C C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D D C D"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D D C D"
+      ]
+    },
+    {
+      "name": "Chorus 4",
+      "type": "chords",
+      "bars": [
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C D",
+        "G C",
+        "D D C G/B",
+        "Am7",
+        "D",
+        "Am7",
+        "D"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7",
+        "Em7",
+        "Am7 Am7 C D",
+        "Em7"
+      ]
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/Here+I+Go+Again",
+    "https://www.guitartabsexplorer.com/whitesnake/here-i-go-again-chords",
+    "https://www.e-chords.com/chords/whitesnake/here-i-go-again",
+    "https://www.hooktheory.com/theorytab/view/whitesnake/here-i-go-again",
+    "https://en.wikipedia.org/wiki/Here_I_Go_Again"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "1987 album version (4:36) with the keyboard intro and quiet first verse; the radio mix is shorter. Bar counts follow the ChordWiki chart, which has bar lines, and add up to the record. Other charts add a passing D at the end of the verse C bars and one has Em in the third line. The last chord is Em9, written Em7.",
+  "createdAt": 1791646050933,
+  "updatedAt": 1791646050933
+}

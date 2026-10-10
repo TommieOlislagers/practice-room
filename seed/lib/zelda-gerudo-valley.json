@@ -1,0 +1,83 @@
+{
+  "id": "zelda-gerudo-valley",
+  "title": "Gerudo Valley",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 2,
+  "key": "F#m",
+  "bpm": 126,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 2,
+  "tuning": "standard",
+  "lengthSec": 69,
+  "note": "Capo 2 turns the four chords into Em, C, D and B7, one bar each, round and round. Play a driving flamenco-style strum with a strong accent on beat one and keep the right hand moving in sixteenths. Without a capo the shapes are F#m, D, E and C#7. The guitar and trumpet tunes are left out.",
+  "strum": "D DUDUDU",
+  "needs": [
+    "strum-pattern",
+    "strum-sixteenths",
+    "sevenths"
+  ],
+  "scale": {
+    "root": "F#",
+    "type": "minor"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "D",
+        "B7"
+      ]
+    },
+    {
+      "name": "Theme A",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "D",
+        "B7",
+        "Em",
+        "C",
+        "D",
+        "B7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme B",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "C",
+        "D",
+        "B7",
+        "Em",
+        "C",
+        "D",
+        "B7"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/koji-kondo/gerudo-valley",
+    "https://www.hooktheory.com/theorytab/view/nintendo/gerudo-valley-theme",
+    "https://www.e-chords.com/tabs/the-legend-of-zelda/ocarina-of-time-gerudo-valley",
+    "https://www.zeldadungeon.net/forum/threads/analyzing-the-music-of-zelda-part-i-the-gerudo-valley-theme-from-ocarina-of-time.66465/"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in F# minor: F#m, D, E, C# throughout (Hooktheory i VI VII7 V7, eight bars per theme; e-chords and the Zelda Dungeon analysis agree, last chord over its third). Shapes are for capo 2. How often each theme comes round and the intro length are from memory. Tempo is my estimate; Hooktheory shows 120.",
+  "createdAt": 1791646259703,
+  "updatedAt": 1791646259703
+}
