@@ -1,0 +1,153 @@
+{
+  "id": "fm-landslide",
+  "title": "Landslide",
+  "artist": "Fleetwood Mac",
+  "album": "Fleetwood Mac",
+  "year": 1975,
+  "genre": "Folk rock",
+  "level": 2,
+  "key": "Eb",
+  "bpm": 80,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 3,
+  "tuning": "standard",
+  "lengthSec": 199,
+  "note": "Capo 3. The verse is one loop, two beats per chord: C, G/B, Am7, G/B. The bass note steps down from C to B to A and back up to B. Strum it softly first; later pick it with the thumb alternating on the bass strings, as on the record. In the chorus Em lasts a whole bar.",
+  "strum": "D DU UDU",
+  "needs": [
+    "bass-walk",
+    "quick-changes",
+    "travis"
+  ],
+  "scale": {
+    "root": "Eb",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "G/B",
+      "s": "x20033"
+    },
+    {
+      "n": "D7/F#",
+      "s": "200212"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 D7/F#"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G D7/F#",
+        "Em",
+        "C G/B",
+        "Am7 D7/F#",
+        "G D7/F#",
+        "Em",
+        "C G/B",
+        "Am7 G/B"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 D7/F#"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G D7/F#",
+        "Em",
+        "C G/B",
+        "Am7 D7/F#",
+        "G D7/F#",
+        "Em",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7 G/B",
+        "C G/B",
+        "Am7"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.e-chords.com/chords/fleetwood-mac/landslide",
+    "https://www.guitartabsexplorer.com/fleetwood-mac/landslide-chords",
+    "https://www.laurenbateman.com/?p=4063",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/landslide",
+    "https://andyguitar.co.uk/videos/fleetwood-mac-landslide",
+    "https://en.wikipedia.org/wiki/Landslide_(Fleetwood_Mac_song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in Eb (one analysis hears Bb). Sources agree on the chords; some write Am for Am7, D or D7 for D7/F#, and G/B for the first chorus chord. Tempo sites give 159, counted here as 80 with two beats per chord. No source has bar lines: bar counts are worked out from the line layout and the length.",
+  "createdAt": 1791644802667,
+  "updatedAt": 1791644802667
+}

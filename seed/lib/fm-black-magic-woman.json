@@ -1,0 +1,140 @@
+{
+  "id": "fm-black-magic-woman",
+  "title": "Black Magic Woman",
+  "artist": "Fleetwood Mac",
+  "album": "The Pious Bird of Good Omen",
+  "year": 1968,
+  "genre": "Blues",
+  "level": 3,
+  "key": "Dm",
+  "bpm": 130,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 168,
+  "note": "A twelve-bar minor blues in D minor. Play short, light strums and leave air between them. The hard spot is bars nine and ten, where Dm, C, Bb and A7 go by two to a bar: practise that walk down on its own. After the last verse the band switches to a shuffle on Dm7. The lead guitar is left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "offbeat",
+    "quick-changes",
+    "barre-em",
+    "barre-a",
+    "shuffle",
+    "bends"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Am",
+        "Am",
+        "Dm",
+        "Dm7",
+        "Gm",
+        "Gm",
+        "Dm C",
+        "Bb A7",
+        "Dm",
+        "Dm"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Am",
+        "Am",
+        "Dm",
+        "Dm7",
+        "Gm",
+        "Gm",
+        "Dm C",
+        "Bb A7",
+        "Dm",
+        "Dm"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Am",
+        "Am",
+        "Dm",
+        "Dm7",
+        "Gm",
+        "Gm",
+        "Dm C",
+        "Bb A7",
+        "Dm",
+        "Dm"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Am",
+        "Am",
+        "Dm",
+        "Dm7",
+        "Gm",
+        "Gm",
+        "Dm C",
+        "Bb A7",
+        "Dm",
+        "Dm",
+        "Dm",
+        "Dm"
+      ]
+    },
+    {
+      "name": "Outro (shuffle)",
+      "type": "chords",
+      "bars": [
+        "Dm7",
+        "Dm7",
+        "Dm7",
+        "Dm7"
+      ],
+      "repeat": 6
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-black-magic-woman-6",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-black-magic-woman-5",
+    "https://acordesweb.com/cancion/fleetwood-mac/black-magic-woman",
+    "https://en.wikipedia.org/wiki/Black_Magic_Woman",
+    "https://acousticbrainz.org/298f87b9-d15e-4479-ada6-c022b6db7341?n=1"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "The 1968 original, not the Santana arrangement. A guitar transcription of this take and a second chart agree on the twelve bars with the walk down in bars 9 and 10; simpler sheets give Dm, A7, Dm there. The record has A for A7. The intro, the two extra bars after verse 3 and the shuffle length are estimates.",
+  "createdAt": 1791644802667,
+  "updatedAt": 1791644802667
+}

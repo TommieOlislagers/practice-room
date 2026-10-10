@@ -1,0 +1,148 @@
+{
+  "id": "fm-dreams",
+  "title": "Dreams",
+  "artist": "Fleetwood Mac",
+  "album": "Rumours",
+  "year": 1977,
+  "genre": "Soft rock",
+  "level": 1,
+  "key": "Am",
+  "bpm": 120,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 257,
+  "note": "Two chords, one bar each, from start to finish: Fmaj7 and G. Keep the strumming hand swinging in even eighths and play softly in the verses, fuller in the choruses. For G6 just lift the finger off the first string of your G. One bar of Am turns up in the break after the first chorus.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern"
+  ],
+  "scale": {
+    "root": "A",
+    "type": "penta-minor"
+  },
+  "shapes": [
+    {
+      "n": "G6",
+      "s": "320000"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 8
+    },
+    {
+      "name": "Pre-chorus 1",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G6",
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G",
+        "Fmaj7",
+        "G",
+        "Am",
+        "G",
+        "Fmaj7",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 8
+    },
+    {
+      "name": "Pre-chorus 2",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G6",
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G6",
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Fmaj7",
+        "G"
+      ],
+      "repeat": 8
+    }
+  ],
+  "sources": [
+    "https://ukutabs.com/f/fleetwood-mac/dreams-two/",
+    "https://www.e-chords.com/chords/fleetwood-mac/dreams-smm",
+    "https://www.laurenbateman.com/?p=5158",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/dreams",
+    "https://www.ethanhein.com/wp/2025/what-key-is-dreams-by-fleetwood-mac-actually-in/",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/FLEETMAC_GH1/FLEETMAC_GH1-09.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sources agree on F and G, one bar each, with Fmaj7 and G6 in the chorus; Fmaj7 is used throughout here as it is easier and close to the record. The key is debated (A minor, C or F lydian). Bar counts are worked out from 120 BPM and the length. Where the single Am falls in the interlude is a guess; the outro fades.",
+  "createdAt": 1791644802667,
+  "updatedAt": 1791644802667
+}

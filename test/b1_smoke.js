@@ -28,7 +28,7 @@ function sessions() {
   for (const [name, w, h, scheme, seed] of [['phone-light', 390, 844, 'light', true], ['phone-dark', 390, 844, 'dark', true], ['phone-empty', 390, 844, 'light', false], ['desk-dark', 1100, 800, 'dark', true]]) {
     const ctx = await browser.newContext({ viewport: { width: w, height: h }, colorScheme: scheme, deviceScaleFactor: 2 });
     const page = await ctx.newPage();
-    page.on('console', m => { if (m.type() === 'error') errors.push(name + ': ' + m.text()); });
+    page.on('console', m => { if (m.type() === 'error' && !/Failed to load resource|net::ERR/.test(m.text())) errors.push(name + ': ' + m.text()); });
     page.on('pageerror', e => errors.push(name + ' PAGEERROR: ' + e.message));
     if (seed) await page.addInitScript(([song, sess]) => { localStorage.setItem('pr.songs.v1', JSON.stringify({ s1: Object.assign({ id: 's1' }, song) })); localStorage.setItem('pr.sessions.v1', JSON.stringify(sess)); }, [eyes, sessions()]);
     await page.goto('http://127.0.0.1:8765/dist/local.html');

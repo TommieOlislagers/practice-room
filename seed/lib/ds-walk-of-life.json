@@ -1,0 +1,221 @@
+{
+  "id": "ds-walk-of-life",
+  "title": "Walk of Life",
+  "artist": "Dire Straits",
+  "album": "Brothers in Arms",
+  "year": 1985,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 172,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 252,
+  "note": "Three chords, E, A and B, at a quick tempo. The beat is fast, so count two bars for most chords and keep the strumming hand moving in even eighths. B is the one barre; B7 is a fine stand-in while the barre is new. The keyboard riff of the intro is left out; the chords under it are charted.",
+  "strum": "D DUDUDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "barre-a"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "A",
+        "A",
+        "B",
+        "B",
+        "A",
+        "B"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "B",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "A",
+        "A",
+        "B",
+        "B",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "B",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "A",
+        "A",
+        "B",
+        "B",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "A",
+        "E",
+        "B",
+        "A",
+        "B"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "A",
+        "A",
+        "B",
+        "B",
+        "A",
+        "B"
+      ],
+      "repeat": 5
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/dire-straits/walk-of-life-chords",
+    "https://ukutabs.com/d/dire-straits/walk-of-life",
+    "https://www.gitaartabs.nl/song/chords/dire-straits/walk-of-life",
+    "https://www.guitartabsexplorer.com/dire-straits/walk-of-life-tab",
+    "https://hooktheory.com/theorytab/view/dire-straits/walk-of-life",
+    "https://en.wikipedia.org/wiki/Walk_of_Life"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "All charts agree on E, A and B and on the order. Bars are counted at 172 BPM (one source counts half as many, at half the speed). The last four bars of the chorus are a best reading: sources show E or E7, then B, A, B. One tab plays the second A to E line in verse 1 only. The outro fades; five rounds charted.",
+  "createdAt": 1791644957406,
+  "updatedAt": 1791644957406
+}

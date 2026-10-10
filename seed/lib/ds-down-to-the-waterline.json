@@ -1,0 +1,210 @@
+{
+  "id": "ds-down-to-the-waterline",
+  "title": "Down to the Waterline",
+  "artist": "Dire Straits",
+  "album": "Dire Straits",
+  "year": 1978,
+  "genre": "Classic rock",
+  "level": 3,
+  "key": "Bm",
+  "bpm": 139,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 205,
+  "note": "A driving song in B minor with barre chords throughout (Bm, F#m, later C#m and F#). Keep a steady, slightly muted eighth-note strum and change cleanly on beat one. The middle solo leaves the key for sixteen bars, so learn that row of chords on its own. The free opening and all lead lines are left out.",
+  "strum": "D DUDUDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "palm-mute",
+    "barre-am",
+    "barre-em",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "B",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Bm",
+        "Bm",
+        "G",
+        "G",
+        "Bm",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "Bm",
+        "F#m",
+        "F#m",
+        "A",
+        "A",
+        "E",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "Bm",
+        "F#m",
+        "F#m",
+        "A",
+        "A",
+        "E",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Instrumental 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Bm",
+        "Bm",
+        "G",
+        "A",
+        "Bm",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "Bm",
+        "F#m",
+        "F#m",
+        "A",
+        "A",
+        "E",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Instrumental 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Bm",
+        "Bm",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "E",
+        "C#m",
+        "C",
+        "C",
+        "G",
+        "G",
+        "C",
+        "C",
+        "D",
+        "D",
+        "A",
+        "A",
+        "F#",
+        "F#",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "F#m",
+        "A E",
+        "Bm",
+        "Bm",
+        "Bm",
+        "F#m",
+        "F#m",
+        "A",
+        "A",
+        "E",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Bm",
+        "Bm",
+        "G",
+        "A",
+        "Bm",
+        "Bm"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.kompas.com/hype/read/2021/10/26/085500766/lirik-dan-chord-lagu-down-to-the-waterline-dire-straits",
+    "https://www.gitaartabs.nl/song/chords/dire-straits/own-to-the-waterline",
+    "https://www.mk-guitar.com/2009/07/09/dire-straits-down-to-the-waterline-explained-licks-chords-solo-no-tabs/",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DIRESTR8_GH1/DIRESTR8_GH1-02.html",
+    "https://en.wikipedia.org/wiki/Down_to_the_Waterline"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "The record is 3:55; the free-time opening of about 30 seconds is not charted, so lengthSec is the rest. Two charts agree on the chords (they may share an origin); a third hears C9 for C in the solo. Instrumental bars follow the chart with bar lines; bars inside the verse are worked out from the tempo, a guess.",
+  "createdAt": 1791644957397,
+  "updatedAt": 1791644957397
+}

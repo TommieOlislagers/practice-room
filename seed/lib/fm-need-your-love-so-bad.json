@@ -1,0 +1,135 @@
+{
+  "id": "fm-need-your-love-so-bad",
+  "title": "Need Your Love So Bad",
+  "artist": "Fleetwood Mac",
+  "album": "The Pious Bird of Good Omen",
+  "year": 1968,
+  "genre": "Blues",
+  "level": 3,
+  "key": "A",
+  "bpm": 52,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 230,
+  "note": "A very slow eight-bar blues in A. Count four slow beats and give each one three light strums. The second half of every verse changes twice a bar, so have the F#m and Bm barres ready early. D#dim7 is the D7 shape with one more finger on the fourth string, fret 1. The lead guitar is left out.",
+  "strum": "DDDDDDDDDDDD",
+  "needs": [
+    "twelve-eight",
+    "sevenths",
+    "quick-changes",
+    "barre-em",
+    "barre-am",
+    "bends"
+  ],
+  "scale": {
+    "root": "A",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "D#dim7",
+      "s": "xx1212"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro (guitar solo)",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A7",
+        "D",
+        "D#dim7",
+        "A F#m",
+        "Bm E",
+        "A D7",
+        "A E7"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A7",
+        "D",
+        "D#dim7",
+        "A F#m",
+        "Bm E",
+        "A D7",
+        "A E7"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A7",
+        "D",
+        "D#dim7",
+        "A F#m",
+        "Bm E",
+        "A D7",
+        "A A7"
+      ]
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D#dim7",
+        "A",
+        "A7",
+        "B7",
+        "B7",
+        "E E E F",
+        "E E7"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A7",
+        "D",
+        "D#dim7",
+        "A F#m",
+        "Bm E",
+        "A D7",
+        "A E7"
+      ]
+    },
+    {
+      "name": "Outro (guitar solo)",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A7",
+        "D",
+        "D#dim7",
+        "A F#m",
+        "Bm E",
+        "A D7",
+        "A"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.cifraclub.com/fleetwood-mac/need-your-love-so-bad/smpkwh.html",
+    "https://gitaartabs.nl/song/chords/fleetwood-mac/need-your-love-so-bad",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-need-your-love-so-bad-9",
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-need-your-love-so-bad-8",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/need-your-love-so-bad",
+    "https://en.wikipedia.org/wiki/The_Pious_Bird_of_Good_Omen"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "The 3:50 single. Chord sheets agree and a bass transcription gives the same roots bar by bar; they write Ebdim for D#dim7. Six eight-bar rounds, after a guitar transcription of this take. Tempo sources vary; 52 fits the length. In the bridge the F is a brief step up from E, placed by ear; one sheet adds E+ before A7.",
+  "createdAt": 1791644802667,
+  "updatedAt": 1791644802667
+}

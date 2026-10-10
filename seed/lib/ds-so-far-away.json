@@ -1,0 +1,217 @@
+{
+  "id": "ds-so-far-away",
+  "title": "So Far Away",
+  "artist": "Dire Straits",
+  "album": "Brothers in Arms",
+  "year": 1985,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 115,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 312,
+  "note": "A relaxed four-chord song: E, B, A and C#m. Most chords last two bars, so there is time to set up the two barres, B and C#m. Strum lightly and evenly and let the E ring. The guitar hook between the sung lines is left out; the chords under it, E, B, A, E, are charted as the riff sections.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "barre-a",
+    "barre-am"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "B A",
+        "E"
+      ]
+    },
+    {
+      "name": "Riff",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B",
+        "A",
+        "E"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E",
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "A",
+        "E"
+      ]
+    },
+    {
+      "name": "Riff 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B",
+        "A",
+        "E"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E",
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "A",
+        "E"
+      ]
+    },
+    {
+      "name": "Riff 3",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B",
+        "A",
+        "E"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E",
+        "E",
+        "E",
+        "B",
+        "B",
+        "B",
+        "B",
+        "E",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "E",
+        "E",
+        "A",
+        "C#m",
+        "B",
+        "B",
+        "A",
+        "E"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E",
+        "B",
+        "A",
+        "E"
+      ],
+      "repeat": 6
+    }
+  ],
+  "sources": [
+    "https://www.e-chords.com/chords/dire-straits/so-far-away",
+    "https://www.guitartabsexplorer.com/dire-straits/so-far-away-from-me-(ver2)-chords",
+    "https://ukutabs.com/d/dire-straits/so-far-away-three",
+    "https://www.chords-and-tabs.net/song/name/dire-straits-so-far-away-7",
+    "https://www.musicnotes.com/sheetmusic/dire-straits/so-far-away/MN0087203",
+    "https://acousticbrainz.org/0854f0dc-fde5-4272-9ab7-a7be136f4449",
+    "https://en.wikipedia.org/wiki/So_Far_Away_(Dire_Straits_song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Four charts agree on E, B, A, C#m and the order. None has bar lines: two bars per chord in the verse and a 12-bar chorus are worked out from 115 BPM, the 5:12 full version and the 3:59 edit. The two-bar lead-in and the chorus ending are guesses. The long fading outro is charted as six rounds.",
+  "createdAt": 1791644957402,
+  "updatedAt": 1791644957402
+}

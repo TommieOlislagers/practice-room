@@ -1,0 +1,286 @@
+{
+  "id": "ds-sultans-of-swing",
+  "title": "Sultans of Swing",
+  "artist": "Dire Straits",
+  "album": "Dire Straits",
+  "year": 1978,
+  "genre": "Classic rock",
+  "level": 3,
+  "key": "Dm",
+  "bpm": 148,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 347,
+  "note": "Five chords, two of them barres (Bb and F). Keep the strumming hand light and choppy, and push the C to Bb change in the second bar of each line. The two quick stabs, Bb then C, at the end of a verse are the cue for what follows. All the lead fills and both solos are left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "offbeat",
+    "quick-changes",
+    "barre-a",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "Dm",
+        "Dm",
+        "Dm C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus riff",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus riff 2",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus riff 3",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo 1",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus riff 4",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "Dm",
+        "C Bb",
+        "A",
+        "A",
+        "F",
+        "F",
+        "C",
+        "C",
+        "Bb",
+        "Bb",
+        "Dm",
+        "Bb C",
+        "C",
+        "Bb C",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus riff 5",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Outro solo",
+      "type": "chords",
+      "bars": [
+        "Dm C",
+        "Bb",
+        "C",
+        "C"
+      ],
+      "repeat": 6
+    }
+  ],
+  "sources": [
+    "https://ukutabs.com/d/dire-straits/sultans-of-swing/",
+    "https://www.guitartabsexplorer.com/dire-straits/sultans-of-swing-(ver4)-chords",
+    "https://www.guitartabsexplorer.com/dire-straits-Tabs/sultans-of-swing--2--crd.php",
+    "https://www.gitaartabs.nl/song/chords/dire-straits/sultans-of-swing",
+    "https://en.wikipedia.org/wiki/Sultans_of_Swing",
+    "https://www.hooktheory.com/theorytab/view/dire-straits/sultans-of-swing"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "The chords and the order of sections agree across the charts; none has bar lines, so bar counts are worked out from 148 BPM and 5:47. Guesses: the 8-bar intro, the length of the held C between the Bb to C stabs, and the outro (the riff under the last solo, fading; six rounds charted).",
+  "createdAt": 1791644957404,
+  "updatedAt": 1791644957404
+}

@@ -1,0 +1,212 @@
+{
+  "id": "ds-romeo-and-juliet",
+  "title": "Romeo and Juliet",
+  "artist": "Dire Straits",
+  "album": "Making Movies",
+  "year": 1980,
+  "genre": "Classic rock",
+  "level": 2,
+  "key": "F",
+  "bpm": 88,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 3,
+  "tuning": "standard",
+  "lengthSec": 360,
+  "note": "The record is picked on a resonator guitar in open G tuning with a capo at fret 3. This is the strummed version in standard tuning: capo 3 and D shapes. Many bars change on the last beat (D to A, Bm to A), so practise that push slowly. The picked intro figure is left out; its chords are charted.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes",
+    "barre-am",
+    "arpeggio"
+  ],
+  "scale": {
+    "root": "F",
+    "type": "major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "G G G A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A",
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "Bm G",
+        "D A",
+        "Bm G",
+        "D G",
+        "Bm G",
+        "Em G",
+        "Bm A"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "G G G A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A",
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "Bm G",
+        "D A",
+        "Bm G",
+        "D G",
+        "Bm G",
+        "Em G",
+        "Bm A"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "G G G A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A",
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "D A",
+        "Bm G",
+        "D A",
+        "Bm G",
+        "D G",
+        "Bm G",
+        "Em G",
+        "Bm A"
+      ]
+    },
+    {
+      "name": "Interlude 3",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "G G G A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "D D D A",
+        "Bm Bm Bm A",
+        "D D D A",
+        "Bm G",
+        "A",
+        "A D",
+        "G",
+        "A"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "A"
+      ],
+      "repeat": 8
+    }
+  ],
+  "sources": [
+    "https://www.heartwoodguitar.com/chords/dire-straits-romeo-and-juliet-in-c/",
+    "https://pg.zachmanson.com/tab/dire-straits/romeo-and-juliet-tabs-1851504",
+    "https://pg.zachmanson.com/tab/dire-straits/romeo-and-juliet-tabs-49644",
+    "https://songnotes.net/lessons/284",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/DIRESTR8_GH1/DIRESTR8_GH1-06.html",
+    "https://en.wikipedia.org/wiki/Romeo_and_Juliet_(Dire_Straits_song)"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in F. Beats follow the Heartwood chart (capo 5, C shapes), moved to D shapes at capo 3 as in the Song Notes lesson; a chart in sounding chords agrees, but has no second chord in bar 5 of the chorus. A half-beat passing G in bar 5 of each verse half is left out. Long fading outro: eight rounds charted.",
+  "createdAt": 1791644957401,
+  "updatedAt": 1791644957401
+}

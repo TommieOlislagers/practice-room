@@ -1,0 +1,114 @@
+{
+  "id": "fm-albatross",
+  "title": "Albatross",
+  "artist": "Fleetwood Mac",
+  "album": "The Pious Bird of Good Omen",
+  "year": 1968,
+  "genre": "Blues",
+  "level": 2,
+  "key": "E",
+  "bpm": 68,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 187,
+  "note": "Two chords all the way: four bars of Emaj7, two of F#m, two of Emaj7, round and round. Count four slow beats with a gentle one-two-three inside each, and let every chord ring; one soft strum per beat is plenty. F#m is a full barre at fret 2. The tune and the slide guitar are left out.",
+  "strum": "D  D  D  D  ",
+  "needs": [
+    "twelve-eight",
+    "barre-em",
+    "slides",
+    "bends",
+    "double-stops"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "N.C."
+      ]
+    },
+    {
+      "name": "Theme A",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "F#m",
+        "F#m",
+        "Emaj7",
+        "Emaj7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme B",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "F#m",
+        "F#m",
+        "Emaj7",
+        "Emaj7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme C",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "F#m",
+        "F#m",
+        "Emaj7",
+        "Emaj7"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "F#m",
+        "F#m",
+        "Emaj7",
+        "F#m",
+        "Emaj7",
+        "F#m",
+        "Emaj7",
+        "Emaj7"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/fleetwood-mac-albatross-3",
+    "https://acordesweb.com/cancion/fleetwood-mac/albatross",
+    "https://thompsong.domains.skidmore.edu/dept/courses/mu220/campus/23-OldNew/Fleetwood-Mac/Albatross-NQ.html",
+    "https://be.steelguitarforum.com/viewtopic.php?p=1482784",
+    "https://www.hooktheory.com/theorytab/view/fleetwood-mac/albatross",
+    "https://en.wikipedia.org/wiki/Albatross_(instrumental)"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "Several sources name the two chords, Emaj7 and F#m. Bar counts come from a bass transcription (53 bars, shuffle feel at 69) and match a solo-guitar arrangement and the 3:07 length. One lesson hears the E bars as A over E moving to Emaj7. Tempo sources give 67 to 72. Section names are only labels for the rounds.",
+  "createdAt": 1791644802667,
+  "updatedAt": 1791644802667
+}
