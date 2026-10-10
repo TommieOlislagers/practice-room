@@ -4,7 +4,7 @@
   var PR = root.PR, M = PR.music, App = PR.app, S = App.S, esc = App.esc, IC = App.IC, $ = App.$, $all = App.$all;
   var LEVELS = M.LEVELS;
 
-  function lvlBadge(n) { return '<span class="lvl" title="Level ' + n + ': ' + esc(LEVELS[n].name) + '" aria-label="Level ' + n + '">' + n + '</span>'; }
+  function lvlBadge(n) { return '<span class="lvl" data-l="' + n + '" title="Level ' + n + ': ' + esc(LEVELS[n].name) + '" aria-label="Level ' + n + '">' + n + '</span>'; }
   function kindLabel(model) { return model.kind === 'tab' ? 'Tab' : (model.kind === 'mixed' ? 'Chords and tab' : 'Chords'); }
   function songChips(song, model) {
     var out = [];
@@ -20,7 +20,7 @@
   /* A link to this page outside the frame it is shown in, where a browser can ask about the microphone itself. */
   function ownLink(primary) {
     var u = App.audio.ownUrl();
-    return u ? '<a class="btn btn-sm' + (primary ? ' btn-primary' : '') + '" href="' + esc(u) + '" target="_blank" rel="noopener" data-act="own-open">' + IC.ext + 'Open the page on its own</a>' : '';
+    return u ? '<a class="btn btn-sm' + (primary ? ' btn-primary' : ' btn-tinted') + '" href="' + esc(u) + '" target="_blank" rel="noopener" data-act="own-open">' + IC.ext + 'Open the page on its own</a>' : '';
   }
   function micNotice(compact) {
     var m = S.mic;
@@ -54,7 +54,7 @@
   }
   function askButton() {
     var m = S.mic;
-    return '<button class="btn btn-sm" data-act="mic-ask">' + IC.mic + (m.pre === 'ok' ? 'Test it again' : m.tried ? 'Ask again' : m.pre === 'blocked' ? 'Ask anyway' : 'Allow the microphone') + '</button>';
+    return '<button class="btn btn-sm btn-primary" data-act="mic-ask">' + IC.mic + (m.pre === 'ok' ? 'Test it again' : m.tried ? 'Ask again' : m.pre === 'blocked' ? 'Ask anyway' : 'Allow the microphone') + '</button>';
   }
   App.ownLink = ownLink;
   App.micNotice = micNotice;
@@ -107,72 +107,101 @@
     return withStat[0].s;
   }
   var KIND_LABEL = { wait: 'Live, wait for me', tempo: 'Live, in time', take: 'Recording', self: 'Play along', omc: 'One-minute changes' };
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  function ringSvg(part) {
+    var r = 44, c = 2 * Math.PI * r;
+    return '<svg viewBox="0 0 104 104" aria-hidden="true"><circle class="track" cx="52" cy="52" r="' + r + '"/><circle class="arc" cx="52" cy="52" r="' + r + '" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + (c * (1 - App.clamp(part, 0, 1))).toFixed(1) + '"/></svg>';
+  }
+  function heroHtml(gm) {
+    var mins = Math.floor(gm.today.secs / 60), goal = Math.round(gm.today.goal / 60);
+    return '<div class="hero"><div class="ring" role="img" aria-label="' + mins + ' of ' + goal + ' minutes practised today">' + ringSvg(gm.today.secs / gm.today.goal) +
+      '<div class="ring-mid"><b>' + mins + '</b><span>of ' + goal + ' min</span></div></div>' +
+      '<div class="hero-main"><div><div class="hero-lv">Level ' + gm.level + '</div><div class="hero-name">' + esc(gm.title) + '</div></div>' +
+      '<div class="xpbar" role="img" aria-label="' + gm.into + ' of ' + gm.need + ' experience points to the next level"><i style="width:' + Math.round(gm.into / gm.need * 100) + '%"></i></div>' +
+      '<div class="hero-foot"><span>' + gm.into + ' / ' + gm.need + ' XP</span><span>' + gm.xp + ' XP in all</span></div></div></div>';
+  }
+  function weekHtml(gm) {
+    return '<div class="card stack"><div class="spread"><span class="h3">This week</span><span class="streak' + (gm.streak ? '' : ' is-off') + '">' + IC.flame + gm.streak + '<span class="small" style="font-weight:600;margin-left:2px">day streak</span></span></div>' +
+      '<div class="week">' + gm.week.map(function (d) { return '<div class="' + (d.done ? 'is-done' : '') + (d.today ? ' is-today' : '') + '"><i>' + IC.check + '</i>' + d.label + '</div>'; }).join('') + '</div>' +
+      '<span class="small muted">' + (gm.week.some(function (d) { return d.today && d.done; }) ? 'Today is counted. ' : (gm.streak ? 'Play today to keep the streak. ' : 'A streak starts with one session. ')) + (gm.bestStreak > 1 ? 'Longest so far: ' + gm.bestStreak + ' days.' : '') + '</span></div>';
+  }
+  function questsHtml(gm) {
+    return '<section class="stack"><div class="sec-head"><h3 class="h2">Today\'s quests</h3><span class="small muted num">' + gm.today.done + ' of 3</span></div><div class="group">' +
+      gm.today.quests.map(function (q) {
+        return '<div class="quest' + (q.done ? ' is-done' : '') + '"><span class="q-check">' + IC.check + '</span><div class="item-main"><span class="item-title" style="font-size:16px">' + esc(q.label) + '</span>' +
+          (q.id === 'time' && !q.done ? '<div class="meter"><i style="width:' + Math.round((q.part || 0) * 100) + '%"></i></div>' : '') + '</div><span class="q-xp">' + (q.done ? 'Done' : '+' + q.xp + ' XP') + '</span></div>';
+      }).join('') + '</div>' + (gm.today.done === 3 ? '<span class="small muted" style="padding-inline:4px">All three done: +60 bonus XP.</span>' : '') + '</section>';
+  }
   function viewToday() {
-    var st = App.computeStats();
-    var songs = App.allSongs();
+    var st = App.computeStats(), gm = App.computeGame();
     var next = pickNext(st);
-    var nm = App.modelOf(next), ns = App.songStatus(st, next.id);
-    var solid = songs.filter(function (s) { return App.songStatus(st, s.id).key === 'solid'; }).length;
-    var today = App.dayKey(Date.now());
-    var playedToday = !!st.days[today];
+    var ns = App.songStatus(st, next.id), gs = gm.songs[next.id] || { stars: 0 };
     var d = new Date();
     var html = '<section class="stack">' +
-      '<div><div class="eyebrow">' + esc(App.WEEKDAY[d.getDay()] + ' ' + d.getDate() + ' ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getMonth()]) + '</div>' +
-      '<h2 class="title">' + (playedToday ? 'Good work today.' : (st.total ? 'Ready when you are.' : 'Pick up the guitar.')) + '</h2></div>';
+      '<div><div class="eyebrow">' + esc(App.WEEKDAY[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]) + '</div><h2 class="large-title">Today</h2></div>' +
+      heroHtml(gm) + '</section>';
     /* up next */
-    html += '<div class="panel stack">' +
-      '<div class="spread"><span class="eyebrow">' + (ns.key === 'new' ? 'Start here' : 'Up next') + '</span>' + (ns.key !== 'new' ? '<span class="pill ' + ns.cls + '">' + ns.label + '</span>' : '') + '</div>' +
-      '<div class="row" style="align-items:flex-start">' + lvlBadge(next.level || 1) + '<div class="grow"><div class="item-title" style="font-size:19px">' + esc(next.title) + '</div>' +
+    html += '<section class="card next">' +
+      '<div class="spread"><span class="eyebrow">' + (ns.key === 'new' ? 'Start here' : 'Up next') + '</span>' + App.starsHtml(gs.stars) + '</div>' +
+      '<div class="row" style="align-items:flex-start;flex-wrap:nowrap">' + lvlBadge(next.level || 1) + '<div class="grow"><div class="item-title" style="font-size:20px">' + esc(next.title) + '</div>' +
       '<div class="item-sub">' + esc(next.artist || (next.drill ? 'Built-in drill' : '')) + (ns.last ? ' · last played ' + esc(App.ago(ns.last)) : '') + '</div></div></div>' +
-      (ns.recent !== null ? '<div class="row"><div class="meter grow" role="img" aria-label="Recent accuracy ' + App.pct(ns.recent) + ' percent"><i style="width:' + App.pct(ns.recent) + '%"></i></div><span class="small num muted">' + App.pct(ns.recent) + '% recent</span></div>' : '') +
-      '<div class="row"><button class="btn btn-primary grow" data-act="open" data-id="' + esc(next.id) + '">' + IC.play + 'Practise</button><button class="btn" data-act="go" data-to="tuner">' + IC.gauge + 'Tune first</button></div>' +
-      '</div>';
+      (ns.recent !== null ? '<div class="row" style="flex-wrap:nowrap"><div class="meter grow" role="img" aria-label="Recent accuracy ' + App.pct(ns.recent) + ' percent"><i style="width:' + App.pct(ns.recent) + '%"></i></div><span class="small num muted">' + App.pct(ns.recent) + '% recent</span></div>' : '') +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-primary btn-play grow" data-act="open" data-id="' + esc(next.id) + '">' + IC.play + 'Practise</button><button class="btn btn-play" data-act="go" data-to="tuner" aria-label="Tune first">' + IC.gauge + 'Tune</button></div>' +
+      '</section>';
     html += micNotice(false);
-    /* KPI row */
-    var delta = '';
-    if (st.acc7 !== null && st.accPrev !== null) {
-      var pts = Math.round((st.acc7 - st.accPrev) * 100);
-      delta = pts === 0 ? '<div class="kpi-delta">same as the week before</div>' :
-        '<div class="kpi-delta ' + (pts > 0 ? 'up' : 'down') + '">' + (pts > 0 ? IC.up : IC.down) + Math.abs(pts) + ' points ' + (pts > 0 ? 'up' : 'down') + ' on the week before</div>';
-    } else delta = '<div class="kpi-delta">' + (st.acc7 === null ? 'no scored sessions yet' : 'first scored week') + '</div>';
-    html += '<div class="kpis">' +
-      '<div class="kpi"><span class="kpi-label">Day streak</span><span class="kpi-value">' + st.streak + '<small>' + (st.streak === 1 ? 'day' : 'days') + '</small></span><div class="kpi-delta">' + (playedToday ? 'today counted' : (st.streak ? 'play today to keep it' : 'starts with one session')) + '</div></div>' +
-      '<div class="kpi"><span class="kpi-label">This week</span><span class="kpi-value">' + App.fmtMin(st.weekSecs) + '<small>min</small></span><div class="kpi-delta">' + st.weekN + (st.weekN === 1 ? ' session' : ' sessions') + ' since Monday</div></div>' +
-      '<div class="kpi"><span class="kpi-label">Accuracy, last 7 days</span><span class="kpi-value">' + (st.acc7 === null ? '–' : App.pct(st.acc7) + '<small>%</small>') + '</span>' + delta + '</div>' +
-      '<div class="kpi"><span class="kpi-label">Songs solid</span><span class="kpi-value">' + solid + '<small>of ' + songs.length + '</small></span><div class="kpi-delta">90% or better, twice running</div></div>' +
-      '</div>';
-    html += '</section>';
-    /* chart */
-    html += '<section class="panel stack"><div class="spread"><h3 class="h2">Minutes practised</h3><span class="small muted">last 14 days</span></div>' +
-      (st.total ? '' : '<p class="small muted">Nothing logged yet. Your first session shows up as a bar on the right.</p>') + chartHtml(st.last14) + '</section>';
+    html += questsHtml(gm);
+    html += weekHtml(gm);
     /* slowest changes */
-    html += '<section class="stack"><h3 class="h2">Slowest chord changes</h3>';
+    html += '<section class="stack"><div class="sec-head"><h3 class="h2">Slowest chord changes</h3></div>';
     if (st.slow.length) {
-      html += '<div class="list">' + st.slow.slice(0, 4).map(function (p) {
-        return '<div class="item"><div class="item-main"><span class="item-title mono">' + esc(p.from) + ' → ' + esc(p.to) + '</span><span class="item-sub">' + (Math.round(p.mean * 10) / 10) + ' s to get it sounding, over ' + p.vals.length + ' tries' + (p.best ? ' · best ' + p.best + ' a minute' : '') + '</span></div>' +
-          '<button class="btn btn-sm" data-act="omc" data-a="' + esc(p.from) + '" data-b="' + esc(p.to) + '" data-id="' + esc(p.song || '') + '">Drill</button></div>';
+      html += '<div class="group">' + st.slow.slice(0, 4).map(function (p) {
+        return '<div class="item"><div class="item-main"><span class="item-title">' + esc(p.from) + ' → ' + esc(p.to) + '</span><span class="item-sub">' + (Math.round(p.mean * 10) / 10) + ' s to get it sounding, over ' + p.vals.length + ' tries' + (p.best ? ' · best ' + p.best + ' a minute' : '') + '</span></div>' +
+          '<button class="btn btn-sm btn-tinted" data-act="omc" data-a="' + esc(p.from) + '" data-b="' + esc(p.to) + '" data-id="' + esc(p.song || '') + '">Drill</button></div>';
       }).join('') + '</div>';
     } else html += '<p class="empty">' + (Object.keys(st.pairs).length ? 'No change is taking you longer than about half a second right now.' : 'After two scored sessions of a chord song, the changes that take you longest are listed here, with a one-minute drill for each.') + '</p>';
     html += '</section>';
-    /* levels */
-    html += '<section class="stack"><h3 class="h2">Levels</h3><div class="list">';
-    for (var L = 1; L <= 5; L++) {
-      var inL = songs.concat(App.DRILLS).filter(function (s) { return (s.level || 1) === L; });
-      var sol = inL.filter(function (s) { return App.songStatus(st, s.id).key === 'solid'; }).length;
-      html += '<button class="item" data-act="level" data-level="' + L + '">' + lvlBadge(L) + '<div class="item-main"><span class="item-title">' + esc(LEVELS[L].name) + '</span><span class="item-sub">' + esc(LEVELS[L].blurb) + '</span></div>' +
-        '<div class="item-side"><span class="small num muted">' + (inL.length ? sol + ' of ' + inL.length + ' solid' : 'nothing here yet') + '</span>' + (inL.length ? '<div class="meter is-good"><i style="width:' + Math.round(sol / inL.length * 100) + '%"></i></div>' : '') + '</div></button>';
-    }
-    html += '</div></section>';
     /* recent */
-    html += '<section class="stack"><h3 class="h2">Recent sessions</h3>';
+    html += '<section class="stack"><div class="sec-head"><h3 class="h2">Recent sessions</h3></div>';
     if (S.sessions.length) {
-      html += '<div class="list">' + S.sessions.slice(0, 6).map(function (s) {
-        var right = s.kind === 'omc' ? (s.count + ' changes') : (typeof s.acc === 'number' ? App.pct(s.acc) + '%' : '–');
-        return '<div class="item"><div class="item-main"><span class="item-title">' + esc(s.title || 'Session') + '</span><span class="item-sub">' + esc(KIND_LABEL[s.kind] || 'Session') + (s.self ? ', self-rated' : '') + ' · ' + App.fmtDur(s.secs || 0) + ' · ' + esc(App.ago(s.at)) + '</span></div><span class="num" style="font-weight:600;font-size:17px">' + right + '</span></div>';
+      html += '<div class="group">' + S.sessions.slice(0, 5).map(function (x) {
+        var right = x.kind === 'omc' ? (x.count + ' changes') : (typeof x.acc === 'number' ? App.pct(x.acc) + '%' : '–');
+        return '<div class="item"><div class="item-main"><span class="item-title">' + esc(x.title || 'Session') + '</span><span class="item-sub">' + esc(KIND_LABEL[x.kind] || 'Session') + (x.self ? ', self-rated' : '') + ' · ' + App.fmtDur(x.secs || 0) + ' · ' + esc(App.ago(x.at)) + '</span></div><div class="item-side"><span class="item-val">' + right + '</span><span class="small" style="color:var(--tint-text);font-weight:600">+' + App.xpOfSession(x) + ' XP</span></div></div>';
       }).join('') + '</div>';
     } else html += '<p class="empty">Each session you finish is logged here with its score.</p>';
     html += '</section>';
     if (!S.canWrite) html += '<div class="notice notice-warn">' + IC.warn + '<div>You are viewing this page without edit rights, so new sessions are not saved.</div></div>';
+    return html;
+  }
+  /* ================= PROGRESS ================= */
+  function viewMe() {
+    var st = App.computeStats(), gm = App.computeGame();
+    var songs = App.allSongs();
+    var solid = songs.filter(function (x) { return App.songStatus(st, x.id).key === 'solid'; }).length;
+    var got = gm.badges.filter(function (b) { return b.got; }).length;
+    var delta;
+    if (st.acc7 !== null && st.accPrev !== null) {
+      var pts = Math.round((st.acc7 - st.accPrev) * 100);
+      delta = pts === 0 ? '<em>same as the week before</em>' : '<em class="' + (pts > 0 ? 'up' : 'down') + '">' + (pts > 0 ? IC.up : IC.down) + Math.abs(pts) + ' points ' + (pts > 0 ? 'up' : 'down') + '</em>';
+    } else delta = '<em>' + (st.acc7 === null ? 'no scored sessions yet' : 'first scored week') + '</em>';
+    var html = '<section class="stack"><h2 class="large-title">Progress</h2>' + heroHtml(gm) +
+      '<div class="stats">' +
+      '<div class="stat"><span>Day streak</span><b>' + gm.streak + '<small>' + (gm.streak === 1 ? 'day' : 'days') + '</small></b><em>best ' + gm.bestStreak + '</em></div>' +
+      '<div class="stat"><span>Stars</span><b>' + gm.starsTotal + '<small>of ' + (songs.length + App.DRILLS.length) * 3 + '</small></b><em>' + solid + ' of ' + songs.length + ' songs solid</em></div>' +
+      '<div class="stat"><span>Accuracy, last 7 days</span><b>' + (st.acc7 === null ? '–' : App.pct(st.acc7) + '<small>%</small>') + '</b>' + delta + '</div>' +
+      '<div class="stat"><span>Time played</span><b>' + (gm.totalSecs >= 3600 ? (Math.round(gm.totalSecs / 360) / 10) + '<small>h</small>' : Math.round(gm.totalSecs / 60) + '<small>min</small>') + '</b><em>' + gm.sessions + (gm.sessions === 1 ? ' session' : ' sessions') + '</em></div>' +
+      '</div></section>';
+    html += '<section class="card stack"><div class="spread"><h3 class="h3">Minutes practised</h3><span class="small muted">last 14 days</span></div>' +
+      (st.total ? '' : '<p class="small muted">Nothing logged yet. Your first session shows up as a bar on the right.</p>') + chartHtml(st.last14) + '</section>';
+    html += '<section class="stack"><div class="sec-head"><h3 class="h2">Badges</h3><span class="small muted num">' + got + ' of ' + gm.badges.length + '</span></div><div class="badges">' +
+      gm.badges.map(function (b) { return '<div class="badge' + (b.got ? ' is-got' : '') + '"><i>' + (b.got ? (IC[b.icon] || IC.star) : IC.lock) + '</i><b>' + esc(b.name) + '</b><span>' + esc(b.desc) + '</span></div>'; }).join('') + '</div></section>';
+    html += '<section class="stack"><div class="sec-head"><h3 class="h2">Levels</h3></div><div class="group">';
+    for (var L = 1; L <= 5; L++) {
+      var inL = songs.concat(App.DRILLS).filter(function (x) { return (x.level || 1) === L; });
+      var stars = 0; inL.forEach(function (x) { stars += (gm.songs[x.id] || { stars: 0 }).stars; });
+      html += '<button class="item" data-act="level" data-level="' + L + '">' + lvlBadge(L) + '<div class="item-main"><span class="item-title">' + esc(LEVELS[L].name) + '</span><span class="item-sub">' + esc(LEVELS[L].blurb) + '</span></div>' +
+        '<div class="item-side"><span class="small num muted">' + (inL.length ? stars + ' / ' + inL.length * 3 + ' ★' : 'empty') + '</span></div>' + IC.chev + '</button>';
+    }
+    html += '</div></section>';
     return html;
   }
   function wireChart() {
@@ -201,40 +230,40 @@
 
   /* ================= SONGS ================= */
   function viewSongs() {
-    var st = App.computeStats();
+    var st = App.computeStats(), gm = App.computeGame();
     var q = S.filter.q.trim().toLowerCase(), lv = S.filter.level;
     var all = App.allSongs().concat(App.DRILLS);
-    var list = all.filter(function (s) {
-      if (lv && (s.level || 1) !== lv) return false;
+    var list = all.filter(function (x) {
+      if (lv && (x.level || 1) !== lv) return false;
       if (!q) return true;
-      var hay = (s.title + ' ' + (s.artist || '')).toLowerCase();
+      var hay = (x.title + ' ' + (x.artist || '')).toLowerCase();
       if (hay.indexOf(q) >= 0) return true;
-      var model = App.modelOf(s);
+      var model = App.modelOf(x);
       return model.chords.some(function (c) { return c.name.toLowerCase() === q; });
     });
     var html = '<section class="stack">' +
-      '<div class="spread"><h2 class="title">Songs</h2><button class="btn btn-primary" data-act="add">' + IC.plus + 'Add a song</button></div>' +
-      '<div class="search"><label class="vh" for="q">Search your songs</label>' + IC.search + '<input class="input" id="q" type="search" placeholder="Search title, artist or a chord" value="' + esc(S.filter.q) + '" data-in="q" autocomplete="off"></div>' +
-      '<div class="row-tight" role="group" aria-label="Filter by level"><button class="chip" data-act="level" data-level="0" aria-pressed="' + (lv === 0) + '">All levels</button>' +
+      '<div class="head"><h2 class="large-title">Songs</h2><button class="btn btn-sm btn-primary" data-act="add">' + IC.plus + 'Add a song</button></div>' +
+      '<div class="search"><label class="vh" for="q">Search your songs</label>' + IC.search + '<input class="input" id="q" type="search" placeholder="Title, artist or a chord" value="' + esc(S.filter.q) + '" data-in="q" autocomplete="off"></div>' +
+      '<div class="chips" role="group" aria-label="Filter by level"><button class="chip" data-act="level" data-level="0" aria-pressed="' + (lv === 0) + '">All</button>' +
       [1, 2, 3, 4, 5].map(function (n) { return '<button class="chip" data-act="level" data-level="' + n + '" aria-pressed="' + (lv === n) + '">Level ' + n + '</button>'; }).join('') + '</div></section>';
     if (S.store === 'loading') html += '<p class="empty"><span class="row"><span class="spinner"></span>Loading your library…</span></p>';
     var shown = 0;
     for (var L = 1; L <= 5; L++) {
-      var inL = list.filter(function (s) { return (s.level || 1) === L; });
+      var inL = list.filter(function (x) { return (x.level || 1) === L; });
       if (!inL.length) continue;
       shown += inL.length;
-      html += '<section class="stack"><div class="group-head">' + lvlBadge(L) + '<h3 class="h2">' + esc(LEVELS[L].name) + '</h3><span class="small muted">' + inL.length + '</span></div><div class="list">' +
-        inL.map(function (s) {
-          var model = App.modelOf(s), ss = App.songStatus(st, s.id);
-          return '<button class="item" data-act="open" data-id="' + esc(s.id) + '"><div class="item-main"><span class="item-title">' + esc(s.title) + '</span>' +
-            '<span class="item-sub">' + esc(s.artist || (s.drill ? 'Built-in drill' : '')) + (s.checked === false ? ' · draft, not checked' : '') + '</span>' +
-            '<span class="row-tight">' + songChips(s, model) + '</span></div>' +
-            '<div class="item-side"><span class="pill ' + ss.cls + '">' + ss.label + '</span>' + (ss.recent !== null ? '<div class="meter" role="img" aria-label="Recent accuracy ' + App.pct(ss.recent) + ' percent"><i style="width:' + App.pct(ss.recent) + '%"></i></div>' : '') + '</div></button>';
+      html += '<section class="stack"><div class="sec-head"><div class="row" style="gap:8px">' + lvlBadge(L) + '<h3 class="h2">' + esc(LEVELS[L].name) + '</h3></div><span class="small muted">' + inL.length + '</span></div><div class="group">' +
+        inL.map(function (x) {
+          var model = App.modelOf(x), ss = App.songStatus(st, x.id), gs = gm.songs[x.id] || { stars: 0 };
+          var meta = [x.artist || (x.drill ? 'Drill' : ''), kindLabel(model), x.bpm ? x.bpm + ' BPM' : '', x.capo ? 'Capo ' + x.capo : '', x.checked === false ? 'draft, not checked' : ''].filter(Boolean).join(' · ');
+          return '<button class="item" data-act="open" data-id="' + esc(x.id) + '"><div class="item-main"><span class="item-title">' + esc(x.title) + '</span>' +
+            '<span class="item-sub">' + esc(meta) + '</span></div>' +
+            '<div class="item-side">' + App.starsHtml(gs.stars) + (ss.key === 'solid' ? '<span class="pill ' + ss.cls + '">' + ss.label + '</span>' : '') + '</div>' + IC.chev + '</button>';
         }).join('') + '</div></section>';
     }
     if (!shown && S.store !== 'loading') html += '<p class="empty">' + (q || lv ? 'Nothing matches that. Clear the search or pick another level.' : 'Your library is empty. Add a song to get going.') + '</p>';
     if (!Object.keys(S.songs).length && S.store !== 'loading' && !q) {
-      html += '<div class="panel-flat stack"><b>Your own songs go here.</b><span class="small">Paste a tab or chord sheet from any tab site, have a chord chart drafted, or tell Claude in the chat which song you want and it loads a researched version.</span></div>';
+      html += '<div class="panel-flat stack-sm"><b>Your own songs go here.</b><span class="small">Paste a tab or chord sheet from any tab site, have a chord chart drafted, or tell Claude in the chat which song you want and it loads a researched version.</span></div>';
     }
     return html;
   }
@@ -261,7 +290,7 @@
     return '<div class="stack">' +
       (draft.song.origin === 'draft' ? '<div class="notice notice-warn">' + IC.warn + '<div><b>Drafted from memory, not checked against a tab.</b> Chords can be wrong, especially in bridges. Compare it with a tab before you trust it.</div></div>' : '') +
       (draft.warn.length ? '<div class="notice notice-warn">' + IC.warn + '<div>' + draft.warn.map(esc).join(' ') + '</div></div>' : '') +
-      '<div class="panel stack"><div class="spread"><span class="eyebrow">What was read</span><span class="small muted num">' + model.targets.length + ' targets to play</span></div><div class="list">' + secs + '</div></div>' +
+      '<div class="sec-head"><span class="eyebrow">What was read</span><span class="small muted num">' + model.targets.length + ' targets to play</span></div><div class="group">' + secs + '</div>' +
       '<div class="panel-flat row">' + lvlBadge(lv.level) + '<div class="grow"><b>Suggested level ' + lv.level + ': ' + esc(LEVELS[lv.level].name) + '</b><div class="small muted">' + esc(lv.reasons.join(', ')) + '</div></div></div>' +
       '<div class="fields-3">' +
       '<label class="field"><span>Level</span><select class="select" id="dLevel">' + [1, 2, 3, 4, 5].map(function (n) { return '<option value="' + n + '"' + (n === lv.level ? ' selected' : '') + '>' + n + ' ' + esc(LEVELS[n].name) + '</option>'; }).join('') + '</select></label>' +
@@ -286,13 +315,13 @@
         '<label class="field"><span>Paste the tab or chord sheet here</span><textarea class="textarea" id="dText" data-in="dtext" spellcheck="false" placeholder="[Verse]&#10;G        D&#10;words under the chords&#10;&#10;e|-----0-----|&#10;B|---1---1---|&#10;G|-0-------0-|">' + esc(d.text) + '</textarea></label>' +
         '<p class="small muted">Reads chords written over words, bar lines like | C | G |, ChordPro, and six-line tab with hammer-ons, slides and bends. The text stays in your own library.</p>' +
         (d.err ? '<div class="notice notice-bad">' + IC.warn + '<div>' + esc(d.err) + '</div></div>' : '') +
-        '<button class="btn btn-block" data-act="draft-read">Read it</button>' + previewHtml();
+        '<button class="btn btn-tinted btn-block" data-act="draft-read">Read it</button>' + previewHtml();
     } else if (d.mode === 'ask') {
       body = names +
         (S.hasSample
           ? '<p class="small muted">Claude drafts a chord chart from what it remembers of the song: sections, chords, capo, tempo and level. It does not look anything up, so treat the result as a first draft.</p>' +
             (d.err ? '<div class="notice notice-bad">' + IC.warn + '<div>' + esc(d.err) + '</div></div>' : '') +
-            (d.busy ? '<div class="panel-flat row"><span class="spinner"></span><span>Thinking. This can take up to a minute.</span></div>' : '<button class="btn btn-block" data-act="draft-ask">' + IC.spark + 'Draft the chords</button>') + previewHtml()
+            (d.busy ? '<div class="panel-flat row"><span class="spinner"></span><span>Thinking. This can take up to a minute.</span></div>' : '<button class="btn btn-tinted btn-block" data-act="draft-ask">' + IC.spark + 'Draft the chords</button>') + previewHtml()
           : '<div class="notice">' + IC.info + '<div>Drafting needs Claude to be reachable from this page, and it is not in this view. Paste a tab instead, or ask in the chat.</div></div>');
     } else {
       body = '<div class="panel-flat stack"><b>Let Claude fetch it for you.</b><span>In the chat where you got this page, write something like:</span>' +
@@ -303,7 +332,7 @@
   }
   function findBoxHtml(q) {
     if (!q) return '<p class="small muted">Type the title to get search links for the usual tab sites.</p>';
-    return '<div class="row-tight"><span class="small muted">Find it:</span>' + findLinks(q).map(function (l) { return '<a class="btn btn-sm" href="' + esc(l[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(l[0]) + IC.ext + '</a>'; }).join('') + '</div>';
+    return '<div class="row-tight"><span class="small muted">Find it:</span>' + findLinks(q).map(function (l) { return '<a class="btn btn-sm btn-tinted" href="' + esc(l[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(l[0]) + IC.ext + '</a>'; }).join('') + '</div>';
   }
   function refreshAdd() { $('#sheetBody').innerHTML = addSheetHtml(); }
   function setDraftSong(song, warn) {
@@ -406,7 +435,7 @@
       '<label class="field"><span>Tuning</span><select class="select" id="eTuning">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === tun ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + (tun === 'custom' ? '<option value="custom" selected>As written in the tab</option>' : '') + '</select></label></div>' +
       (s.checked === false ? '<label class="toggle"><input type="checkbox" id="eChecked">I checked this draft against a tab</label>' : '') +
       '<button class="btn btn-primary btn-block" data-act="edit-save" data-id="' + esc(id) + '">Save changes</button>' +
-      '<div class="row" id="delRow"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + 'Delete this song</button></div>');
+      '<div class="row" id="delRow" style="justify-content:center"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + 'Delete this song</button></div>');
   }
   function saveEdit(id) {
     var s = App.findSong(id); if (!s) return;
@@ -434,24 +463,27 @@
     var own = App.audio.ownUrl();
     var logLines = App.diag.lines(10);
     App.sheet.open('<div class="sheet-head"><h2 class="title">Settings</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
-      '<div class="panel stack"><span class="eyebrow">Listening</span>' +
-      '<div class="spread"><span>Live microphone</span><span class="small muted" id="micText" style="text-align:right">' + micText + '</span></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Game</span><div class="panel stack">' +
+      '<div class="setrow"><span>Daily goal</span><span class="stepper"><button data-act="set-step" data-key="goal" data-d="-5" aria-label="Less">−</button><output id="oGoal">' + (st.goal || 10) + ' min</output><button data-act="set-step" data-key="goal" data-d="5" aria-label="More">+</button></span></div></div></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Listening</span><div class="panel stack">' +
+      '<div class="setrow"><span>Live microphone</span><span class="small muted" id="micText" style="text-align:right">' + micText + '</span></div>' +
       '<div class="row">' + (m.state === 'live' ? '<button class="btn btn-sm" data-act="mic-off">Turn it off</button>' : askButton()) + ownLink() + '</div>' +
-      (own ? '<p class="small muted">Inside Claude\'s viewer the page sits in a frame, and a frame only gets the microphone when the viewer passes it on. Opened on its own, the page can ask your browser directly. If the button does nothing, copy this address into the browser:</p><input class="input mono small" readonly value="' + esc(own) + '" aria-label="Address of this page on its own" data-select>' : '') +
-      '<div class="spread"><span>Timing trim<br><span class="small muted">If "in time" scores read late or early for you</span></span><span class="stepper"><button data-act="set-step" data-key="trim" data-d="-10" aria-label="Earlier">−</button><output id="oTrim">' + (st.trim > 0 ? '+' : '') + st.trim + ' ms</output><button data-act="set-step" data-key="trim" data-d="10" aria-label="Later">+</button></span></div>' +
-      '</div>' +
-      '<div class="panel stack"><span class="eyebrow">Sound</span>' +
-      '<div class="spread"><span>Concert pitch, A4</span><span class="stepper"><button data-act="set-step" data-key="a4" data-d="-1" aria-label="Lower">−</button><output id="oA4">' + st.a4 + ' Hz</output><button data-act="set-step" data-key="a4" data-d="1" aria-label="Higher">+</button></span></div>' +
-      '<label class="toggle"><input type="checkbox" data-in="set-click"' + (st.click ? ' checked' : '') + '>Metronome click</label>' +
-      '<label class="toggle"><input type="checkbox" data-in="set-countin"' + (st.countIn ? ' checked' : '') + '>Count in one bar before starting</label>' +
-      '<label class="toggle"><input type="checkbox" data-in="set-tones"' + (st.tones ? ' checked' : '') + '>Play a tone when I tap a string in the tuner</label>' +
-      '<p class="small muted">No sound on an iPhone? Flip the ring switch on the side to ring, and turn the volume up.</p></div>' +
-      '<div class="panel stack"><span class="eyebrow">Your data</span><p class="small">' +
+      (own ? '<p class="small muted">Inside Claude\'s viewer the page sits in a frame, and a frame only gets the microphone when the viewer passes it on. Opened on its own, the page can ask your browser directly. If the button does nothing, copy this address into the browser:</p><input class="input mono small" style="background:var(--fill)" readonly value="' + esc(own) + '" aria-label="Address of this page on its own" data-select>' : '') +
+      '<div class="setrow"><span>Timing trim<br><span class="small muted">If "in time" scores read late or early for you</span></span><span class="stepper"><button data-act="set-step" data-key="trim" data-d="-10" aria-label="Earlier">−</button><output id="oTrim">' + (st.trim > 0 ? '+' : '') + st.trim + ' ms</output><button data-act="set-step" data-key="trim" data-d="10" aria-label="Later">+</button></span></div>' +
+      '</div></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Sound</span><div class="panel stack">' +
+      '<div class="setrow"><span>Concert pitch, A4</span><span class="stepper"><button data-act="set-step" data-key="a4" data-d="-1" aria-label="Lower">−</button><output id="oA4">' + st.a4 + ' Hz</output><button data-act="set-step" data-key="a4" data-d="1" aria-label="Higher">+</button></span></div>' +
+      '<label class="toggle"><input type="checkbox" data-in="set-click"' + (st.click ? ' checked' : '') + '><span>Metronome click</span></label>' +
+      '<label class="toggle"><input type="checkbox" data-in="set-guide"' + (st.guide !== false ? ' checked' : '') + '><span>Play the chords as a guide in Play along</span></label>' +
+      '<label class="toggle"><input type="checkbox" data-in="set-countin"' + (st.countIn ? ' checked' : '') + '><span>Count in one bar before starting</span></label>' +
+      '<label class="toggle"><input type="checkbox" data-in="set-tones"' + (st.tones ? ' checked' : '') + '><span>Play a tone when I tap a string in the tuner</span></label>' +
+      '<p class="small muted">No sound on an iPhone? Flip the ring switch on the side to ring, and turn the volume up.</p></div></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Your data</span><div class="panel stack"><p class="small">' +
       (S.store === 'cloud' ? 'Songs and sessions are saved with this page in your Claude account, so they follow you to any device and Claude can read them when you ask for coaching.' : 'Songs and sessions are saved in this browser only.') + '</p>' +
-      '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div>' +
-      '<div class="panel stack"><span class="eyebrow">Technical log</span><p class="small muted">What this device allowed and how recordings were read. It is saved with your data, so when something does not work you can ask Claude to look at it.</p>' +
-      (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div>' +
-      '<div class="panel stack"><span class="eyebrow">How scoring works</span><p class="small">Single notes are read with a period detector and checked against the spectrum, so a note counts when it starts, also over ringing strings. Chords are compared with the shape in the chart, including whether the third is major or minor. A note an octave off still counts. Scores were tuned on sampled acoustic and clean electric guitar through a simulated phone microphone; a real room is messier, so read them as a guide.</p></div>');
+      '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Technical log</span><div class="panel stack"><p class="small muted">What this device allowed and how recordings were read. ' + (S.store === 'cloud' ? 'It is saved with your data, so when something does not work you can ask Claude to look at it.' : 'When something does not work, a screenshot of this helps.') + '</p>' +
+      (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div></div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">How scoring works</span><div class="panel stack"><p class="small">Single notes are read with a period detector and checked against the spectrum, so a note counts when it starts, also over ringing strings. Chords are compared with the shape in the chart, including whether the third is major or minor. A note an octave off still counts. A clean hit is worth 100 points and a late one 50, times a multiplier that climbs for every 8 in a row. Stars: one at 60%, two at 80%, three at 95% at full tempo. Scores were tuned on sampled guitars through a simulated phone microphone; a real room is messier, so read them as a guide.</p></div></div>');
   }
 
   /* ================= TUNER ================= */
@@ -474,8 +506,8 @@
   }
   function viewTuner() {
     var tun = tuningNow();
-    var html = '<section class="stack"><div class="spread"><h2 class="title">Tuner</h2>' +
-      '<label class="field" style="flex:0 1 190px"><span class="vh">Tuning</span><select class="select" data-in="tuning" aria-label="Tuning">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === S.settings.tuning ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + '</select></label></div>' +
+    var html = '<section class="stack"><div class="head"><h2 class="large-title">Tuner</h2>' +
+      '<label class="field" style="flex:0 1 190px"><span class="vh">Tuning</span><select class="select" data-in="tuning" aria-label="Tuning" style="min-height:38px;font-size:15px">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === S.settings.tuning ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + '</select></label></div>' +
       '<div class="dial">' + dialSvg() +
       '<div class="readout"><span class="note-name" id="tNote">–</span><span class="note-oct" id="tOct"></span></div>' +
       '<div class="readout-sub" id="tSub">' + (T.on ? 'Pluck one string and let it ring' : 'A4 = ' + S.settings.a4 + ' Hz') + '</div>' +
@@ -484,16 +516,16 @@
       var thick = [5, 4, 3, 2.4, 1.8, 1.2][i];
       return '<button class="string-btn' + (T.tuned[i] ? ' is-tuned' : '') + '" data-act="string" data-i="' + i + '" aria-pressed="' + (T.sel === i) + '" aria-label="String ' + (6 - i) + ', ' + M.midiName(m) + '"><b>' + M.pcName(m) + '</b><i style="height:' + thick + 'px"></i><small>' + (Math.round(M.midiToFreq(m, S.settings.a4) * 10) / 10) + '</small></button>';
     }).join('') + '</div>' +
-      '<p class="small muted">' + (T.sel >= 0 ? 'Tuning string ' + (6 - T.sel) + ' to ' + M.midiName(tun[T.sel]) + '. <button class="link" data-act="string" data-i="-1">Pick the string for me</button>' : 'Tap a string to hear it' + (S.settings.tones ? '' : ' (tones are off in Settings)') + ' and lock the needle to it. Otherwise the nearest string is used.') + '</p>';
+      '<p class="small muted" style="padding-inline:4px">' + (T.sel >= 0 ? 'Tuning string ' + (6 - T.sel) + ' to ' + M.midiName(tun[T.sel]) + '. <button class="link" data-act="string" data-i="-1">Pick the string for me</button>' : 'Tap a string to hear it' + (S.settings.tones ? '' : ' (tones are off in Settings)') + ' and lock the needle to it. Otherwise the nearest string is used.') + '</p>';
     html += '<div class="seg" role="group" aria-label="How to listen"><button data-act="tuner-mode" data-mode="live" aria-pressed="' + (T.mode === 'live') + '">Listen live</button><button data-act="tuner-mode" data-mode="clip" aria-pressed="' + (T.mode === 'clip') + '">Check a clip</button></div>';
     if (T.mode === 'live') {
-      html += T.on ? '<button class="btn btn-stop btn-block" data-act="tuner-stop">' + IC.stop + 'Stop listening</button>'
-        : '<button class="btn btn-primary btn-block" data-act="tuner-start">' + IC.mic + 'Start listening</button>';
+      html += T.on ? '<button class="btn btn-stop btn-play btn-block" data-act="tuner-stop">' + IC.stop + 'Stop listening</button>'
+        : '<button class="btn btn-primary btn-play btn-block" data-act="tuner-start">' + IC.mic + 'Start listening</button>';
       html += micNotice(false);
     } else {
       html += '<div class="drop"><b>Record one string ringing for two or three seconds.</b><span class="small muted">Tap a string above first so the page knows which one you mean, then record or pick the clip.</span>' +
-        '<div class="row"><label class="btn grow">' + IC.video + 'Record a clip<input class="vh" type="file" accept="video/*" capture="environment" data-file="tuner"></label>' +
-        '<label class="btn grow">' + IC.file + 'Pick a recording<input class="vh" type="file" accept="audio/*,video/*" data-file="tuner"></label></div>' +
+        '<label class="btn btn-primary btn-block">' + IC.video + 'Record a clip<input class="vh" type="file" accept="video/*" capture="environment" data-file="tuner"></label>' +
+        '<label class="btn btn-tinted btn-block">' + IC.file + 'Pick a recording<input class="vh" type="file" accept="audio/*,video/*" data-file="tuner"></label>' +
         (T.busy ? '<div class="row"><span class="spinner"></span><span class="small">' + esc(T.busy) + '</span></div>' : '') +
         '<div id="tapBox"></div></div>';
     }
@@ -526,7 +558,7 @@
     else if (Math.abs(cents) > 250) v.innerHTML = '<span class="pill pill-bad">' + (cents < 0 ? IC.up : IC.down) + (cents < 0 ? 'Far too low, tighten' : 'Far too high, loosen') + '</span>';
     else v.innerHTML = '<span class="pill pill-adjust">' + (cents < 0 ? IC.up : IC.down) + (cents < 0 ? 'Too low, tighten' : 'Too high, loosen') + '</span>';
     if (live && si >= 0) {
-      if (inTune) { T.hold++; if (T.hold >= 10 && !T.tuned[si]) { T.tuned[si] = true; var b = $all('.string-btn')[si]; if (b) b.classList.add('is-tuned'); } }
+      if (inTune) { T.hold++; if (T.hold >= 10 && !T.tuned[si]) { T.tuned[si] = true; var b = $all('.string-btn')[si]; if (b) b.classList.add('is-tuned'); if (Object.keys(T.tuned).length === 6) { App.toast('All six strings in tune.'); App.confetti(); } } }
       else T.hold = 0;
     } else if (!live && si >= 0 && inTune) { T.tuned[si] = true; var b2 = $all('.string-btn')[si]; if (b2) b2.classList.add('is-tuned'); }
   }
@@ -587,7 +619,7 @@
     });
   };
 
-  App.views = { today: viewToday, songs: viewSongs, tuner: viewTuner, wireChart: wireChart };
+  App.views = { today: viewToday, songs: viewSongs, tuner: viewTuner, me: viewMe, wireChart: wireChart };
   App.addSong = { open: function () { if (!draft) newDraft(); draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;

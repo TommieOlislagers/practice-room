@@ -605,6 +605,7 @@
               index: idx, kind: midis.length > 1 ? 'chord' : 'note', midis: midis,
               label: midis.map(function (m) { return midiName(m); }).join(' '),
               detail: notes.map(function (n) { return 'string ' + (6 - n.s) + ', fret ' + n.fret; }).join(' + '),
+              pos: notes.map(function (n) { return { s: n.s, f: n.fret }; }),
               section: si, beat: beat, beats: beats
             });
             beat += beats;
@@ -638,6 +639,7 @@
             targets.push({
               index: idx, kind: midis.length > 1 ? 'chord' : 'note', midis: midis, label: lab,
               detail: ev.notes.map(function (n) { return 'string ' + (6 - n.s) + ', fret ' + n.fret; }).join(' + '),
+              pos: ev.notes.map(function (n) { return { s: n.s, f: n.fret }; }),
               section: si, beat: null, beats: null, legato: ev.notes.length === 1 && ev.notes[0].legato,
               harmonic: ev.notes.some(function (n) { return n.harmonic; })
             });
@@ -663,7 +665,7 @@
               if (!chordSet[nm]) chordSet[nm] = { name: nm, chord: ch, shape: shape, midis: midis, count: 0 };
               chordSet[nm].count++;
               var idx = targets.length;
-              targets.push({ index: idx, kind: 'chord', midis: midis, label: nm, chordName: nm, section: si, beat: beat, beats: each, root: mod12(ch.root + capo), third: ch.third, capo: capo });
+              targets.push({ index: idx, kind: 'chord', midis: midis, label: nm, chordName: nm, pos: shape ? shape.map(function (f, k) { return f === null ? null : { s: k, f: f }; }).filter(Boolean) : null, section: si, beat: beat, beats: each, root: mod12(ch.root + capo), third: ch.third, capo: capo });
               cell.chords.push({ name: nm, target: idx });
               beat += each;
             });

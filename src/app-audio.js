@@ -178,6 +178,16 @@
     strum: function (midis, a4) {
       midis.forEach(function (m, i) { setTimeout(function () { A.pluck(PR.music.midiToFreq(m, a4 || S.settings.a4), 2.2); }, i * 28); });
     },
+    /* a rising run of bell notes, one for each star */
+    chime: function (n) {
+      var ctx = A.ctx; if (!ctx || !n || S.settings.tones === false) return;
+      [659.3, 830.6, 987.8].slice(0, n).forEach(function (f, i) {
+        var t = ctx.currentTime + 0.25 + i * 0.18, o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = 'triangle'; o.frequency.value = f * 2;
+        g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.22, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+        o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.75);
+      });
+    },
     click: function (time, accent) {
       var ctx = A.ctx;
       if (!ctx) return;

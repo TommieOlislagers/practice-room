@@ -57,6 +57,15 @@
     skip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6 8 6-8 6zM18 6v12"/></svg>',
     note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17V5l10-2v12"/><circle cx="6.5" cy="17" r="2.5"/><circle cx="16.5" cy="15" r="2.5"/></svg>',
     spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 16v4M4 12h4M16 12h4M6.5 6.5l2.5 2.5M15 15l2.5 2.5M6.5 17.5 9 15M15 9l2.5-2.5"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.4l2.95 6 6.6.95-4.78 4.66 1.13 6.58L12 17.5l-5.9 3.1 1.13-6.59L2.45 9.35l6.6-.95z"/></svg>',
+    flame: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.6 2.2c.5 3.3 5 5.6 5 10.6a5.6 5.6 0 0 1-11.2 0c0-1.9.8-3.3 1.8-4.4.3 1.6 1 2.5 1.9 2.9-.5-3.300.4-6.600 2.500-9.100z"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.4 2 5 13.6h5.4L9.6 22 19 9.8h-5.800z"/></svg>',
+    trophy: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3.500h10v5.200a5 5 0 0 1-4 4.900V17h3.200v3.500H7.800V17H11v-3.400a5 5 0 0 1-4-4.900z"/><path d="M5.600 5.200H3.200a3.600 3.600 0 0 0 3 4.400zM18.400 5.200h2.400a3.600 3.600 0 0 1-3 4.400z"/></svg>',
+    target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
+    chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>',
+    lock: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.500 10V7.500a4.500 4.500 0 0 1 9 0V10h.5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2zm2 0h5V7.500a2.500 2.500 0 0 0-5 0z"/></svg>',
+    crown: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-1.800 10H4.800z"/></svg>',
+    hand: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8h14l-3.500-3.500 1.400-1.400L22.800 9l-5.900 5.900-1.400-1.400L19 10H5zM19 16H5l3.500 3.500-1.400 1.400L1.200 15l5.900-5.900 1.400 1.400L5 14h14z" transform="scale(.82) translate(2.600 2.600)"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
   };
 
@@ -65,7 +74,7 @@
     route: { name: 'today' },
     songs: {},
     sessions: [],
-    settings: { a4: 440, tuning: 'standard', tones: true, countIn: true, click: true, trim: 0 },
+    settings: { a4: 440, tuning: 'standard', tones: true, countIn: true, click: true, trim: 0, goal: 10, guide: true },
     store: 'loading',
     canWrite: true,
     mic: { state: 'idle', pre: 'unknown', detail: '', why: '', framed: false, policy: null, perm: '', tried: false },
@@ -407,6 +416,139 @@
     return { key: 'learning', label: 'Learning', cls: 'pill-accent', recent: b.recent, last: b.last };
   }
 
+  /* ---------- the game layer ----------
+     Everything here is worked out from the session log, so it is the same on every device and nothing
+     extra has to be stored: experience points, the player's level, stars per song, daily quests, badges. */
+  var TITLES = ['First Strings', 'Open-Chord Strummer', 'Rhythm Keeper', 'Barre Breaker', 'Riff Runner', 'Fretboard Explorer', 'Stage Ready', 'Headliner', 'Virtuoso', 'Legend'];
+  function starsFor(acc, pct, self) {
+    if (typeof acc !== 'number') return 0;
+    var n = acc >= 0.95 && (pct || 100) >= 90 ? 3 : acc >= 0.8 ? 2 : acc >= 0.6 ? 1 : 0;
+    return self ? Math.min(n, 2) : n;                    /* a run nobody listened to cannot earn the third star */
+  }
+  /* points for a list of results in playing order: 100 for a clean hit, 50 for a late one, times a
+     multiplier that climbs one step for every 8 in a row (up to x4) and drops back on a miss */
+  function scoreItems(items) {
+    var score = 0, combo = 0, best = 0;
+    items.forEach(function (it) {
+      var ok = it.status === 'hit' || it.status === 'late';
+      if (!ok) { combo = 0; return; }
+      combo++; if (combo > best) best = combo;
+      score += (it.status === 'hit' ? 100 : 50) * multOf(combo);
+    });
+    return { score: score, combo: best };
+  }
+  function multOf(combo) { return 1 + Math.min(3, Math.floor(combo / 8)); }
+  function xpOfSession(x) {
+    var xp = Math.round(Math.min(x.secs || 0, 1800) / 6);
+    if (x.kind === 'omc') return xp + 20 + Math.min(60, x.count || 0);
+    if (typeof x.acc === 'number') {
+      if (x.total) xp += Math.min(300, (x.hits || 0) * 2);
+      xp += x.acc >= 0.95 ? 60 : x.acc >= 0.8 ? 35 : x.acc >= 0.6 ? 15 : 0;
+    }
+    return xp;
+  }
+  function questsOf(day, t) {
+    var goal = (S.settings.goal || 10) * 60, third = new Date(t).getDay() % 3;
+    var list = day ? day.list : [];
+    var songs = {}; list.forEach(function (x) { if (x.song) songs[x.song] = 1; });
+    var q = [
+      { id: 'time', label: 'Practise for ' + (S.settings.goal || 10) + ' minutes', done: !!day && day.secs >= goal, part: day ? Math.min(1, day.secs / goal) : 0 },
+      { id: 'score', label: 'Score 80% or better on a run', done: list.some(function (x) { return !x.self && typeof x.acc === 'number' && x.acc >= 0.8 && x.kind !== 'omc'; }) },
+      third === 0 ? { id: 'omc', label: 'Do a one-minute change drill', done: list.some(function (x) { return x.kind === 'omc'; }) } :
+      third === 1 ? { id: 'two', label: 'Practise two different songs or drills', done: Object.keys(songs).length >= 2 } :
+        { id: 'three', label: 'Finish three sessions', done: list.length >= 3 }
+    ];
+    q.forEach(function (x) { x.xp = 40; });
+    return q;
+  }
+  var BADGES = [
+    { id: 'first', name: 'First Session', desc: 'Log your first practice', icon: 'play' },
+    { id: 'streak3', name: 'Three in a Row', desc: 'Practise 3 days running', icon: 'flame' },
+    { id: 'streak7', name: 'Full Week', desc: 'Practise 7 days running', icon: 'flame' },
+    { id: 'streak30', name: 'Habit', desc: 'Practise 30 days running', icon: 'flame' },
+    { id: 'star1', name: 'First Star', desc: 'Earn a star on any song', icon: 'star' },
+    { id: 'star3', name: 'Three Stars', desc: 'Earn all three on one song', icon: 'star' },
+    { id: 'stars10', name: 'Collector', desc: 'Earn 10 stars in total', icon: 'star' },
+    { id: 'perfect', name: 'Flawless', desc: 'A run of 8 or more with no misses', icon: 'target' },
+    { id: 'combo25', name: 'On a Roll', desc: 'Hit 25 in a row', icon: 'bolt' },
+    { id: 'omc30', name: 'Quick Change', desc: '30 chord changes in a minute', icon: 'swap' },
+    { id: 'omc60', name: 'Lightning Hands', desc: '60 chord changes in a minute', icon: 'swap' },
+    { id: 'hour1', name: 'An Hour In', desc: 'One hour of practice in all', icon: 'clock' },
+    { id: 'hour10', name: 'Ten Hours', desc: 'Ten hours of practice in all', icon: 'clock' },
+    { id: 'quests', name: 'Full House', desc: 'All three quests in one day', icon: 'check' },
+    { id: 'level5', name: 'Level 5', desc: 'Reach player level 5', icon: 'crown' }
+  ];
+  function computeGame() {
+    var now = Date.now(), dayMs = 86400000, sessions = S.sessions;
+    var days = {}, songs = {}, xp = 0, total = 0, bestCombo = 0, perfect = false, omcBest = 0;
+    sessions.forEach(function (x) {
+      var k = dayKey(x.at), d = days[k] || (days[k] = { secs: 0, list: [], t: x.at });
+      d.secs += x.secs || 0; d.list.push(x);
+      total += x.secs || 0; xp += xpOfSession(x);
+      if ((x.combo || 0) > bestCombo) bestCombo = x.combo;
+      if (x.kind === 'omc') { if ((x.count || 0) > omcBest) omcBest = x.count; return; }
+      if (!x.self && x.acc === 1 && (x.total || 0) >= 8) perfect = true;
+      if (!x.song) return;
+      var g = songs[x.song] || (songs[x.song] = { stars: 0, best: null, score: 0, plays: 0 });
+      g.plays++;
+      var st = starsFor(x.acc, x.pct, x.self); if (st > g.stars) g.stars = st;
+      if (typeof x.acc === 'number' && (g.best === null || x.acc > g.best)) g.best = x.acc;
+      if ((x.score || 0) > g.score) g.score = x.score;
+    });
+    var fullDay = false;
+    Object.keys(days).forEach(function (k) {
+      var q = questsOf(days[k], days[k].t), n = q.filter(function (x) { return x.done; }).length;
+      xp += n * 40 + (n === 3 ? 60 : 0); if (n === 3) fullDay = true;
+    });
+    /* level: 250 points for the first, 250 more for each one after */
+    var level = 1, into = xp, need = 250;
+    while (into >= need) { into -= need; level++; need = 250 * level; }
+    /* streaks */
+    var streak = 0, cur = now; if (!days[dayKey(cur)]) cur -= dayMs;
+    while (days[dayKey(cur)]) { streak++; cur -= dayMs; }
+    var keys = Object.keys(days).sort(), bestStreak = 0, run = 0, prev = null;
+    keys.forEach(function (k) {
+      var t = new Date(k + 'T12:00:00').getTime();
+      run = prev !== null && Math.round((t - prev) / dayMs) === 1 ? run + 1 : 1; prev = t;
+      if (run > bestStreak) bestStreak = run;
+    });
+    var starsTotal = 0, three = false; Object.keys(songs).forEach(function (id) { starsTotal += songs[id].stars; if (songs[id].stars === 3) three = true; });
+    var today = days[dayKey(now)] || null, quests = questsOf(today, now), qDone = quests.filter(function (x) { return x.done; }).length;
+    /* this week, Monday first */
+    var d0 = new Date(now); d0.setHours(12, 0, 0, 0);
+    var monday = d0.getTime() - ((d0.getDay() + 6) % 7) * dayMs, week = [];
+    for (var i = 0; i < 7; i++) { var t = monday + i * dayMs, k = dayKey(t); week.push({ label: 'MTWTFSS'.charAt(i), done: !!days[k], today: k === dayKey(now), future: t > now && k !== dayKey(now) }); }
+    var got = { first: sessions.length > 0, streak3: bestStreak >= 3, streak7: bestStreak >= 7, streak30: bestStreak >= 30, star1: starsTotal >= 1, star3: three, stars10: starsTotal >= 10,
+      perfect: perfect, combo25: bestCombo >= 25, omc30: omcBest >= 30, omc60: omcBest >= 60, hour1: total >= 3600, hour10: total >= 36000, quests: fullDay, level5: level >= 5 };
+    return { xp: xp, level: level, title: TITLES[Math.min(level, TITLES.length) - 1], into: into, need: need, songs: songs, starsTotal: starsTotal,
+      streak: streak, bestStreak: bestStreak, week: week, totalSecs: total, sessions: sessions.length,
+      today: { secs: today ? today.secs : 0, goal: (S.settings.goal || 10) * 60, quests: quests, done: qDone },
+      badges: BADGES.map(function (b) { return { id: b.id, name: b.name, desc: b.desc, icon: b.icon, got: !!got[b.id] }; }) };
+  }
+  function starsHtml(n, cls) {
+    var h = '<span class="stars' + (cls ? ' ' + cls : '') + '" role="img" aria-label="' + n + ' of 3 stars">';
+    for (var i = 0; i < 3; i++) h += IC.star.replace('<svg', '<svg' + (i < n ? ' class="on"' : ''));
+    return h + '</span>';
+  }
+  /* a short burst of paper for the big moments */
+  App.confetti = function () {
+    var cv = $('#fx'); if (!cv || !cv.getContext) return;
+    try { if (root.matchMedia && root.matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) { /* ignore */ }
+    var dpr = Math.min(2, root.devicePixelRatio || 1), W = root.innerWidth, H = root.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; cv.hidden = false;
+    var g = cv.getContext('2d'), cols = ['#ffd60a', '#ff9f0a', '#30d158', '#0a84ff', '#bf5af2', '#ff375f'], bits = [], i;
+    for (i = 0; i < 110; i++) bits.push({ x: W / 2 + (Math.random() - 0.5) * W * 0.5, y: H * 0.32, vx: (Math.random() - 0.5) * 11, vy: -Math.random() * 13 - 3, r: Math.random() * 6 + 4, a: Math.random() * 6.3, va: (Math.random() - 0.5) * 0.5, c: cols[i % cols.length] });
+    var t0 = Date.now();
+    (function frame() {
+      var age = Date.now() - t0;
+      g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+      if (age > 2600) { cv.hidden = true; return; }
+      g.globalAlpha = age > 2000 ? 1 - (age - 2000) / 600 : 1;
+      bits.forEach(function (b) { b.vy += 0.42; b.vx *= 0.99; b.x += b.vx; b.y += b.vy; b.a += b.va; g.save(); g.translate(b.x, b.y); g.rotate(b.a); g.fillStyle = b.c; g.fillRect(-b.r / 2, -b.r / 3, b.r, b.r * 0.66); g.restore(); });
+      (root.requestAnimationFrame || setTimeout)(frame, 16);
+    })();
+  };
+
   /* ---------- toast and sheet ---------- */
   var toastTimer = null;
   App.toast = function (msg) {
@@ -439,4 +581,5 @@
   App.fmtDur = fmtDur; App.fmtMin = fmtMin; App.pct = pct; App.fmtDay = fmtDay; App.ago = ago; App.dayKey = dayKey; App.WEEKDAY = WEEKDAY;
   App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.songShapes = songShapes;
   App.computeStats = computeStats; App.songStatus = songStatus;
+  App.computeGame = computeGame; App.starsFor = starsFor; App.scoreItems = scoreItems; App.multOf = multOf; App.starsHtml = starsHtml; App.xpOfSession = xpOfSession;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -37,6 +37,7 @@ function sessions() {
     await shot('today');
     await page.click('#tabs [data-to="songs"]'); await page.waitForTimeout(200); await shot('songs');
     await page.click('#tabs [data-to="tuner"]'); await page.waitForTimeout(200); await shot('tuner');
+    await page.click('#tabs [data-to="me"]'); await page.waitForTimeout(200); await shot('me');
     await page.click('#tabs [data-to="songs"]'); await page.waitForTimeout(100);
     if (seed) { await page.click('[data-act="open"][data-id="s1"]'); await page.waitForTimeout(300); await shot('practice-song'); await page.click('[data-act="p-mode"][data-mode="take"]'); await page.waitForTimeout(150); await shot('practice-take'); await page.click('[data-act="go"][data-to="songs"]'); }
     await page.click('[data-act="open"][data-id="d-empent"]'); await page.waitForTimeout(300); await shot('practice-drill');

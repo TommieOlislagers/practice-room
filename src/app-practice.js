@@ -3,7 +3,7 @@
   'use strict';
   var PR = root.PR, M = PR.music, App = PR.app, S = App.S, esc = App.esc, IC = App.IC, $ = App.$, $all = App.$all, A = App.audio;
 
-  var P = App.practice = { st: null };
+  var P = App.practice = { st: null }, Stage = PR.stage;
 
   /* ---------- chord diagram ---------- */
   function shapeSvg(frets) {
@@ -28,7 +28,7 @@
   function chartHtml(model) {
     var html = '';
     model.view.forEach(function (v, vi) {
-      html += '<section class="stack" data-sec="' + vi + '"><div class="sec-head"><h3 class="h2">' + esc(v.name || 'Part') + '</h3>' + (v.type === 'chords' && v.repeat > 1 ? '<span class="small muted">played ' + v.repeat + ' times</span>' : '') + '</div>';
+      html += '<section class="stack" data-sec="' + vi + '"><div class="sec-head"><h3 class="h3">' + esc(v.name || 'Part') + '</h3>' + (v.type === 'chords' && v.repeat > 1 ? '<span class="small muted">played ' + v.repeat + ' times</span>' : '') + '</div>';
       if (v.type === 'chords') {
         html += '<div class="cells">' + v.cells.map(function (c) {
           return '<div class="cell' + (c.chords.length > 1 ? ' is-two' : '') + '">' + c.chords.map(function (ch) {
@@ -80,74 +80,62 @@
   function controlsHtml() {
     var st = P.st, model = st.model, sel = selection(), timed = selTimed(sel);
     var secOpts = '<option value="-1"' + (st.section < 0 ? ' selected' : '') + '>Whole song</option>' + model.view.map(function (v, i) { return '<option value="' + i + '"' + (st.section === i ? ' selected' : '') + '>' + esc(v.name || 'Part ' + (i + 1)) + '</option>'; }).join('');
+    var what = model.kind === 'chords' ? 'chord' : 'note';
     var html = '<div class="seg" role="group" aria-label="How to practise">' +
       '<button data-act="p-mode" data-mode="live" aria-pressed="' + (st.mode === 'live') + '">Listen live</button>' +
       '<button data-act="p-mode" data-mode="take" aria-pressed="' + (st.mode === 'take') + '">Check a take</button>' +
       '<button data-act="p-mode" data-mode="along" aria-pressed="' + (st.mode === 'along') + '">Play along</button></div>';
-    html += '<div class="row">' +
-      (model.view.length > 1 ? '<label class="field grow" style="flex-basis:150px"><span class="vh">Part to practise</span><select class="select" data-in="p-section" aria-label="Part to practise">' + secOpts + '</select></label>' : '') +
-      (st.mode === 'take' ? '' : '<span class="stepper" title="Tempo"><button data-act="p-tempo" data-d="-5" aria-label="Slower">−</button><output id="oTempo">' + bpmNow() + ' BPM</output><button data-act="p-tempo" data-d="5" aria-label="Faster">+</button></span>') +
-      '<label class="toggle"><input type="checkbox" data-in="p-loop"' + (st.loop ? ' checked' : '') + '>' + (st.mode === 'take' ? 'I go round it more than once' : 'Loop') + '</label></div>';
     if (st.mode === 'live') {
-      html += '<div class="seg" role="group" aria-label="Live mode"><button data-act="p-live" data-live="wait" aria-pressed="' + (st.live === 'wait') + '">Wait for me</button><button data-act="p-live" data-live="tempo" aria-pressed="' + (st.live === 'tempo') + '"' + (timed ? '' : ' disabled') + '>Keep time</button></div>' +
-        '<p class="small muted">' + (st.live === 'wait' ? 'The chart moves when it hears the right ' + (model.kind === 'chords' ? 'chord' : 'note') + '. Take as long as you need.' : 'The chart moves with the click at ' + bpmNow() + ' BPM. Each ' + (model.kind === 'chords' ? 'chord' : 'note') + ' has to sound in its slot.') +
-        (timed ? '' : ' This tab has no rhythm written in it, so keeping time is not available.') + '</p>';
-    } else if (st.mode === 'along') {
-      html += '<p class="small muted">' + (timed ? 'No microphone. The chart moves with the click at ' + bpmNow() + ' BPM and you rate yourself at the end.' : 'No microphone. A click at ' + bpmNow() + ' BPM while you read the tab. Rate yourself when you stop.') + '</p>';
+      html += '<div class="seg" role="group" aria-label="Live mode"><button data-act="p-live" data-live="wait" aria-pressed="' + (st.live === 'wait') + '">Wait for me</button><button data-act="p-live" data-live="tempo" aria-pressed="' + (st.live === 'tempo') + '"' + (timed ? '' : ' disabled') + '>Keep time</button></div>';
     }
+    html += '<div class="group">' +
+      (model.view.length > 1 ? '<div class="item"><span class="grow">Part</span><select class="select" data-in="p-section" aria-label="Part to practise" style="width:auto;max-width:62%;background-color:var(--fill);min-height:36px;font-size:15px">' + secOpts + '</select></div>' : '') +
+      (st.mode === 'take' ? '' : '<div class="item"><span class="grow">Tempo</span><span class="stepper"><button data-act="p-tempo" data-d="-5" aria-label="Slower">−</button><output id="oTempo">' + bpmNow() + ' BPM</output><button data-act="p-tempo" data-d="5" aria-label="Faster">+</button></span></div>') +
+      '<label class="item toggle"><input type="checkbox" data-in="p-loop"' + (st.loop ? ' checked' : '') + '><span>' + (st.mode === 'take' ? 'I go round it more than once' : 'Loop') + '</span></label></div>';
+    html += '<p class="small muted" style="padding-inline:4px">' + (
+      st.mode === 'live' ? (st.live === 'wait' ? 'The highway waits at each ' + what + ' until it hears the right one. Take as long as you need.' : 'The highway runs with the click at ' + bpmNow() + ' BPM. Each ' + what + ' has to sound as it crosses the line.') + (timed ? '' : ' This tab has no rhythm written in it, so keeping time is not available.') :
+      st.mode === 'along' ? 'No microphone. The highway runs with the click at ' + bpmNow() + ' BPM' + (timed ? '' : ', one note a beat because this tab has no rhythm written in it') + (S.settings.guide !== false ? ', the page plays each ' + what + ' as a guide' : '') + ', and you rate yourself at the end.' :
+      'Play at your own speed and record it. The recording is scored the same way as live playing.') + '</p>';
     return html;
-  }
-  function hudHtml() {
-    var st = P.st, sel = selection();
-    var first = sel[0], second = sel[1];
-    var isNote = first && first.kind === 'note';
-    return '<div class="hud" id="hud">' +
-      '<div class="hud-main"><div class="hud-now"><span class="eyebrow">Now</span><div class="big' + (isNote ? ' is-note' : '') + '" id="hudNow">' + esc(first ? first.label : '–') + '</div><div class="small muted" id="hudDetail">' + esc(first && first.detail ? first.detail : '') + '</div></div>' +
-      '<div class="hud-next"><span class="eyebrow">Next</span><div class="mid" id="hudNext">' + esc(second ? second.label : '–') + '</div></div></div>' +
-      '<div class="progress"><i id="hudProg"></i></div>' +
-      (st.mode === 'live' ? '<div class="hud-heard"><span>Heard <b id="hudHeard">–</b></span><span class="row-tight"><span class="beats" id="hudBeats"></span><span class="level" title="Input level"><i id="hudLevel"></i></span></span></div>' : '<div class="hud-heard"><span id="hudHint">' + (st.mode === 'along' ? 'Press start, then play with the click.' : '') + '</span><span class="beats" id="hudBeats"></span></div>') +
-      '<div class="hud-stats"><div class="hud-stat"><span>Right</span><b id="hudHits">0</b></div><div class="hud-stat"><span>' + (st.mode === 'along' ? 'Bar' : 'Accuracy') + '</span><b id="hudAcc">–</b></div><div class="hud-stat"><span>Time</span><b id="hudTime">0:00</b></div></div>' +
-      '</div>';
   }
   function actionHtml() {
     var st = P.st;
     if (st.mode === 'take') {
       return '<div class="drop"><b>Record yourself playing ' + esc(sectionName() === 'Whole song' ? 'the song' : 'this part') + ', then pick the file.</b>' +
-        '<span class="small muted">Play at your own speed, with the phone about an arm’s length from the guitar, for up to five minutes. Record a take opens the camera: film yourself, then keep the video. Only the sound is read, and nothing leaves your phone.</span>' +
-        '<div class="row"><label class="btn btn-primary grow">' + IC.video + 'Record a take<input class="vh" type="file" accept="video/*" capture="environment" data-file="take"></label>' +
-        '<label class="btn grow">' + IC.file + 'Pick a recording<input class="vh" type="file" accept="audio/*,video/*" data-file="take"></label></div>' +
+        '<span class="small muted">Phone about an arm’s length from the guitar, up to five minutes. Record a take opens the camera: film yourself, then keep the video. Only the sound is read, and nothing leaves your phone.</span>' +
+        '<label class="btn btn-primary btn-play btn-block">' + IC.video + 'Record a take<input class="vh" type="file" accept="video/*" capture="environment" data-file="take"></label>' +
+        '<label class="btn btn-tinted btn-block">' + IC.file + 'Pick a recording<input class="vh" type="file" accept="audio/*,video/*" data-file="take"></label>' +
         (st.busy ? '<div class="row"><span class="spinner"></span><span class="small" id="takeBusy">' + esc(st.busy) + '</span></div><div class="progress"><i id="takeProg"></i></div>' : '') +
         '<div id="tapBox"></div></div>';
     }
-    if (st.run) {
-      return '<div class="row"><button class="btn btn-stop grow" data-act="p-stop">' + IC.stop + 'Stop</button>' + (st.run.kind === 'wait' ? '<button class="btn" data-act="p-skip">' + IC.skip + 'Skip this one</button>' : '') + '</div>';
-    }
-    return '<button class="btn btn-primary btn-block" data-act="p-start">' + (st.mode === 'live' ? IC.mic + 'Start listening' : IC.play + 'Start') + '</button>';
+    if (st.run) return '';
+    return '<button class="btn btn-primary btn-play btn-block" data-act="p-start">' + (st.mode === 'live' ? IC.mic + 'Start listening' : IC.play + 'Start') + '</button>';
   }
+  function fmtScore(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
   function viewPractice() {
     var st = P.st; if (!st) return '';
     var song = st.song, model = st.model;
-    var stats = App.computeStats(), ss = App.songStatus(stats, song.id);
+    var stats = App.computeStats(), ss = App.songStatus(stats, song.id), game = App.computeGame(), gs = game.songs[song.id] || { stars: 0, best: null, score: 0 };
     var html = '<section class="stack">' +
-      '<div class="spread"><button class="btn btn-ghost btn-sm" data-act="go" data-to="songs" style="margin-left:-10px">' + IC.back + 'Songs</button>' + (song.drill ? '' : '<button class="btn btn-ghost btn-sm" data-act="edit" data-id="' + esc(song.id) + '">' + IC.edit + 'Edit</button>') + '</div>' +
-      '<div class="title-row">' + App.lvlBadge(song.level || 1) + '<div class="grow"><h2 class="title">' + esc(song.title) + '</h2><div class="item-sub">' + esc(song.artist || (song.drill ? 'Built-in drill' : '')) + '</div></div><span class="pill ' + ss.cls + '">' + ss.label + '</span></div>' +
+      '<div class="spread"><button class="btn btn-ghost back" data-act="go" data-to="songs">' + IC.back + 'Songs</button>' + (song.drill ? '' : '<button class="btn btn-ghost" data-act="edit" data-id="' + esc(song.id) + '">Edit</button>') + '</div>' +
+      '<div class="title-row">' + App.lvlBadge(song.level || 1) + '<div class="grow"><h2 class="title">' + esc(song.title) + '</h2><div class="item-sub" style="font-size:16px">' + esc(song.artist || (song.drill ? 'Built-in drill' : '')) + '</div></div><span class="pill ' + ss.cls + '" style="margin-top:8px">' + ss.label + '</span></div>' +
       '<div class="row-tight">' + App.songChips(song, model) + (song.key ? '<span class="chip">Key ' + esc(song.key) + '</span>' : '') +
-      (song.source && song.source.url && /^https?:\/\//.test(song.source.url) ? '<a class="chip" href="' + esc(song.source.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent-text);text-decoration:none">' + esc(song.source.label || 'Source') + IC.ext.replace('<svg', '<svg width="13" height="13"') + '</a>' : '') + '</div>' +
+      (song.source && song.source.url && /^https?:\/\//.test(song.source.url) ? '<a class="chip" href="' + esc(song.source.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--tint-text)">' + esc(song.source.label || 'Source') + IC.ext + '</a>' : '') + '</div>' +
+      '<div class="best"><div><span>Stars</span>' + App.starsHtml(gs.stars) + '</div><div><span>Best</span><b>' + (gs.best === null ? '–' : App.pct(gs.best) + '%') + '</b></div><div><span>High score</span><b>' + (gs.score ? fmtScore(gs.score) : '–') + '</b></div></div>' +
       (song.checked === false ? '<div class="notice notice-warn">' + IC.warn + '<div><b>Draft, not checked.</b> These chords came from memory. Compare them with a tab, then mark the song as checked under Edit.</div></div>' : '') +
       (song.note ? '<p class="note">' + esc(song.note) + '</p>' : '') +
       (model.broken || !model.targets.length ? '<div class="notice notice-bad">' + IC.warn + '<div>This song has nothing playable in it. Delete it and add it again.</div></div>' : '') +
       '</section>';
     if (!model.targets.length) return html;
+    html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
+    html += '<section class="stack" id="pAction">' + actionHtml() + (st.mode === 'live' ? App.micNotice(true) : '') + '</section>';
     if (model.chords.length) {
-      html += '<section class="stack"><div class="spread"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + model.chords.map(function (c, i) {
+      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + model.chords.map(function (c, i) {
         return '<button class="shape" data-act="p-hear" data-i="' + i + '" aria-label="Hear ' + esc(c.name) + '"><b>' + esc(c.name) + '</b>' + shapeSvg(c.shape) + '<small>' + (c.shape ? esc(M.shapeToString(c.shape)) : 'no shape') + '</small></button>';
       }).join('') + '</div>' +
-      (model.chords.length >= 2 ? '<div class="row"><button class="btn btn-sm" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button></div>' : '') + '</section>';
+      (model.chords.length >= 2 ? '<button class="btn btn-tinted btn-block" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button>' : '') + '</section>';
     }
-    html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
-    html += (st.mode === 'take' ? '' : hudHtml());
-    html += '<section class="stack" id="pAction">' + actionHtml() + (st.mode === 'live' ? App.micNotice(true) : '') + '</section>';
-    html += '<div class="stack-lg" id="pChart">' + chartHtml(model) + '</div>';
+    html += '<section class="stack"><div class="sec-head"><h3 class="h2">Chart</h3></div><div class="stack-lg" id="pChart">' + chartHtml(model) + '</div></section>';
     return html;
   }
   P.view = viewPractice;
@@ -180,6 +168,7 @@
     if (els[0]) keepInView(els[0]);
   }
   function keepInView(el) {
+    if (Stage.on) return;
     try {
       var sys = el.closest('.tabsys');
       if (sys) { var er = el.getBoundingClientRect(), sr = sys.getBoundingClientRect(); if (er.left < sr.left + 30 || er.right > sr.right - 30) sys.scrollLeft += er.left - sr.left - sr.width / 2; }
@@ -215,18 +204,28 @@
       });
     } else if (st.mode === 'along') {
       A.ensure();
-      if (selTimed(sel)) startTempo(sel, false); else startClickOnly(sel);
+      /* a tab with no rhythm written in it is laid out one note to a beat */
+      if (!selTimed(sel)) sel.forEach(function (t, i) { t.beat = i; t.beats = 1; });
+      startTempo(sel, false);
     }
   };
-  function beginRun(run) {
+  function beginRun(run, stage) {
     var st = P.st;
     st.run = run; st.report = null;
+    run.score = 0; run.combo = 0; run.maxCombo = 0;
     clearMarks();
     App.wake.on();
+    Stage.open(Object.assign({ title: st.song.title, sub: sectionName() + ' · ' + (run.kind === 'wait' ? 'at your own pace' : bpmNow() + ' BPM'), sel: run.sel }, stage));
     refreshAction();
-    setText('#hudHits', '0'); setText('#hudAcc', '–'); setText('#hudTime', '0:00');
-    var hh = $('#hudHeard'); if (hh) hh.textContent = '–';
     run.timer = setInterval(run.tick, 40);
+  }
+  /* one result in: points, the multiplier, what the stage shows. acc is the run's accuracy so far. */
+  function award(run, index, kind, acc, judged) {
+    var pts = 0;
+    if (kind === 'miss') run.combo = 0;
+    else { run.combo++; if (run.combo > run.maxCombo) run.maxCombo = run.combo; pts = (kind === 'hit' ? 100 : 50) * App.multOf(run.combo); run.score += pts; }
+    Stage.result(index, kind, pts, run.combo);
+    Stage.hud({ score: run.score, mult: App.multOf(run.combo), combo: run.combo, stars: judged >= 3 ? App.starsFor(acc, P.st.pct) : 0 });
   }
   function startWait(sel) {
     var st = P.st, tracker = new PR.track.WaitTracker(sel, { loop: st.loop });
@@ -240,24 +239,30 @@
       if (ev && ev.type === 'hit') {
         run.hits++; if (ev.clean) run.clean++;
         mark(sel[ev.index].orig, ev.clean ? 'is-hit' : 'is-late');
+        award(run, ev.index, ev.clean ? 'hit' : 'late', run.clean / (run.hits + run.skipped), run.hits + run.skipped);
         afterStep(run);
       } else if (ev && ev.type === 'wrong') {
         run.wrongs++; run.flashUntil = now + 1.2;
-        var hh = $('#hudHeard'); if (hh) { hh.textContent = ev.heard + ', not ' + sel[ev.index].label; hh.style.color = 'var(--bad)'; }
+        var hh = $('#hudHeard'); if (hh) { hh.textContent = ev.heard + ', not ' + sel[ev.index].label; hh.style.color = '#ff8a82'; }
       }
       setText('#hudTime', App.fmtDur(now - run.t0));
     };
-    run.skip = function () { var i = tracker.i; tracker.skip(A.now()); run.skipped++; mark(sel[i].orig, 'is-miss'); afterStep(run); };
+    run.skip = function () {
+      var i = tracker.i; tracker.skip(A.now()); run.skipped++; mark(sel[i].orig, 'is-miss');
+      award(run, i, 'miss', run.clean / (run.hits + run.skipped), run.hits + run.skipped);
+      afterStep(run);
+    };
     function afterStep(r) {
       var done = r.hits + r.skipped;
       setText('#hudHits', String(r.clean));
       setText('#hudAcc', done ? App.pct(r.clean / done) + '%' : '–');
       if (tracker.done) { P.finish(); return; }
-      if (tracker.loops !== r.lastLoop) { r.lastLoop = tracker.loops; clearMarks(); }
+      if (tracker.loops !== r.lastLoop) { r.lastLoop = tracker.loops; clearMarks(); Stage.reset(); }
       var pr = $('#hudProg'); if (pr) pr.style.width = Math.round(tracker.i / sel.length * 100) + '%';
+      Stage.cursor(tracker.i);
       setNow(sel, tracker.i);
     }
-    beginRun(run);
+    beginRun(run, { mode: 'wait', listen: true, skip: true });
     setNow(sel, 0);
   }
   function liveReadout(f, target, run, now) {
@@ -286,10 +291,14 @@
     if (listen) run.tracker = new PR.track.TempoTracker(sel, { chromaDt: 0.08, frameDt: 0.04 });
     var hasNotes = sel.some(function (t) { return t.kind === 'note'; });
     var trim = (S.settings.trim || 0) / 1000 + (ctx.outputLatency || 0);
+    var lag = listen ? trim : (ctx.outputLatency || 0);
+    var stage = { mode: 'time', listen: listen, look: App.clamp(spb * 8, 3.2, 8), spb: spb, per: per, t0: t0, now: function () { return ctx.currentTime - lag; } };
     run.metro = new App.Metro({ bpm: bpmNow(), beatsPerBar: per, t0: t0 - (S.settings.countIn ? per * spb : 0), sound: S.settings.click, onBeat: function (n) {
       var inCount = S.settings.countIn && n < per;
       beatsDots(per, n % per);
-      if (inCount) { setText('#hudNow', String(per - n)); setText('#hudDetail', 'count in'); }
+      Stage.beat(n % per === 0);
+      Stage.count(inCount ? per - n : 0);
+      if (inCount) setText('#hudDetail', 'count in');
     } });
     run.metro.start();
     run.tick = function () {
@@ -302,13 +311,17 @@
           liveReadout(f, sel[Math.max(0, run.cur)], run, now);
         }
       }
-      var te = now - (listen ? trim : (ctx.outputLatency || 0));
+      var te = now - lag;
       if (te >= t0) {
         var i = run.cur < 0 ? 0 : run.cur;
         while (i < sel.length - 1 && te >= sel[i].end) i++;
-        if (i !== run.cur && te < sel[sel.length - 1].end) { run.cur = i; setNow(sel, i); if (!listen) setText('#hudAcc', String(Math.floor((sel[i].beat - sel[0].beat) / per) + 1)); }
+        if (i !== run.cur && te < sel[sel.length - 1].end) {
+          run.cur = i; setNow(sel, i);
+          if (!listen && S.settings.guide !== false) { A.hush(); if (sel[i].midis.length > 1) A.strum(sel[i].midis); else A.pluck(M.midiToFreq(sel[i].midis[0], S.settings.a4), 1.4); }
+          if (!listen) { Stage.result(i, 'pass'); setText('#hudAcc', String(Math.floor((sel[i].beat - sel[0].beat) / per) + 1)); setText('#hudHits', String(i + 1 + run.loops * sel.length)); }
+        }
         var pr = $('#hudProg'); if (pr) pr.style.width = App.clamp(Math.round((te - t0) / (run.tl.end - t0) * 100), 0, 100) + '%';
-        setText('#hudTime', App.fmtDur(now - t0));
+        setText('#hudTime', App.fmtDur(now - run.t0));
       }
       var over = listen ? (run.tracker.done || te > run.tl.end + 0.6) : te >= run.tl.end;
       if (over) {
@@ -317,9 +330,9 @@
           run.loops++;
           var nt0 = run.tl.end;
           run.results = run.results.concat(listen ? run.tracker.results.map(function (r) { return Object.assign({ label: sel[r.index].label, kind: sel[r.index].kind }, r); }) : []);
-          run.tl = timeline(sel, nt0); t0 = nt0; run.t0loop = nt0;
+          run.tl = timeline(sel, nt0); t0 = nt0; run.t0loop = nt0; stage.t0 = nt0;
           if (listen) run.tracker = new PR.track.TempoTracker(sel, { chromaDt: 0.08, frameDt: 0.04 });
-          run.cur = -1; clearMarks();
+          run.cur = -1; clearMarks(); Stage.reset();
         } else P.finish();
       }
     };
@@ -327,27 +340,22 @@
       r2.done++;
       if (res.hit) { r2.hits++; if (res.grade === 'on') r2.on++; }
       mark(sel[res.index].orig, res.hit ? (res.grade === 'on' ? 'is-hit' : 'is-late') : 'is-miss');
+      award(r2, res.index, res.hit ? (res.grade === 'on' ? 'hit' : 'late') : 'miss', r2.hits / r2.done, r2.done);
       setText('#hudHits', String(r2.hits));
       setText('#hudAcc', App.pct(r2.hits / r2.done) + '%');
-      if (!res.hit && res.wrong) { r2.flashUntil = A.now() + 1.0; var hh = $('#hudHeard'); if (hh) { hh.textContent = res.wrong + ', not ' + sel[res.index].label; hh.style.color = 'var(--bad)'; } }
+      if (!res.hit && res.wrong) { r2.flashUntil = A.now() + 1.0; var hh = $('#hudHeard'); if (hh) { hh.textContent = res.wrong + ', not ' + sel[res.index].label; hh.style.color = '#ff8a82'; } }
     }
     run.flashUntil = 0;
-    beginRun(run);
+    beginRun(run, stage);
     setText('#hudNow', sel[0].label); setText('#hudNext', sel[1] ? sel[1].label : '–');
-  }
-  function startClickOnly(sel) {
-    var st = P.st, ctx = A.ctx, per = st.song.beatsPerBar || 4;
-    var run = { kind: 'self', sel: sel, t0: ctx.currentTime + 0.3, begun: ctx.currentTime, untimed: true };
-    run.metro = new App.Metro({ bpm: bpmNow(), beatsPerBar: per, t0: run.t0, sound: true, onBeat: function (n) { beatsDots(per, n % per); } });
-    run.metro.start();
-    run.tick = function () { setText('#hudTime', App.fmtDur(Math.max(0, ctx.currentTime - run.t0))); };
-    beginRun(run);
+    if (!listen) setText('#hudHits', '0');
   }
   P.skip = function () { var r = P.st && P.st.run; if (r && r.skip) r.skip(); };
   P.stopAll = function (silent) {
     var st = P.st; if (!st) return;
     var run = st.run;
     if (run) { clearInterval(run.timer); if (run.metro) run.metro.stop(); st.run = null; }
+    Stage.close();
     A.micStop(); A.hush(); App.wake.off();
     nowOrig = -1;
     if (!silent) refreshAction();
@@ -358,6 +366,7 @@
     var st = P.st; if (!st || !st.run) return;
     var run = st.run, now = A.now();
     clearInterval(run.timer); if (run.metro) run.metro.stop(); st.run = null;
+    Stage.close();
     A.micStop(); App.wake.off(); nowOrig = -1;
     $all('#pChart .is-now').forEach(function (el) { el.classList.remove('is-now'); }); $all('#pChart .cell.is-cur').forEach(function (c) { c.classList.remove('is-cur'); });
     refreshAction();
@@ -393,6 +402,7 @@
       rep.total = 0; rep.acc = null; rep.self = true;
       if (!run.untimed) rep.secs = Math.max(0, now - run.t0);
     }
+    rep.score = run.score || 0; rep.combo = run.maxCombo || 0;
     if (run.kind === 'wait' || run.kind === 'tempo') App.diag.add('run', run.kind + ' on ' + st.id + ': ' + rep.hits + ' of ' + rep.total + ' in ' + Math.round(rep.secs) + ' s' + (S.mic.pre === 'ok' ? ', microphone' : ''));
     st.report = rep;
     P.showReport(rep);
@@ -422,6 +432,24 @@
     App.Store.addSession(doc);
     return true;
   }
+  /* what the game layer gained from a session that was just saved */
+  function gains(before, after, songId, score) {
+    var b = before.songs[songId] || { stars: 0, score: 0 }, a = after.songs[songId] || { stars: 0, score: 0 };
+    return { xp: after.xp - before.xp, levelUp: after.level > before.level, game: after,
+      newBest: !!score && score > (b.score || 0) && (b.score || 0) > 0, firstScore: !!score && !(b.score > 0),
+      newStars: a.stars > b.stars, badges: after.badges.filter(function (x, i) { return x.got && !before.badges[i].got; }),
+      quests: after.today.quests.filter(function (q, i) { return q.done && !before.today.quests[i].done; }) };
+  }
+  function gainsHtml(gn) {
+    if (!gn) return '';
+    var gm = gn.game;
+    var html = '<div class="xp-card"><div class="spread"><b>+' + gn.xp + ' XP</b><span class="small">Level ' + gm.level + ' · ' + esc(gm.title) + '</span></div>' +
+      '<div class="xpbar"><i style="width:' + Math.round(gm.into / gm.need * 100) + '%"></i></div>' +
+      '<span class="small">' + (gn.levelUp ? 'Level up! ' : '') + (gm.need - gm.into) + ' XP to level ' + (gm.level + 1) + '</span></div>';
+    gn.quests.forEach(function (q) { html += '<div class="unlock"><i>' + IC.check + '</i><div><b>Quest done</b><div class="small muted">' + esc(q.label) + ' · +' + q.xp + ' XP</div></div></div>'; });
+    gn.badges.forEach(function (b) { html += '<div class="unlock"><i>' + (IC[b.icon] || IC.star) + '</i><div><b>Badge: ' + esc(b.name) + '</b><div class="small muted">' + esc(b.desc) + '</div></div></div>'; });
+    return html;
+  }
   P.showReport = function (rep) {
     var st = P.st, html = '<div class="sheet-head"><div><div class="eyebrow">' + esc(st.song.title) + ' · ' + esc(sectionName()) + '</div><h2 class="title">' + (rep.self ? 'How did that go?' : 'Result') + '</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>';
     if (rep.self) {
@@ -431,15 +459,21 @@
       return;
     }
     if (!rep.total) { App.toast('Stopped before anything was scored.'); return; }
-    var saved = saveSession(rep);
+    var stars = App.starsFor(rep.acc, st.pct, false);
+    var before = App.computeGame();
+    var saved = saveSession(rep, { score: rep.score || 0, combo: rep.combo || 0, stars: stars });
+    var gn = saved ? gains(before, App.computeGame(), st.id, rep.score) : null;
     var acc = App.pct(rep.acc);
     var verdict = acc >= 90 ? 'Solid. ' + (st.pct < 100 ? 'Raise the tempo next.' : 'Play it again tomorrow to lock it in.') : acc >= 70 ? 'Close. Loop the part that tripped you and go again.' : 'Slow it down and take one part at a time.';
-    html += '<div class="row" style="align-items:baseline"><span class="result-big">' + acc + '<small>%</small></span><span class="muted">' + rep.hits + ' of ' + rep.total + (rep.kind === 'wait' ? ' right first time' : (rep.kind === 'take' ? ' right' : ' right in their slot')) + '</span></div>' +
-      '<div class="meter' + (acc >= 90 ? ' is-good' : '') + '"><i style="width:' + acc + '%"></i></div><p>' + verdict + '</p>';
+    html += App.starsHtml(stars, 'stars-lg') +
+      '<div class="result-score"><b>' + fmtScore(rep.score || 0) + '</b><span>Score' + (gn && gn.newBest ? ' · new best' : '') + (rep.combo ? ' · best run ' + rep.combo : '') + '</span></div>' +
+      '<div class="panel stack"><div class="row" style="align-items:baseline"><span class="result-big">' + acc + '<small>%</small></span><span class="muted">' + rep.hits + ' of ' + rep.total + (rep.kind === 'wait' ? ' right first time' : (rep.kind === 'take' ? ' right' : ' right in their slot')) + '</span></div>' +
+      '<div class="meter' + (acc >= 90 ? ' is-good' : '') + '"><i style="width:' + acc + '%"></i></div><p>' + verdict + '</p></div>';
+    html += gainsHtml(gn);
     html += '<div class="tally">' +
       (rep.kind === 'take'
-        ? '<div><span>' + IC.x.replace('<svg', '<svg style="color:var(--bad)"') + 'Wrong</span><b>' + rep.wrong + '</b></div><div><span>Missed</span><b>' + rep.missed + '</b></div><div><span>Extra</span><b>' + rep.extras + '</b></div>'
-        : '<div><span>' + (rep.kind === 'wait' ? 'Second try' : 'Late or early') + '</span><b>' + rep.second + '</b></div><div><span>' + (rep.kind === 'wait' ? 'Skipped' : 'Missed') + '</span><b>' + rep.missed + '</b></div><div><span>' + IC.clock + 'Time</span><b>' + App.fmtDur(rep.secs) + '</b></div>') +
+        ? '<div><span>Wrong</span><b>' + rep.wrong + '</b></div><div><span>Missed</span><b>' + rep.missed + '</b></div><div><span>Extra</span><b>' + rep.extras + '</b></div>'
+        : '<div><span>' + (rep.kind === 'wait' ? 'Second try' : 'Late or early') + '</span><b>' + rep.second + '</b></div><div><span>' + (rep.kind === 'wait' ? 'Skipped' : 'Missed') + '</span><b>' + rep.missed + '</b></div><div><span>Time</span><b>' + App.fmtDur(rep.secs) + '</b></div>') +
       '</div>';
     var lines = [];
     if (rep.kind === 'take') {
@@ -455,21 +489,26 @@
     if (slow && slow.mean >= 0.6) lines.push('Slowest change: ' + slow.key + ', ' + (Math.round(slow.mean * 10) / 10) + ' s.');
     var wrongs = rep.items.filter(function (it) { return it.heard; }).slice(0, 4).map(function (it) { return it.heard + ' for ' + it.label; });
     if (wrongs.length) lines.push('Heard ' + wrongs.join(', ') + '.');
-    if (lines.length) html += '<div class="panel-flat stack">' + lines.map(function (l) { return '<span>' + esc(l) + '</span>'; }).join('') + '</div>';
+    if (lines.length) html += '<div class="panel-flat stack-sm">' + lines.map(function (l) { return '<span>' + esc(l) + '</span>'; }).join('') + '</div>';
     html += itemsHtml(rep.items);
     if (!saved) html += '<p class="small muted">' + (S.canWrite ? 'Too short to log.' : 'Not saved: this view cannot write.') + '</p>';
     if (rep.read) html += '<p class="small muted">' + (rep.read.how === 'track' ? 'Read from the recording\'s sound track' : rep.read.how === 'decode' ? 'Decoded by the browser' : 'Played through to read it') + ' in ' + (rep.read.ms / 1000).toFixed(1) + ' s.</p>';
-    html += '<div class="row"><button class="btn btn-primary grow" data-act="p-again">Again</button>' +
-      (slow && slow.mean >= 0.6 ? '<button class="btn" data-act="omc" data-a="' + esc(slow.f) + '" data-b="' + esc(slow.t) + '" data-id="' + esc(st.id) + '">Drill ' + esc(slow.key) + '</button>' : (acc < 90 && st.pct > 60 ? '<button class="btn" data-act="p-slower">Slower</button>' : '')) +
-      '<button class="btn" data-act="sheet-close">Done</button></div>';
+    html += '<div class="stack"><button class="btn btn-primary btn-block" data-act="p-again">' + (rep.kind === 'take' ? 'Done' : 'Play again') + '</button><div class="row">' +
+      (slow && slow.mean >= 0.6 ? '<button class="btn grow" data-act="omc" data-a="' + esc(slow.f) + '" data-b="' + esc(slow.t) + '" data-id="' + esc(st.id) + '">Drill ' + esc(slow.key) + '</button>' : (acc < 90 && st.pct > 60 && rep.kind !== 'take' ? '<button class="btn grow" data-act="p-slower">Slower</button>' : '')) +
+      (rep.kind === 'take' ? '' : '<button class="btn grow" data-act="sheet-close">Done</button>') + '</div></div>';
     App.sheet.open(html, function () { App.render(); });
+    if (stars === 3 || (gn && (gn.levelUp || gn.badges.length))) App.confetti();
+    A.chime(stars);
   };
   P.rate = function (v) {
     var st = P.st, rep = st.report; if (!rep) return;
     rep.acc = v; rep.kind = 'self'; rep.hits = 0; rep.total = 0;
+    var before = App.computeGame();
     var ok = saveSession({ kind: 'self', secs: rep.secs, acc: v, total: 0, hits: 0, changes: [] }, { self: true });
     App.sheet.close();
-    App.toast(ok ? 'Logged.' : 'Too short to log.');
+    var gn = ok ? gains(before, App.computeGame(), st.id, 0) : null;
+    App.toast(ok ? 'Logged. +' + gn.xp + ' XP' + (gn.levelUp ? '. Level up!' : '') : 'Too short to log.');
+    if (gn && (gn.levelUp || gn.badges.length)) App.confetti();
     App.render();
   };
 
@@ -506,6 +545,7 @@
         if (it.loop === rep.coverage.loops - 1 || rep.coverage.loops === 1) it.members.forEach(function (mi) { mark(sel[mi].orig, it.status === 'hit' ? 'is-hit' : 'is-miss'); });
       });
       rep.changes.forEach(function (c) { if (c.from !== c.to) out.changes.push({ f: c.from, t: c.to, s: Math.round(c.gap * 100) / 100 }); });
+      var pts = App.scoreItems(out.items); out.score = pts.score; out.combo = pts.combo;
       st.report = out;
       P.showReport(out);
     }).catch(function (e) {

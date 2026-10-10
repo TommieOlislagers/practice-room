@@ -1,7 +1,7 @@
-dist/
-samples/
-wav/
-media/
-shots/
-fonts/
-node_modules/
+dist
+samples
+wav
+media
+shots
+fonts
+node_modules

@@ -17,7 +17,7 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   const f = page.frameLocator('#f');
   const info = await page.frames()[1].evaluate(() => { let ls = 'ok'; try { localStorage.getItem('x'); } catch (e) { ls = e.name; } return { origin: location.origin, self: window.origin, ls, policy: document.featurePolicy ? document.featurePolicy.allowsFeature('microphone') : 'n/a', pre: window.PR.app.S.mic.pre, store: window.PR.app.S.store }; });
   check('frame is on an opaque origin with storage and microphone refused', info.self === 'null' && info.ls === 'SecurityError' && info.policy === false && info.pre === 'blocked', JSON.stringify(info));
-  check('the page still renders and says where it saves', /Pick up the guitar|Ready when you are/.test(await f.locator('#main').textContent()) && /This device only/.test(await f.locator('#sync').textContent()));
+  check('the page still renders and says where it saves', /Today's quests/.test(await f.locator('#main').textContent()) && /This device only/.test(await f.locator('#sync').textContent()));
   const today = await f.locator('#main').textContent();
   check('Today says whose decision it is, and still offers to ask', /Claude's viewer does not pass the microphone on to this page/.test(today) && /Nothing on your phone is set wrong/.test(today) && /Ask anyway/.test(today), today.replace(/\s+/g, ' ').slice(0, 0));
   await f.locator('#main [data-act="mic-ask"]').click();

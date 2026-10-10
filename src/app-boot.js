@@ -22,9 +22,9 @@
       if (r === 'tuner' && (T.on || T.busy)) return;
     }
     var active = document.activeElement, keep = active && active.id === 'q' ? [active.selectionStart, active.selectionEnd] : null;
-    var html = r === 'songs' ? App.views.songs() : r === 'tuner' ? App.views.tuner() : r === 'practice' ? P.view() : App.views.today();
+    var html = r === 'songs' ? App.views.songs() : r === 'tuner' ? App.views.tuner() : r === 'me' ? App.views.me() : r === 'practice' ? P.view() : App.views.today();
     main.innerHTML = html;
-    if (r === 'today') App.views.wireChart();
+    if (r === 'me') App.views.wireChart();
     if (r === 'practice') P.applyMarks();
     $('#app').classList.toggle('is-practice', r === 'practice');
     $('#tabs').hidden = r === 'practice';
@@ -42,7 +42,7 @@
     go: function (el) { App.go({ name: el.getAttribute('data-to') }); },
     open: function (el) { App.go({ name: 'practice', id: el.getAttribute('data-id') }); },
     level: function (el) { S.filter.level = parseInt(el.getAttribute('data-level'), 10) || 0; if (S.route.name !== 'songs') App.go({ name: 'songs' }); else App.render(true); },
-    settings: function () { App.settingsSheet(); },
+    settings: function () { App.settingsSheet(); App.sheet.onClose = function () { App.render(); }; },
     'sheet-close': function () { App.sheet.close(); },
 
     add: function () { App.addSong.open(); },
@@ -78,6 +78,7 @@
     'set-step': function (el) {
       var k = el.getAttribute('data-key'), d = parseInt(el.getAttribute('data-d'), 10);
       if (k === 'a4') { S.settings.a4 = App.clamp(S.settings.a4 + d, 425, 455); $('#oA4').textContent = S.settings.a4 + ' Hz'; if (A.an) A.an.setA4(S.settings.a4); }
+      if (k === 'goal') { S.settings.goal = App.clamp((S.settings.goal || 10) + d, 5, 120); $('#oGoal').textContent = S.settings.goal + ' min'; }
       if (k === 'trim') { S.settings.trim = App.clamp((S.settings.trim || 0) + d, -200, 200); $('#oTrim').textContent = (S.settings.trim > 0 ? '+' : '') + S.settings.trim + ' ms'; }
       App.Store.saveSettings();
     },
@@ -123,6 +124,7 @@
     'p-section': function (el) { if (!P.st || P.st.run) return; P.st.section = parseInt(el.value, 10); P.st.marks = {}; App.render(true); },
     'p-loop': function (el) { if (P.st) P.st.loop = !!el.checked; },
     'set-click': function (el) { S.settings.click = !!el.checked; App.Store.saveSettings(); },
+    'set-guide': function (el) { S.settings.guide = !!el.checked; App.Store.saveSettings(); },
     'set-countin': function (el) { S.settings.countIn = !!el.checked; App.Store.saveSettings(); },
     'set-tones': function (el) { S.settings.tones = !!el.checked; App.Store.saveSettings(); }
   };
@@ -163,16 +165,16 @@
     root.addEventListener('unhandledrejection', function (ev) { var r = ev && ev.reason; if (errs++ < 5) App.diag.add('error', 'promise: ' + (r && (r.message || r.code || r.name) ? (r.name ? r.name + ' ' : '') + (r.message || r.code || '') : String(r))); });
     root.addEventListener('hashchange', function () {
       var h = (root.location.hash || '').replace('#', '');
-      if ((h === 'today' || h === 'songs' || h === 'tuner') && h !== S.route.name) App.go({ name: h });
+      if ((h === 'today' || h === 'songs' || h === 'tuner' || h === 'me') && h !== S.route.name) App.go({ name: h });
     });
     var rz = null;
-    root.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (S.route.name === 'today' && !App.sheet.isOpen()) App.render(); }, 180); });
+    root.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (S.route.name === 'me' && !App.sheet.isOpen()) App.render(); }, 180); });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden && T.on) { T.stop(); App.render(true); }
     });
     A.probe();
     var h = (root.location.hash || '').replace('#', '');
-    if (h === 'songs' || h === 'tuner') S.route = { name: h };
+    if (h === 'songs' || h === 'tuner' || h === 'me') S.route = { name: h };
     App.addSong.reset();
     var opened = function () {
       var m = S.mic;
