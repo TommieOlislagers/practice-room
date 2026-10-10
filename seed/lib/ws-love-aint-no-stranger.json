@@ -1,0 +1,254 @@
+{
+  "id": "ws-love-aint-no-stranger",
+  "title": "Love Ain't No Stranger",
+  "artist": "Whitesnake",
+  "album": "Slide It In",
+  "year": 1984,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "Bm",
+  "bpm": 125,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 254,
+  "note": "Standard tuning. The slow parts are keyboard chords at half speed: one chord to a bar here, strummed once and left to ring, or picked string by string as the guitar does in verse 2. When the band comes in, switch to palm-muted power chords: a bar of B5 with a quick A5 to B5 jab at its end.",
+  "strum": "D D DUDU",
+  "needs": [
+    "arpeggio",
+    "power-chords",
+    "palm-mute",
+    "quick-changes",
+    "strum-eighths",
+    "barre-am"
+  ],
+  "scale": {
+    "root": "B",
+    "type": "penta-minor"
+  },
+  "shapes": [
+    {
+      "n": "D5",
+      "s": "x577xx"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro (keyboards)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1 (quiet)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "Em",
+        "A"
+      ]
+    },
+    {
+      "name": "Link",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm"
+      ]
+    },
+    {
+      "name": "Verse 2 (picked)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "Em",
+        "A"
+      ]
+    },
+    {
+      "name": "Riff 1 (band in)",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "A5 E5",
+        "E5"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "E5 D5",
+        "B5 B5 A5 B5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G5 D5",
+        "A5",
+        "G5 D5",
+        "B5 A5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Riff 2",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "A5 E5",
+        "E5"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "E5 D5",
+        "B5 B5 A5 B5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G5 D5",
+        "A5",
+        "G5 D5",
+        "B5 A5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo (slow)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Verse 5 (quiet)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "D/F#",
+        "G",
+        "A",
+        "Bm",
+        "Em",
+        "A"
+      ]
+    },
+    {
+      "name": "Riff 3",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "A5 E5",
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "A5 E5"
+      ]
+    },
+    {
+      "name": "Verse 6",
+      "type": "chords",
+      "bars": [
+        "B5 B5 A5 B5",
+        "B5 B5 A5 B5",
+        "E5 D5",
+        "B5 B5 A5 B5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "G5 D5",
+        "A5",
+        "G5 D5",
+        "B5 A5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Outro (slow)",
+      "type": "chords",
+      "bars": [
+        "D/F#",
+        "G",
+        "A",
+        "Bm"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/whitesnake-Tabs/love-aint-no-stranger-crd.php",
+    "https://www.skyminds.net/guitar-tabs/whitesnake/love-aint-no-stranger.tab",
+    "https://chordu.com/chords-tabs-whitesnake-love-ain-t-no-stranger-id_oDpsGbz_nP4",
+    "https://en.wikipedia.org/wiki/Love_Ain%27t_No_Stranger"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Chords agree between a chord sheet and a tab. Neither has bar lines: bar counts are worked out from the tempo (63 for the slow parts, twice that for the band) and the 4:14 length. Rounds under the solo are a guess (the sheet says eight, which does not fit). The tab ends verse 1 on Bm A. Chorus D is D/F# on the sheet.",
+  "createdAt": 1791662979977,
+  "updatedAt": 1791662979977
+}

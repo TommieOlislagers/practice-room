@@ -1,0 +1,61 @@
+{
+  "id": "zelda-great-fairys-fountain",
+  "title": "Great Fairy's Fountain",
+  "artist": "The Legend of Zelda",
+  "album": "Ocarina of Time",
+  "year": 1998,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 2,
+  "key": "Dm",
+  "bpm": 78,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 49,
+  "note": "A harp piece, so pick each chord one string at a time, low to high and back, four notes to the beat once it flows. The chords step down the neck: Gm and F are the same barre shape two frets apart, then let the open strings of Em7b5 and Dm ring. Start with one slow strum per bar. The tune itself is left out.",
+  "strum": "D D D D ",
+  "needs": [
+    "arpeggio",
+    "barre-em",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "minor"
+  },
+  "melody": true,
+  "shapes": [
+    {
+      "n": "Em7b5",
+      "s": "010030"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Theme",
+      "type": "chords",
+      "bars": [
+        "Gm",
+        "F",
+        "Em7b5",
+        "Dm",
+        "Gm",
+        "F",
+        "C7",
+        "Dm"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.hooktheory.com/theorytab/view/koji-kondo/great-fairys-fountain",
+    "https://www.guitartabsexplorer.com/misc-computer-games-Tabs/the-legend-of-zelda---fairy-fountain-crd.php"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Hooktheory (D minor, 4/4, 78) names the opening chords over a bass falling by step; the guitar chart is the same sequence a tone higher and gives all eight bars. It has a plain diminished chord for Em7b5; in bar 7 the seventh chord lasts one beat before that chord returns; bar 8 ends on F. The repeat is my choice.",
+  "createdAt": 1791662979986,
+  "updatedAt": 1791662979986
+}

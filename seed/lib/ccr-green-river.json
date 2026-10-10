@@ -1,0 +1,165 @@
+{
+  "id": "ccr-green-river",
+  "title": "Green River",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Green River",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 1,
+  "key": "E",
+  "bpm": 141,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 156,
+  "note": "Standard tuning, three open chords and E7. Sung bars sit on E; the answering guitar lick, left out here, colours it as E7, so strum E7 in those bars. C and A come only once in a verse, two bars each, and are easy to miss: count the bars. Keep a steady, loose eighth-note strum.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "sevenths",
+    "hammer-pull",
+    "slides"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "blues"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "C",
+        "C",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Link 1",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "C",
+        "C",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Link 2",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "C",
+        "C",
+        "A",
+        "A",
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "E7",
+        "E7",
+        "E",
+        "E",
+        "C",
+        "C",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Outro (fade)",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/green-river-(ver3)-chords",
+    "https://www.e-chords.com/chords/creedence-clearwater-revival/green-river",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-06.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Both charts give E, E7, C, A in this order; one writes C/G and E7/D for the riff shapes. Neither has bar lines: bar counts are worked out from 141 BPM and the 2:36 length (two bars a sung line, two bars a lick), so the lengths of the links, the solo and the fade are estimates.",
+  "createdAt": 1791662979942,
+  "updatedAt": 1791662979942
+}

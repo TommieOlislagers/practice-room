@@ -1,0 +1,219 @@
+{
+  "id": "ws-crying-in-the-rain",
+  "title": "Crying in the Rain",
+  "artist": "Whitesnake",
+  "album": "Whitesnake",
+  "year": 1987,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "Em",
+  "bpm": 86,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 337,
+  "note": "Standard tuning, 1987 version. The main riff is left out: under it play E5 for a bar, then C5 and B5 falling back to E5, with a heavy palm mute. The chorus lifts to A5 with a quick G5, then climbs G5, A5, C5, D5, one bar each, into four quick stabs. Slow tempo: let every chord sound full.",
+  "strum": "D D D DU",
+  "needs": [
+    "power-chords",
+    "palm-mute",
+    "quick-changes",
+    "strum-eighths",
+    "bends"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "blues"
+  },
+  "shapes": [
+    {
+      "n": "D5",
+      "s": "x577xx"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro (hits)",
+      "type": "chords",
+      "bars": [
+        "C5 B5",
+        "E5"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Intro (build)",
+      "type": "chords",
+      "bars": [
+        "C5 B5",
+        "E5",
+        "E5",
+        "D5 E5 C5 D5"
+      ]
+    },
+    {
+      "name": "Intro (riff)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "C5 B5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "C5 B5"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A5 A5 A5 G5",
+        "A5 A5 A5 G5",
+        "E5",
+        "C5 B5",
+        "G5",
+        "A5",
+        "C5",
+        "D5",
+        "D5 E5 C5 D5"
+      ]
+    },
+    {
+      "name": "Link 1",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "D5 E5 C5 D5",
+        "E5",
+        "C5 B5",
+        "E5",
+        "C5 B5"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "C5 B5"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A5 A5 A5 G5",
+        "A5 A5 A5 G5",
+        "E5",
+        "C5 B5",
+        "G5",
+        "A5",
+        "C5",
+        "D5",
+        "D5 E5 C5 D5"
+      ]
+    },
+    {
+      "name": "Link 2",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "D5 E5 C5 D5",
+        "E5",
+        "C5 B5",
+        "E5",
+        "C5 B5"
+      ]
+    },
+    {
+      "name": "Solo (driving)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5",
+        "D5",
+        "D5",
+        "A5",
+        "A5",
+        "C5",
+        "C5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo (climb)",
+      "type": "chords",
+      "bars": [
+        "A5",
+        "A5",
+        "E5",
+        "E5",
+        "A5",
+        "A5",
+        "B5",
+        "C5 D5"
+      ]
+    },
+    {
+      "name": "Solo (stabs)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "D5 E5 C5 D5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A5 A5 A5 G5",
+        "A5 A5 A5 G5",
+        "E5",
+        "C5 B5",
+        "G5",
+        "A5",
+        "C5",
+        "D5",
+        "D5 E5 C5 D5"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "D5 E5 C5 D5"
+      ],
+      "repeat": 6
+    },
+    {
+      "name": "End",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.e-chords.com/chords/whitesnake/crying-in-the-rain",
+    "https://www.chords-and-tabs.net/song/name/whitesnake-crying-in-the-rain-3",
+    "https://chordu.com/chords-tabs-crying-in-the-rain-1987-version-2017-remaster--id_KEp-b6dT2T0",
+    "https://www.skyminds.net/whitesnake/crying-in-the-rain.tab",
+    "https://en.wikipedia.org/wiki/Crying_in_the_Rain_(Whitesnake_song)"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "Chords agree between a chord sheet (1982 form, with Em, Am, G, A, C, D) and a bass tab; power chords are used here. Bars up to the second chorus follow the bass tab. After that it is an estimate: solo chords are from the sheet, their lengths and the outro repeats are guessed to fit 5:37.",
+  "createdAt": 1791662979972,
+  "updatedAt": 1791662979972
+}

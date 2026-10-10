@@ -1,0 +1,282 @@
+{
+  "id": "ws-still-of-the-night",
+  "title": "Still of the Night",
+  "artist": "Whitesnake",
+  "album": "Whitesnake",
+  "year": 1987,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "F#m",
+  "bpm": 100,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 398,
+  "note": "Standard tuning. The riffs are left out: this is the power-chord skeleton under them. Palm-mute steady eighths on the E5 chug and lift to D5 at the end of the bar. The first and last chorus have a six-beat bar on the record, written here as two bars (B5, then A5 G5). In the quiet middle let the chords ring.",
+  "strum": "DDDDDDDD",
+  "needs": [
+    "power-chords",
+    "palm-mute",
+    "strum-eighths",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "F#",
+    "type": "blues"
+  },
+  "shapes": [
+    {
+      "n": "D5",
+      "s": "x577xx"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro (stabs)",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "F#5",
+        "F#5"
+      ]
+    },
+    {
+      "name": "Verse 1 (stops)",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "N.C.",
+        "F#5",
+        "N.C."
+      ]
+    },
+    {
+      "name": "Riff 1",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "F#5",
+        "F#5"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "N.C.",
+        "N.C."
+      ]
+    },
+    {
+      "name": "Riff 2",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "F#5",
+        "F#5"
+      ]
+    },
+    {
+      "name": "Pre-chorus 1",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 E5 D5",
+        "E5",
+        "E5 E5 E5 D5"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A5",
+        "A5",
+        "B5",
+        "A5 G5",
+        "F5",
+        "F5"
+      ]
+    },
+    {
+      "name": "Link (E chug)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 E5 D5",
+        "E5",
+        "E5 E5 E5 D5"
+      ]
+    },
+    {
+      "name": "Riff 3",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "F#5",
+        "F#5"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "N.C.",
+        "N.C."
+      ]
+    },
+    {
+      "name": "Pre-chorus 2",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 E5 D5",
+        "E5",
+        "E5 E5 E5 D5"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "D5",
+        "C5 C5 C5 B5",
+        "A5 A5 A5 G5",
+        "F5",
+        "F5"
+      ]
+    },
+    {
+      "name": "Middle (quiet build)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5",
+        "E5",
+        "E5 E5 E5 D5",
+        "C5",
+        "C5 C5 C5 D5",
+        "E5",
+        "E5"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5",
+        "C5",
+        "C5 D5"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Link (E riff)",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 C5 D5",
+        "E5",
+        "E5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 C5 D5",
+        "E5",
+        "E5"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Riff 4",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "F#5",
+        "F#5"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "F#5",
+        "F#5",
+        "N.C.",
+        "N.C."
+      ]
+    },
+    {
+      "name": "Pre-chorus 3",
+      "type": "chords",
+      "bars": [
+        "E5",
+        "E5 E5 E5 D5",
+        "E5",
+        "E5 E5 E5 D5"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A5",
+        "A5",
+        "B5",
+        "A5 G5",
+        "F5",
+        "F5"
+      ]
+    },
+    {
+      "name": "Jam",
+      "type": "chords",
+      "bars": [
+        "E5 E5 E5 D5",
+        "C5 C5 C5 B5",
+        "A5 A5 A5 G5",
+        "F5"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Outro (fade)",
+      "type": "chords",
+      "bars": [
+        "E5 E5 E5 D5",
+        "C5 C5 C5 B5",
+        "A5 A5 A5 G5",
+        "F5"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://www.chords-and-tabs.net/song/name/whitesnake-still-of-the-night-6",
+    "https://www.guitartabsexplorer.com/whitesnake-Tabs/still-of-the-night-crd.php",
+    "https://www.skyminds.net/guitar-tabs/whitesnake/still-of-the-night.tab",
+    "https://songbpm.com/@whitesnake/still-of-the-night"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Bar counts and roots follow a bar-by-bar bass transcription; the chord sheet agrees on the chords (it has E minor and C for the middle, and C D Em under the solo). Chorus 1 and 3 hold a 6/4 bar, charted as two bars, so the chart runs four beats long there. Verse bars with stops are approximate. Fade: four rounds.",
+  "createdAt": 1791662979979,
+  "updatedAt": 1791662979979
+}

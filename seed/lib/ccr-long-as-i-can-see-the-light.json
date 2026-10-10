@@ -1,0 +1,138 @@
+{
+  "id": "ccr-long-as-i-can-see-the-light",
+  "title": "Long As I Can See the Light",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Cosmo's Factory",
+  "year": 1970,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "B",
+  "bpm": 64,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 2,
+  "tuning": "standard",
+  "lengthSec": 213,
+  "note": "Capo 2 gives the record's key with A, D, E and one F#m barre. Slow gospel feel: count three to every beat and strum softly, twelve light strokes to a bar. Most bars change chord halfway. The A, D, A bars copy the piano: touch D on beat three and come straight back.",
+  "strum": "DDDDDDDDDDDD",
+  "needs": [
+    "twelve-eight",
+    "quick-changes",
+    "barre-em"
+  ],
+  "scale": {
+    "root": "B",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "A A D A",
+        "A A D A",
+        "A A D A"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A A D A",
+        "F#m",
+        "A E",
+        "A E",
+        "D",
+        "A E",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A A D A",
+        "F#m",
+        "A E",
+        "A E",
+        "D",
+        "A E",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Sax solo",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A A D A",
+        "F#m",
+        "A E",
+        "A E",
+        "D",
+        "A E",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A A D A",
+        "F#m",
+        "A E",
+        "A E",
+        "D",
+        "A E",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Vamp",
+      "type": "chords",
+      "bars": [
+        "A A D A",
+        "A A D A",
+        "A A D A",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A A D A",
+        "F#m",
+        "A E",
+        "A E",
+        "D",
+        "A E",
+        "A D E A"
+      ]
+    },
+    {
+      "name": "Outro (fade)",
+      "type": "chords",
+      "bars": [
+        "A E",
+        "A D E A"
+      ],
+      "repeat": 3
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/long-as-i-can-see-the-light-(Ver2)-chords",
+    "https://www.e-chords.com/chords/creedence-clearwater-revival/long-as-i-can-see-the-light",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-15.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Both charts put the record in B: one in B chords, one with capo 2 and A shapes (followed here). They agree on the chords; one has D7 for D. Slow twelve-eight, charted as four beats at 64 (a tempo listing says 128). No bar lines in the sources: eight bars a verse fits the 3:33 length; intro and fade are estimates.",
+  "createdAt": 1791662979944,
+  "updatedAt": 1791662979944
+}

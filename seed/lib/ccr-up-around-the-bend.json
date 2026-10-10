@@ -1,0 +1,191 @@
+{
+  "id": "ccr-up-around-the-bend",
+  "title": "Up Around the Bend",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Cosmo's Factory",
+  "year": 1970,
+  "genre": "Roots rock",
+  "level": 1,
+  "key": "D",
+  "bpm": 130,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 162,
+  "note": "Standard tuning, three open chords. The high intro riff is left out: strum D, D, A, D under it, which is also the whole verse. In the chorus G and D share a bar, then A is driven in eighths. Keep the right hand going down-up without a break and let the changes fall on beat one.",
+  "strum": "D DUDUDU",
+  "needs": [
+    "strum-eighths",
+    "quick-changes",
+    "slides",
+    "double-stops"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D",
+        "D",
+        "D",
+        "A",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "A",
+        "G D",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D",
+        "D",
+        "D",
+        "A",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "A",
+        "G D",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Link (intro riff)",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "A",
+        "G D",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D",
+        "D",
+        "D",
+        "A",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "A",
+        "G D",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D",
+        "D",
+        "D",
+        "A",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 4",
+      "type": "chords",
+      "bars": [
+        "G D",
+        "A",
+        "G D",
+        "A",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Outro (fade)",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "A",
+        "D"
+      ],
+      "repeat": 3
+    }
+  ],
+  "sources": [
+    "https://www.gitaartabs.nl/song/chords/creedence-clearwater-revival/up-around-the-bend?lang=en",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/up-around-the-bend-(Ver3)-chords",
+    "https://www.hooktheory.com/theorytab/view/creedence-clearwater-revival/up-around-the-bend",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-12.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Charts agree on D and A for the verse and G, D, A for the chorus; one adds A7 before each return to D. No bar lines in the sources: bar counts are worked out from 130 BPM and the 2:42 length. The place of the riff link and solo (after the second chorus) and the number of A bars ending each chorus are estimates.",
+  "createdAt": 1791662979947,
+  "updatedAt": 1791662979947
+}

@@ -1,0 +1,83 @@
+{
+  "id": "zelda-main-theme",
+  "title": "Main Theme (Overworld)",
+  "artist": "The Legend of Zelda",
+  "album": "The Legend of Zelda",
+  "year": 1986,
+  "composer": "Koji Kondo",
+  "genre": "Game music",
+  "level": 3,
+  "key": "Bb",
+  "bpm": 150,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 1,
+  "tuning": "standard",
+  "lengthSec": 38,
+  "note": "Capo 1 turns a B flat tune into A, G, F and E shapes. It is a march: four firm downstrokes a bar, and a new chord nearly every bar, so loop the first four bars of A until the hand moves on its own. F7 is the F barre with the little finger lifted. The tune itself is left out.",
+  "strum": "D D D D ",
+  "needs": [
+    "strum-quarters",
+    "sevenths",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "Bb",
+    "type": "mixolydian"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "A",
+        "G",
+        "F",
+        "E"
+      ]
+    },
+    {
+      "name": "A",
+      "type": "chords",
+      "bars": [
+        "A7",
+        "G7",
+        "Fmaj7",
+        "C7",
+        "Bbmaj7",
+        "Am7",
+        "B7",
+        "E"
+      ]
+    },
+    {
+      "name": "B",
+      "type": "chords",
+      "bars": [
+        "A7",
+        "G7",
+        "F F7",
+        "E7",
+        "F7",
+        "E",
+        "F7",
+        "E",
+        "Bbmaj7",
+        "Am7",
+        "B7",
+        "E"
+      ]
+    }
+  ],
+  "sources": [
+    "https://ja.chordwiki.org/wiki/%E5%9C%B0%E4%B8%8ABGM+(%E3%82%BC%E3%83%AB%E3%83%80%E3%81%AE%E4%BC%9D%E8%AA%AC)",
+    "https://www.hooktheory.com/theorytab/view/nintendo/the-legend-of-zelda---overworld-theme"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in B flat; shapes are a semitone lower for capo 1. Layout from ChordWiki (4/4, 150): intro 4 bars, A 8, B 12, then A again. Hooktheory (12/8, 154) agrees on the opening chords of each part but holds the first chord where ChordWiki steps down. Bass pickups and slash basses left out; the F7 in B3 comes on beat 4.",
+  "createdAt": 1791662979988,
+  "updatedAt": 1791662979988
+}

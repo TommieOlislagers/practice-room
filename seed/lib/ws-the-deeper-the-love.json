@@ -1,0 +1,232 @@
+{
+  "id": "ws-the-deeper-the-love",
+  "title": "The Deeper the Love",
+  "artist": "Whitesnake",
+  "album": "Slip of the Tongue",
+  "year": 1989,
+  "genre": "Hard rock",
+  "level": 3,
+  "key": "A",
+  "bpm": 105,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 263,
+  "note": "Standard tuning. The chorus moves two chords to a bar: Dsus2 to A twice, then Bm, F#m, E, F#m, so practise those two barre changes slowly first. Verses are one chord to a bar and leave room to breathe. Keep the Dsus2 light, with the open top string ringing.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "sus-moves",
+    "quick-changes",
+    "barre-am",
+    "barre-em"
+  ],
+  "scale": {
+    "root": "A",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "E Dsus2",
+        "A E",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "F#m",
+        "E",
+        "Dsus2",
+        "A",
+        "F#m",
+        "E",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Pre-chorus 1",
+      "type": "chords",
+      "bars": [
+        "Bm7",
+        "F#m",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "E Dsus2",
+        "A E",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "F#m",
+        "E",
+        "Dsus2",
+        "A",
+        "F#m",
+        "E",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Pre-chorus 2",
+      "type": "chords",
+      "bars": [
+        "Bm7",
+        "F#m",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "E Dsus2",
+        "A E",
+        "A"
+      ]
+    },
+    {
+      "name": "Bridge",
+      "type": "chords",
+      "bars": [
+        "E",
+        "D"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Pre-chorus 3",
+      "type": "chords",
+      "bars": [
+        "Bm7",
+        "F#m",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m"
+      ]
+    },
+    {
+      "name": "Pre-chorus 4",
+      "type": "chords",
+      "bars": [
+        "Bm7",
+        "F#m",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m",
+        "E Dsus2",
+        "A E",
+        "A"
+      ]
+    },
+    {
+      "name": "Chorus 4",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 5",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Outro (fade)",
+      "type": "chords",
+      "bars": [
+        "Dsus2 A",
+        "Dsus2 A",
+        "Bm F#m",
+        "E F#m"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/whitesnake/deeper-the-love-chords",
+    "https://www.chords-and-tabs.net/song/name/whitesnake-deeper-the-love",
+    "https://songbpm.com/@whitesnake/the-deeper-the-love"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Two chord sheets agree on chorus, bridge and order. One starts the verse on A where the other has F#m (followed here), and has A for F#m in the pre-chorus. Only one shows the solo, over the intro chords. No bar lines: bar counts are worked out from tempo and the 4:23 length; chorus tag and solo length are estimates.",
+  "createdAt": 1791662979982,
+  "updatedAt": 1791662979982
+}

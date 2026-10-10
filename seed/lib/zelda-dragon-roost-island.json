@@ -1,0 +1,125 @@
+{
+  "id": "zelda-dragon-roost-island",
+  "title": "Dragon Roost Island",
+  "artist": "The Legend of Zelda",
+  "album": "The Wind Waker",
+  "year": 2002,
+  "composer": "Kenta Nagata",
+  "genre": "Game music",
+  "level": 2,
+  "key": "Gm",
+  "bpm": 169,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 3,
+  "tuning": "standard",
+  "lengthSec": 77,
+  "note": "Capo 3 makes this fiery G minor piece a set of open shapes. Count four quick beats a bar, each split in three. Begin with one downstroke per beat, then fill in the three strums on beats two and four. Em to D comes round every bar in the vamp, so drill that change first. The tune itself is left out.",
+  "strum": "D  D  D  D  ",
+  "needs": [
+    "strum-quarters",
+    "twelve-eight",
+    "sevenths"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "minor"
+  },
+  "melody": true,
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "B7",
+        "B7"
+      ]
+    },
+    {
+      "name": "Vamp",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "D",
+        "Em",
+        "D",
+        "Em",
+        "D",
+        "G",
+        "G",
+        "F",
+        "F",
+        "Em",
+        "Em",
+        "D",
+        "D",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Vamp 2",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Theme, second ending",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "D",
+        "Em",
+        "D",
+        "Em",
+        "D",
+        "G",
+        "G",
+        "F",
+        "F",
+        "Em",
+        "Em",
+        "D",
+        "D",
+        "C",
+        "C",
+        "A7",
+        "A7",
+        "F",
+        "F"
+      ]
+    },
+    {
+      "name": "Vamp 3",
+      "type": "chords",
+      "bars": [
+        "Em",
+        "D"
+      ],
+      "repeat": 4
+    }
+  ],
+  "sources": [
+    "https://tabs.ultimate-guitar.com/tab/misc-computer-games/the-legend-of-zelda-the-wind-waker-dragon-roost-island-chords-1519969",
+    "https://tabs.ultimate-guitar.com/tab/misc-computer-games/the-legend-of-zelda-the-wind-waker-dragon-roost-island-chords-1487669",
+    "https://www.hooktheory.com/theorytab/view/kenta-nagata/dragon-roost-island"
+  ],
+  "checked": false,
+  "confidence": "low",
+  "remarks": "Sounds in G minor; capo 3 as in one of the two chord sheets, which agree on the theme. Second ending and long vamp: one sheet, readable only that far; the rest is not charted. Chord lengths follow the sheet that marks groups of eight beats; intro length and B7 for the plain dominant are guesses. Hooktheory: 6/8, 160.",
+  "createdAt": 1791662979985,
+  "updatedAt": 1791662979985
+}
