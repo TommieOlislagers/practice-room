@@ -146,7 +146,7 @@ function mock(seed) {
   await page.click('[data-act="edit"]');
   await page.click('[data-act="del-ask"]'); await page.click('[data-act="del-yes"]');
   await page.waitForTimeout(200);
-  check('deleting removes the document and returns to the list', !(await docs()).includes('songs/seed1') && (await page.textContent('.large-title')) === 'Songs' && (await page.textContent('#main')).indexOf('Eyes Without a Face') < 0);
+  check('deleting removes the document and returns to the list', !(await docs()).includes('songs/seed1') && (await page.textContent('.large-title')) === 'Songs' && !(await page.evaluate(() => 'seed1' in window.PR.app.S.songs)));
   await page.click('#tabs [data-to="today"]'); await page.waitForTimeout(200);
   const today = (await page.textContent('#main')).replace(/\s+/g, ' ');
   check('Today shows the logged session', /Recent sessions.*Eyes Without a Face.*95%/.test(today), today.slice(today.indexOf('Recent sessions'), today.indexOf('Recent sessions') + 90));

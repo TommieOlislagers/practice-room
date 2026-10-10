@@ -67,6 +67,8 @@
     crown: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-1.800 10H4.800z"/></svg>',
     hand: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8h14l-3.500-3.500 1.400-1.400L22.800 9l-5.900 5.900-1.400-1.400L19 10H5zM19 16H5l3.500 3.500-1.400 1.400L1.200 15l5.900-5.900 1.400 1.400L5 14h14z" transform="scale(.82) translate(2.600 2.600)"/></svg>',
     github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    metro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 3.500h7l3.500 17h-14z"/><path d="M12 15.500 17.500 5"/><path d="M6.300 15.500h11.400"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3.200a1 1 0 0 1 1 1V5h11.600a.8.8 0 0 1 .65 1.270L15.800 9.800l2.450 3.530a.8.8 0 0 1-.65 1.270H6v6.200a1 1 0 0 1-2 0V4.200a1 1 0 0 1 1-1z"/></svg>',
     cloud: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 19a5 5 0 0 1-.6-9.96 6 6 0 0 1 11.5 1.02A4.5 4.5 0 0 1 17.5 19z"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
   };
@@ -80,7 +82,7 @@
     store: 'loading',
     canWrite: true,
     mic: { state: 'idle', pre: 'unknown', detail: '', why: '', framed: false, policy: null, perm: '', tried: false },
-    filter: { level: 0, q: '' },
+    filter: { level: 0, q: '', artist: '', genre: '' },
     hasSample: false
   };
 
@@ -117,7 +119,7 @@
   }
   var modelCache = {};
   function modelOf(song) {
-    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
+    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
     if (modelCache[song.id] && modelCache[song.id].key === key) return modelCache[song.id].model;
     var copy = Object.assign({}, song, { shapes: songShapes(song) });
     var model;
@@ -125,15 +127,31 @@
     modelCache[song.id] = { key: key, model: model };
     return model;
   }
+  /* The library is the songs the page ships with (PR.catalog, built from seed/) plus the player's own.
+     A song the player edited is saved as their own copy under the same id and replaces the built-in one,
+     until the built-in one is corrected later. A built-in song the player deleted stays hidden the same way. */
+  var CAT = PR.catalog || {};
+  Object.keys(CAT).forEach(function (id) { CAT[id].id = id; CAT[id].builtin = true; });
+  function songOf(id) {
+    var u = S.songs[id], c = CAT[id];
+    if (u && (!c || (u.updatedAt || 0) >= (c.updatedAt || 0))) return u;
+    var gone = App.Store.gone[id];
+    if (c && !(gone && gone >= (c.updatedAt || 0))) return c;
+    return u || null;
+  }
   function allSongs() {
-    var list = Object.keys(S.songs).map(function (id) { return S.songs[id]; });
+    var ids = {}, list = [];
+    Object.keys(CAT).forEach(function (id) { ids[id] = 1; });
+    Object.keys(S.songs).forEach(function (id) { ids[id] = 1; });
+    Object.keys(ids).forEach(function (id) { var x = songOf(id); if (x) list.push(x); });
     list.sort(function (a, b) { return (a.level || 1) - (b.level || 1) || String(a.title).localeCompare(String(b.title)); });
     return list;
   }
   function findSong(id) {
-    if (S.songs[id]) return S.songs[id];
+    var x = songOf(id);
+    if (x) return x;
     for (var i = 0; i < DRILLS.length; i++) if (DRILLS[i].id === id) return DRILLS[i];
-    return null;
+    return App.path ? App.path.exercise(id) : null;
   }
 
   /* ---------- storage: the artifact's database when there is one, this browser otherwise ---------- */
@@ -222,12 +240,6 @@
       }
     },
     keep: function () { lsSet(LS.pending, Store.pending); },
-    /* No database in this view and nothing saved in this browser yet: start with the songs the page ships with. */
-    starters: function () {
-      if (Object.keys(S.songs).length || lsGet(LS.starters) || !PR.starters) return;
-      Object.keys(PR.starters).forEach(function (id) { S.songs[id] = Object.assign({ id: id }, PR.starters[id]); });
-      lsSet(LS.songs, S.songs); lsSet(LS.starters, 1);
-    },
     /* what the database holds, plus what is still waiting to be sent */
     mergeSongs: function () {
       var next = Object.assign({}, Store.cloudSongs || {}), p = Store.pending;
@@ -280,9 +292,9 @@
       Store.loadLocal();
       Diag.load();
       var cl = root.claude;
-      if (!cl || typeof cl.use !== 'function') { S.store = 'local'; Store.starters(); return Promise.resolve(); }
+      if (!cl || typeof cl.use !== 'function') { S.store = 'local'; return Promise.resolve(); }
       var waitDb = cl.use('db').then(function (db) {
-        if (!db) { S.store = 'local'; Store.starters(); App.render(); return; }
+        if (!db) { S.store = 'local'; App.render(); return; }
         Store.db = db;
         S.store = 'cloud';
         Diag.push();
@@ -304,7 +316,7 @@
           if (snap.exists) { Object.assign(S.settings, snap.data()); lsSet(LS.settings, S.settings); App.render(); }
         }, function () { /* settings stay local */ });
         App.render();
-      }).catch(function () { S.store = 'local'; Store.starters(); App.render(); });
+      }).catch(function () { S.store = 'local'; App.render(); });
       cl.use('sample').then(function (fn) { S.hasSample = !!fn; App.sample = fn || null; if (S.route.name === 'songs') App.render(); }).catch(function () {});
       cl.use('user').then(function (u) {
         if (!u) return;
@@ -325,7 +337,7 @@
     saveSong: function (song) {
       var id = song.id || uid('s');
       var doc = Object.assign({}, song);
-      delete doc.id; delete doc.drill;
+      delete doc.id; delete doc.drill; delete doc.builtin;
       doc.updatedAt = Date.now();
       if (!doc.createdAt) doc.createdAt = doc.updatedAt;
       S.songs[id] = Object.assign({ id: id }, doc);
@@ -466,7 +478,7 @@
     }
     return xp;
   }
-  function questsOf(day, t) {
+  function questsOf(day, t, steps) {
     var goal = (S.settings.goal || 10) * 60, third = new Date(t).getDay() % 3;
     var list = day ? day.list : [];
     var songs = {}; list.forEach(function (x) { if (x.song) songs[x.song] = 1; });
@@ -475,7 +487,7 @@
       { id: 'score', label: 'Score 80% or better on a run', done: list.some(function (x) { return !x.self && typeof x.acc === 'number' && x.acc >= 0.8 && x.kind !== 'omc'; }) },
       third === 0 ? { id: 'omc', label: 'Do a one-minute change drill', done: list.some(function (x) { return x.kind === 'omc'; }) } :
       third === 1 ? { id: 'two', label: 'Practise two different songs or drills', done: Object.keys(songs).length >= 2 } :
-        { id: 'three', label: 'Finish three sessions', done: list.length >= 3 }
+        (App.path ? { id: 'step', label: 'Finish a step on a song path', done: !!steps } : { id: 'three', label: 'Finish three sessions', done: list.length >= 3 })
     ];
     q.forEach(function (x) { x.xp = 40; });
     return q;
@@ -495,7 +507,11 @@
     { id: 'hour1', name: 'An Hour In', desc: 'One hour of practice in all', icon: 'clock' },
     { id: 'hour10', name: 'Ten Hours', desc: 'Ten hours of practice in all', icon: 'clock' },
     { id: 'quests', name: 'Full House', desc: 'All three quests in one day', icon: 'check' },
-    { id: 'level5', name: 'Level 5', desc: 'Reach player level 5', icon: 'crown' }
+    { id: 'level5', name: 'Level 5', desc: 'Reach player level 5', icon: 'crown' },
+    { id: 'skill10', name: 'Ten Skills', desc: 'Learn 10 shapes, changes or techniques', icon: 'hand' },
+    { id: 'skill40', name: 'Toolbox', desc: 'Learn 40 shapes, changes or techniques', icon: 'hand' },
+    { id: 'song1', name: 'First Song', desc: 'Finish every step of a song', icon: 'trophy' },
+    { id: 'song5', name: 'Setlist', desc: 'Finish 5 songs', icon: 'trophy' }
   ];
   function computeGame() {
     var now = Date.now(), dayMs = 86400000, sessions = S.sessions;
@@ -514,9 +530,11 @@
       if (typeof x.acc === 'number' && (g.best === null || x.acc > g.best)) g.best = x.acc;
       if ((x.score || 0) > g.score) g.score = x.score;
     });
+    /* what was reached on the song paths (app-path.js): steps finished, skills learned, songs finished */
+    var pathSum = App.path ? App.path.summary() : null, stepDays = pathSum ? pathSum.days : null;
     var fullDay = false;
     Object.keys(days).forEach(function (k) {
-      var q = questsOf(days[k], days[k].t), n = q.filter(function (x) { return x.done; }).length;
+      var q = questsOf(days[k], days[k].t, stepDays && stepDays[k]), n = q.filter(function (x) { return x.done; }).length;
       xp += n * 40 + (n === 3 ? 60 : 0); if (n === 3) fullDay = true;
     });
     /* level: 250 points for the first, 250 more for each one after */
@@ -531,16 +549,19 @@
       run = prev !== null && Math.round((t - prev) / dayMs) === 1 ? run + 1 : 1; prev = t;
       if (run > bestStreak) bestStreak = run;
     });
-    var starsTotal = 0, three = false; Object.keys(songs).forEach(function (id) { starsTotal += songs[id].stars; if (songs[id].stars === 3) three = true; });
-    var today = days[dayKey(now)] || null, quests = questsOf(today, now), qDone = quests.filter(function (x) { return x.done; }).length;
+    var starsTotal = 0, three = false; Object.keys(songs).forEach(function (id) { if (id.indexOf('x:') === 0) return; starsTotal += songs[id].stars; if (songs[id].stars === 3) three = true; });
+    var ps = pathSum || { skills: 0, mastered: 0, steps: 0 };
+    var today = days[dayKey(now)] || null, quests = questsOf(today, now, stepDays && stepDays[dayKey(now)]), qDone = quests.filter(function (x) { return x.done; }).length;
     /* this week, Monday first */
     var d0 = new Date(now); d0.setHours(12, 0, 0, 0);
     var monday = d0.getTime() - ((d0.getDay() + 6) % 7) * dayMs, week = [];
     for (var i = 0; i < 7; i++) { var t = monday + i * dayMs, k = dayKey(t); week.push({ label: 'MTWTFSS'.charAt(i), done: !!days[k], today: k === dayKey(now), future: t > now && k !== dayKey(now) }); }
     var got = { first: sessions.length > 0, streak3: bestStreak >= 3, streak7: bestStreak >= 7, streak30: bestStreak >= 30, star1: starsTotal >= 1, star3: three, stars10: starsTotal >= 10,
-      perfect: perfect, combo25: bestCombo >= 25, omc30: omcBest >= 30, omc60: omcBest >= 60, hour1: total >= 3600, hour10: total >= 36000, quests: fullDay, level5: level >= 5 };
+      perfect: perfect, combo25: bestCombo >= 25, omc30: omcBest >= 30, omc60: omcBest >= 60, hour1: total >= 3600, hour10: total >= 36000, quests: fullDay, level5: level >= 5,
+      skill10: ps.skills >= 10, skill40: ps.skills >= 40, song1: ps.mastered >= 1, song5: ps.mastered >= 5 };
     return { xp: xp, level: level, title: TITLES[Math.min(level, TITLES.length) - 1], into: into, need: need, songs: songs, starsTotal: starsTotal,
       streak: streak, bestStreak: bestStreak, week: week, totalSecs: total, sessions: sessions.length,
+      path: ps,
       today: { secs: today ? today.secs : 0, goal: (S.settings.goal || 10) * 60, quests: quests, done: qDone },
       badges: BADGES.map(function (b) { return { id: b.id, name: b.name, desc: b.desc, icon: b.icon, got: !!got[b.id] }; }) };
   }
@@ -598,7 +619,7 @@
 
   App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.LS = LS; App.isFramed = isFramed; App.pad2 = pad2; App.MONTH = MONTH;
   App.fmtDur = fmtDur; App.fmtMin = fmtMin; App.pct = pct; App.fmtDay = fmtDay; App.ago = ago; App.dayKey = dayKey; App.WEEKDAY = WEEKDAY;
-  App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.songShapes = songShapes;
+  App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.catalog = CAT; App.songShapes = songShapes;
   App.computeStats = computeStats; App.songStatus = songStatus;
   App.computeGame = computeGame; App.starsFor = starsFor; App.scoreItems = scoreItems; App.multOf = multOf; App.starsHtml = starsHtml; App.xpOfSession = xpOfSession;
 })(typeof window !== 'undefined' ? window : globalThis);

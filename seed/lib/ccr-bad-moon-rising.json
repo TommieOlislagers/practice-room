@@ -1,0 +1,155 @@
+{
+  "id": "ccr-bad-moon-rising",
+  "title": "Bad Moon Rising",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Green River",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 1,
+  "key": "D",
+  "bpm": 179,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 140,
+  "note": "Three open chords, but quick: the A and G in the second bar get only two beats each, so move the whole hand at once and keep the strumming arm swinging through the change. Count it in half time (about 90) while learning, then let it bounce.",
+  "strum": "D D D DU",
+  "needs": [
+    "strum-quarters",
+    "strum-eighths",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-major"
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A G",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A G",
+        "D",
+        "D"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "D",
+        "D",
+        "A",
+        "G",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A G",
+        "D",
+        "D"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "D",
+        "D",
+        "A",
+        "G",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A G",
+        "D",
+        "D",
+        "D",
+        "A G",
+        "D",
+        "D",
+        "G",
+        "G",
+        "D",
+        "D",
+        "A",
+        "G",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A G",
+        "D",
+        "D"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "D",
+        "D",
+        "A",
+        "G",
+        "D",
+        "D"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "D"
+      ]
+    }
+  ],
+  "sources": [
+    "https://richterguitar.com/bad-moon-rising-creedence-clearwater-revival/",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/bad-moon-rising-(ver3)-chords",
+    "https://nationalguitaracademy.com/?p=14318",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-04.html"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "All chord sources agree. One tab adds D6 colour on the D bars (part of the guitar figure, left out). Solo is two verse lines plus the chorus, 16 bars, as one lesson page writes out bar by bar. Outro is one bar for the last ringing D. Tempo 179.5 and length 2:20 from a measured track listing.",
+  "createdAt": 1791642737015,
+  "updatedAt": 1791642737015
+}

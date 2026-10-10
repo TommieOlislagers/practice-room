@@ -106,7 +106,7 @@
     withStat.sort(function (a, b) { return a.st.last - b.st.last; });
     return withStat[0].s;
   }
-  var KIND_LABEL = { wait: 'Live, wait for me', tempo: 'Live, in time', take: 'Recording', self: 'Play along', omc: 'One-minute changes' };
+  var KIND_LABEL = { wait: 'Live, wait for me', tempo: 'Live, in time', take: 'Recording', self: 'Play along', omc: 'One-minute changes', metro: 'Metronome' };
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   function ringSvg(part) {
     var r = 44, c = 2 * Math.PI * r;
@@ -140,8 +140,10 @@
     var html = '<section class="stack">' +
       '<div><div class="eyebrow">' + esc(App.WEEKDAY[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]) + '</div><h2 class="large-title">Today</h2></div>' +
       heroHtml(gm) + '</section>';
-    /* up next */
-    html += '<section class="card next">' +
+    /* the goal song and its next step; the old "up next" card only where there is nothing to work toward */
+    var goalHtml = App.goalCard ? App.goalCard() : '';
+    html += goalHtml;
+    if (!goalHtml) html += '<section class="card next">' +
       '<div class="spread"><span class="eyebrow">' + (ns.key === 'new' ? 'Start here' : 'Up next') + '</span>' + App.starsHtml(gs.stars) + '</div>' +
       '<div class="row" style="align-items:flex-start;flex-wrap:nowrap">' + lvlBadge(next.level || 1) + '<div class="grow"><div class="item-title" style="font-size:20px">' + esc(next.title) + '</div>' +
       '<div class="item-sub">' + esc(next.artist || (next.drill ? 'Built-in drill' : '')) + (ns.last ? ' · last played ' + esc(App.ago(ns.last)) : '') + '</div></div></div>' +
@@ -189,6 +191,8 @@
       '<div class="stat"><span>Day streak</span><b>' + gm.streak + '<small>' + (gm.streak === 1 ? 'day' : 'days') + '</small></b><em>best ' + gm.bestStreak + '</em></div>' +
       '<div class="stat"><span>Stars</span><b>' + gm.starsTotal + '<small>of ' + (songs.length + App.DRILLS.length) * 3 + '</small></b><em>' + solid + ' of ' + songs.length + ' songs solid</em></div>' +
       '<div class="stat"><span>Accuracy, last 7 days</span><b>' + (st.acc7 === null ? '–' : App.pct(st.acc7) + '<small>%</small>') + '</b>' + delta + '</div>' +
+      '<div class="stat"><span>Songs finished</span><b>' + gm.path.mastered + '<small>of ' + songs.length + '</small></b><em>every step of the path done</em></div>' +
+      '<div class="stat"><span>Skills learned</span><b>' + gm.path.skills + '<small>of ' + (gm.path.skillsOf || 0) + '</small></b><em>shapes, changes, techniques</em></div>' +
       '<div class="stat"><span>Time played</span><b>' + (gm.totalSecs >= 3600 ? (Math.round(gm.totalSecs / 360) / 10) + '<small>h</small>' : Math.round(gm.totalSecs / 60) + '<small>min</small>') + '</b><em>' + gm.sessions + (gm.sessions === 1 ? ' session' : ' sessions') + '</em></div>' +
       '</div></section>';
     html += '<section class="card stack"><div class="spread"><h3 class="h3">Minutes practised</h3><span class="small muted">last 14 days</span></div>' +
@@ -413,6 +417,7 @@
     var song = Object.assign({}, draft.song);
     song.level = App.clamp(parseInt(($('#dLevel') || {}).value, 10) || draft.info.level, 1, 5);
     song.levelAuto = draft.info.level;
+    if (draft.preset) { if (draft.preset.genre) song.genre = draft.preset.genre; if (draft.preset.album) song.album = draft.preset.album; }
     var bpm = parseInt(($('#dBpm') || {}).value, 10); song.bpm = bpm >= 30 && bpm <= 260 ? bpm : (song.bpm || null);
     song.capo = App.clamp(parseInt(($('#dCapo') || {}).value, 10) || 0, 0, 12);
     var id = App.Store.saveSong(song);
@@ -429,6 +434,7 @@
     App.sheet.open('<div class="sheet-head"><h2 class="title">Edit song</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
       '<label class="field"><span>Title</span><input class="input" id="eTitle" value="' + esc(s.title) + '"></label>' +
       '<label class="field"><span>Artist</span><input class="input" id="eArtist" value="' + esc(s.artist || '') + '"></label>' +
+      '<label class="field"><span>Genre</span><input class="input" id="eGenre" value="' + esc(s.genre || '') + '" placeholder="e.g. Classic rock"></label>' +
       '<div class="fields"><label class="field"><span>Level</span><select class="select" id="eLevel">' + [1, 2, 3, 4, 5].map(function (n) { return '<option value="' + n + '"' + (n === (s.level || 1) ? ' selected' : '') + '>' + n + ' ' + esc(LEVELS[n].name) + '</option>'; }).join('') + '</select></label>' +
       '<label class="field"><span>Tempo, BPM</span><input class="input" id="eBpm" type="number" inputmode="numeric" min="30" max="260" value="' + esc(s.bpm || '') + '"></label>' +
       '<label class="field"><span>Capo fret</span><input class="input" id="eCapo" type="number" inputmode="numeric" min="0" max="12" value="' + esc(s.capo || 0) + '"></label>' +
@@ -436,13 +442,14 @@
       '<label class="field"><span>Tuning</span><select class="select" id="eTuning">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === tun ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + (tun === 'custom' ? '<option value="custom" selected>As written in the tab</option>' : '') + '</select></label></div>' +
       (s.checked === false ? '<label class="toggle"><input type="checkbox" id="eChecked">I checked this draft against a tab</label>' : '') +
       '<button class="btn btn-primary btn-block" data-act="edit-save" data-id="' + esc(id) + '">Save changes</button>' +
-      '<div class="row" id="delRow" style="justify-content:center"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + 'Delete this song</button></div>');
+      '<div class="row" id="delRow" style="justify-content:center"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + (s.builtin ? 'Remove from my library' : 'Delete this song') + '</button></div>');
   }
   function saveEdit(id) {
     var s = App.findSong(id); if (!s) return;
     var next = Object.assign({}, s);
     next.title = ($('#eTitle').value || '').trim() || s.title;
     next.artist = ($('#eArtist').value || '').trim();
+    if ($('#eGenre')) next.genre = ($('#eGenre').value || '').trim().slice(0, 40);
     next.level = App.clamp(parseInt($('#eLevel').value, 10) || 1, 1, 5);
     var bpm = parseInt($('#eBpm').value, 10); next.bpm = bpm >= 30 && bpm <= 260 ? bpm : null;
     next.capo = App.clamp(parseInt($('#eCapo').value, 10) || 0, 0, 12);
@@ -561,11 +568,12 @@
       '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Technical log</span><div class="panel stack"><p class="small muted">What this device allowed and how recordings were read. ' + (S.store === 'cloud' ? 'It is saved with your data, so when something does not work you can ask Claude to look at it.' : 'When something does not work, a screenshot of this helps.') + '</p>' +
       (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div></div>' +
+      (App.creditsHtml ? App.creditsHtml() : '') +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">How scoring works</span><div class="panel stack"><p class="small">Single notes are read with a period detector and checked against the spectrum, so a note counts when it starts, also over ringing strings. Chords are compared with the shape in the chart, including whether the third is major or minor. A note an octave off still counts. A clean hit is worth 100 points and a late one 50, times a multiplier that climbs for every 8 in a row. Stars: one at 60%, two at 80%, three at 95% at full tempo. Scores were tuned on sampled guitars through a simulated phone microphone; a real room is messier, so read them as a guide.</p></div></div>');
   }
 
   /* ================= TUNER ================= */
-  var T = App.tuner = { on: false, sel: -1, hist: [], last: null, lastT: 0, tuned: {}, mode: 'live', timer: null, gate: null, hold: 0, clip: null, busy: '' };
+  var T = App.tuner = { tool: 'tuner', on: false, sel: -1, hist: [], last: null, lastT: 0, tuned: {}, mode: 'live', timer: null, gate: null, hold: 0, clip: null, busy: '' };
   function tuningNow() { return M.tuningMidi(S.settings.tuning); }
   function dialSvg() {
     var cx = 160, cy = 170, r = 132, out = '<svg viewBox="0 0 320 186" aria-hidden="true">';
@@ -584,9 +592,11 @@
   }
   function viewTuner() {
     var tun = tuningNow();
+    var tools = '<div class="seg" role="group" aria-label="Tool"><button data-act="tool" data-tool="tuner" aria-pressed="' + (T.tool !== 'metro') + '">Tuner</button><button data-act="tool" data-tool="metro" aria-pressed="' + (T.tool === 'metro') + '">Metronome</button></div>';
+    if (T.tool === 'metro') return '<section class="stack"><h2 class="large-title">Metronome</h2>' + tools + '</section><section class="stack">' + App.metroHtml() + '</section>';
     var html = '<section class="stack"><div class="head"><h2 class="large-title">Tuner</h2>' +
       '<label class="field" style="flex:0 1 190px"><span class="vh">Tuning</span><select class="select" data-in="tuning" aria-label="Tuning" style="min-height:38px;font-size:15px">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === S.settings.tuning ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + '</select></label></div>' +
-      '<div class="dial">' + dialSvg() +
+      tools + '<div class="dial">' + dialSvg() +
       '<div class="readout"><span class="note-name" id="tNote">–</span><span class="note-oct" id="tOct"></span></div>' +
       '<div class="readout-sub" id="tSub">' + (T.on ? 'Pluck one string and let it ring' : 'A4 = ' + S.settings.a4 + ' Hz') + '</div>' +
       '<div class="verdict" id="tVerdict"></div></div>';
@@ -698,7 +708,7 @@
   };
 
   App.views = { today: viewToday, songs: viewSongs, tuner: viewTuner, me: viewMe, wireChart: wireChart };
-  App.addSong = { open: function () { if (!draft) newDraft(); draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
+  App.addSong = { open: function (preset) { if (!draft || preset) newDraft(); if (preset) { draft.title = preset.title || ''; draft.artist = preset.artist || ''; draft.preset = preset; } draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
   App.accountSheet = accountSheet;

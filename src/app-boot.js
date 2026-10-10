@@ -5,9 +5,9 @@
 
   App.go = function (route) {
     var from = S.route.name;
-    if (from === 'tuner' && route.name !== 'tuner') T.stop();
+    if (from === 'tuner' && route.name !== 'tuner') { T.stop(); App.met.stop(); }
     if (from === 'practice' && (route.name !== 'practice' || (P.st && route.id !== P.st.id))) P.stopAll(true);
-    if (route.name === 'practice') { if (!P.st || P.st.id !== route.id) P.open(route.id); if (!P.st) route = { name: 'songs' }; }
+    if (route.name === 'practice') { if (!P.st || P.st.id !== route.id) P.open(route.id); if (!P.st) route = { name: 'songs' }; else if (route.from) P.st.from = route.from; }
     S.route = route;
     try { if (route.name !== 'practice') root.history.replaceState(null, '', '#' + route.name); } catch (e) { /* hash is a nicety */ }
     App.render(true);
@@ -19,7 +19,7 @@
     if (!main) return;
     if (!force) {
       if (r === 'practice' && P.st && (P.st.run || P.st.busy)) return;
-      if (r === 'tuner' && (T.on || T.busy)) return;
+      if (r === 'tuner' && (T.on || T.busy || App.met.on)) return;
     }
     var active = document.activeElement, keep = active && active.id === 'q' ? [active.selectionStart, active.selectionEnd] : null;
     var html = r === 'songs' ? App.views.songs() : r === 'tuner' ? App.views.tuner() : r === 'me' ? App.views.me() : r === 'practice' ? P.view() : App.views.today();
@@ -80,6 +80,28 @@
     'draft-read': function () { App.addSong.read(); },
     'draft-ask': function () { App.addSong.ask(); },
     'draft-save': function () { App.addSong.save(); App.addSong.reset(); },
+
+    /* the library: one artist or genre at a time */
+    artist: function (el) { S.filter.artist = el.getAttribute('data-name') || ''; S.filter.genre = ''; App.render(true); try { root.scrollTo(0, 0); } catch (e) { /* ignore */ } },
+    genre: function (el) { S.filter.genre = el.getAttribute('data-name') || ''; App.render(true); },
+    /* the path to a song */
+    'path-step': function (el) { App.pathRun(el.getAttribute('data-id'), el.getAttribute('data-step')); },
+    'path-next': function (el) { App.pathRun(el.getAttribute('data-id'), ''); },
+    'path-toggle': function () { if (P.st) { P.st.showPath = !P.st.showPath; App.render(true); } },
+    'goal-set': function (el) {
+      var id = el.getAttribute('data-id'), song = App.findSong(id); if (!song) return;
+      S.settings.focus = id; App.Store.saveSettings();
+      App.toast(song.title + ' is your goal now.');
+      App.render(true);
+    },
+    'melody-add': function (el) { var s = App.findSong(el.getAttribute('data-id')); if (s) App.addSong.open({ title: s.title + ' (melody)', artist: s.artist || '', genre: s.genre || '', album: s.album || '' }); },
+    /* tuner and metronome share a tab */
+    tool: function (el) { var t = el.getAttribute('data-tool'); if (t !== 'tuner' && T.on) T.stop(); if (t !== 'metro') App.met.stop(); T.tool = t; App.render(true); },
+    'met-toggle': function () { if (App.met.on) App.met.stop(); else App.met.start(); App.render(true); },
+    'met-step': function (el) { App.met.set(App.met.bpm + parseInt(el.getAttribute('data-d'), 10)); },
+    'met-per': function (el) { App.met.per = parseInt(el.getAttribute('data-v'), 10) || 4; App.met.set(App.met.bpm); App.render(true); },
+    'met-sub': function (el) { App.met.sub = parseInt(el.getAttribute('data-v'), 10) || 1; App.met.set(App.met.bpm); App.render(true); },
+    'met-tap': function () { App.met.tap(); },
 
     edit: function (el) { App.editSong.open(el.getAttribute('data-id')); },
     'edit-save': function (el) { App.editSong.save(el.getAttribute('data-id')); if (P.st) { P.open(P.st.id); App.render(true); } },
@@ -156,7 +178,9 @@
     'set-click': function (el) { S.settings.click = !!el.checked; App.Store.saveSettings(); },
     'set-guide': function (el) { S.settings.guide = !!el.checked; App.Store.saveSettings(); },
     'set-countin': function (el) { S.settings.countIn = !!el.checked; App.Store.saveSettings(); },
-    'set-tones': function (el) { S.settings.tones = !!el.checked; App.Store.saveSettings(); }
+    'set-tones': function (el) { S.settings.tones = !!el.checked; App.Store.saveSettings(); },
+    'met-bpm': function (el) { App.met.set(parseInt(el.value, 10) || 90); },
+    'met-accent': function (el) { App.met.accent = !!el.checked; App.met.set(App.met.bpm); var d = $('#mDots'); if (d && d.firstChild) d.firstChild.classList.toggle('is-one', App.met.accent); }
   };
 
   App.boot = function () {
@@ -182,7 +206,7 @@
       }
       var key = el.getAttribute('data-in');
       if (!key || !inputs[key]) return;
-      var isText = el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'search' || !el.type) || el.tagName === 'TEXTAREA';
+      var isText = el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'search' || el.type === 'range' || !el.type) || el.tagName === 'TEXTAREA';
       if (isText ? ev.type === 'input' : ev.type === 'change') inputs[key](el);
     }
     document.addEventListener('input', onInput);
@@ -191,6 +215,8 @@
       if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close();
       if (ev.key === 'Enter' && ev.target && ev.target.id === 'ghKey') actions['acct-in']();
     });
+    /* a picture that does not load leaves the drawn tile underneath showing */
+    document.addEventListener('error', function (ev) { var el = ev.target; if (el && el.tagName === 'IMG' && el.classList && el.classList.contains('art-img')) App.artFailed(el); }, true);
     document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.hasAttribute && el.hasAttribute('data-select')) { try { el.select(); } catch (e) { /* ignore */ } } });
     /* anything that goes wrong on a device nobody can look at ends up in the technical log */
     var errs = 0;
@@ -204,6 +230,7 @@
     root.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (S.route.name === 'me' && !App.sheet.isOpen()) App.render(); }, 180); });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden && T.on) { T.stop(); App.render(true); }
+      if (document.hidden && App.met.on) { App.met.stop(true); App.render(true); }
     });
     A.probe();
     var h = (root.location.hash || '').replace('#', '');

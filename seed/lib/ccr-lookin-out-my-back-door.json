@@ -1,0 +1,158 @@
+{
+  "id": "ccr-lookin-out-my-back-door",
+  "title": "Lookin' Out My Back Door",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Cosmo's Factory",
+  "year": 1970,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "Bb",
+  "bpm": 104,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 3,
+  "tuning": "standard",
+  "lengthSec": 155,
+  "note": "Capo 3 turns the record's key into easy open shapes. Keep a light country bass-strum going and move early in the bars that hold two chords. Near the end the band slows right down, steps up a key (A shapes, with an F#m barre) and then runs back up to speed.",
+  "strum": "D DUD DU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes",
+    "barre-em",
+    "barre-e"
+  ],
+  "scale": {
+    "root": "Bb",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "G",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "Em",
+        "C G",
+        "D",
+        "G",
+        "Em",
+        "C G",
+        "D G"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "Em",
+        "C G",
+        "D",
+        "G",
+        "Em",
+        "C G",
+        "D G"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "C G",
+        "Em",
+        "D",
+        "G",
+        "Em",
+        "C G",
+        "D G"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "G",
+        "Em",
+        "C G",
+        "D",
+        "G",
+        "Em",
+        "C G",
+        "D G"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "C G",
+        "Em",
+        "D",
+        "G",
+        "Em",
+        "C G",
+        "D G"
+      ]
+    },
+    {
+      "name": "Break (slowing down)",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G F#",
+        "F E"
+      ]
+    },
+    {
+      "name": "Verse 3 (key up)",
+      "type": "chords",
+      "bars": [
+        "A",
+        "F#m",
+        "D A",
+        "E",
+        "A",
+        "F#m",
+        "D A",
+        "E A"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E A",
+        "D A",
+        "E A",
+        "E A"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.skyminds.net/guitar-tabs/creedence-clearwater-revival/looking-out-my-back-door.tab",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/lookin-out-my-back-door-(Ver2)-chords",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/looking-out-my-back-door-chords",
+    "https://songnotes.net/lessons/261",
+    "https://getsongbpm.com/song/lookin-out-my-back-door/1jPoZ",
+    "https://en.wikipedia.org/wiki/Lookin%27_Out_My_Back_Door"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sounds in Bb, then C. Sources agree on the chords and the whole-tone step up; written in Bb, in G shapes (capo 3, used here) or A shapes (capo 1). Bar counts are mine, from tempo and length. The record slows for half of the last verse; the chart keeps one tempo and plays about 20 s short.",
+  "createdAt": 1791642737029,
+  "updatedAt": 1791642737029
+}

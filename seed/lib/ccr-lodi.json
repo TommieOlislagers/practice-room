@@ -1,0 +1,183 @@
+{
+  "id": "ccr-lodi",
+  "title": "Lodi",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Green River",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "Bb",
+  "bpm": 126,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 3,
+  "tuning": "standard",
+  "lengthSec": 191,
+  "note": "Capo 3 gives the record's key with G, C, D and Em. Nearly every bar holds one chord, so it is a fine song for an even, relaxed strum and for landing each change on beat one. The last verse steps up a key to A shapes and brings an F#m barre. The picked intro riff is left out.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "barre-em"
+  ],
+  "scale": {
+    "root": "Bb",
+    "type": "penta-major"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "D C",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "Em",
+        "C",
+        "D",
+        "G",
+        "Em",
+        "C",
+        "G",
+        "G",
+        "D",
+        "C",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "Em",
+        "C",
+        "D",
+        "G",
+        "Em",
+        "C",
+        "G",
+        "G",
+        "D",
+        "C",
+        "G"
+      ]
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "G",
+        "D C",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "Em",
+        "C",
+        "D",
+        "G",
+        "Em",
+        "C",
+        "G",
+        "G",
+        "D",
+        "C",
+        "G"
+      ]
+    },
+    {
+      "name": "Key change",
+      "type": "chords",
+      "bars": [
+        "D",
+        "A",
+        "E",
+        "A",
+        "A"
+      ]
+    },
+    {
+      "name": "Verse 4 (key up)",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "D",
+        "A",
+        "A",
+        "F#m",
+        "D",
+        "E",
+        "A",
+        "F#m",
+        "D",
+        "A",
+        "A",
+        "E",
+        "D",
+        "A",
+        "A",
+        "E",
+        "D",
+        "A"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "D",
+        "A",
+        "A",
+        "A",
+        "E D",
+        "A"
+      ],
+      "repeat": 2
+    }
+  ],
+  "sources": [
+    "https://www.heartwoodguitar.com/chords/creedence-clearwater-revival-lodi/",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/lodi-(Ver2)-chords",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-05.html",
+    "https://en.wikipedia.org/wiki/Lodi_(Creedence_Clearwater_Revival_song)"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "Sounds in Bb, then C for the last verse. Bar counts follow the Heartwood chart, which has bar lines; they add up to the record's length. The other chart agrees on the chords, with D7 for D in the second line and no G before the D in the last line. The last line of verse 4 is played twice; the outro fades.",
+  "createdAt": 1791642737027,
+  "updatedAt": 1791642737027
+}

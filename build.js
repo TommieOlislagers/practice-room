@@ -3,11 +3,28 @@
 const fs = require('fs');
 const path = require('path');
 const src = f => fs.readFileSync(path.join(__dirname, 'src', f), 'utf8');
-/* The songs the page starts with where it has no database to read (the same ones that were written to the database). */
-const starters = {};
-[['eyes-original', 'eyes.json'], ['eyes-capo4', 'eyes-capo4.json']].forEach(([id, f]) => { starters[id] = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', f), 'utf8')); });
-const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), '(typeof window !== "undefined" ? window : globalThis).PR.starters = ' + JSON.stringify(starters) + ';']
-  .concat(['app-core.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
+/* The library the page ships with: every song in seed/lib (checked first), plus the two charts of the first lesson. */
+const { check } = require('./scripts/check_song.js');
+const libDir = path.join(__dirname, 'seed', 'lib'), catalog = {};
+const KEEP = ['title', 'artist', 'album', 'year', 'composer', 'genre', 'level', 'key', 'bpm', 'beatsPerBar', 'beatsPerSlot', 'capo', 'tuning', 'note', 'strum', 'needs', 'scale', 'shapes', 'sections', 'checked', 'melody', 'origin', 'source', 'createdAt', 'updatedAt'];
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return 'Source'; } };
+fs.readdirSync(libDir).filter(f => /\.json$/.test(f)).sort().forEach(f => {
+  const file = path.join(libDir, f), r = check(file);
+  if (r.errs.length) throw new Error('library song ' + f + ': ' + r.errs.join('; '));
+  const raw = JSON.parse(fs.readFileSync(file, 'utf8'));
+  /* a song's date says when its chart last changed; a player's own edit made after that date wins over it */
+  if (!raw.updatedAt) { raw.updatedAt = raw.createdAt = Date.now(); fs.writeFileSync(file, JSON.stringify(raw, null, 2) + '\n'); }
+  const song = {};
+  KEEP.forEach(k => { if (raw[k] !== undefined && raw[k] !== null && !(Array.isArray(raw[k]) && !raw[k].length)) song[k] = raw[k]; });
+  if (!song.source && raw.sources && raw.sources[0]) song.source = { label: host(raw.sources[0]), url: raw.sources[0] };
+  song.origin = 'claude';
+  catalog[raw.id] = song;
+});
+[['eyes-original', 'eyes.json'], ['eyes-capo4', 'eyes-capo4.json']].forEach(([id, f]) => { catalog[id] = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', f), 'utf8')); });
+const picFile = path.join(__dirname, 'seed', 'pictures.json'), pictures = fs.existsSync(picFile) ? JSON.parse(fs.readFileSync(picFile, 'utf8')) : {};
+const G = '(typeof window !== "undefined" ? window : globalThis).PR';
+const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), G + '.catalog = ' + JSON.stringify(catalog) + ';\n' + G + '.pictures = ' + JSON.stringify(pictures) + ';']
+  .concat(['app-core.js', 'app-path.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-library.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
 if (/<\/script/i.test(js)) throw new Error('script end tag inside the script');
 const html = '<title>Tommie\'s Practice Room</title>\n' +
   '<style>\n' + src('style.css') + '</style>\n' + src('body.html') + '<script>\n' + js + '\n</script>\n';
@@ -25,6 +42,7 @@ fs.writeFileSync(path.join(__dirname, 'index.html'), fs.readFileSync(path.join(_
 const kit = {};
 const add = f => { kit[f] = fs.readFileSync(path.join(__dirname, f), 'utf8'); };
 ['CLAUDE.md', 'build.js'].forEach(add);
-[['src', /\.(js|css|html)$/], ['test', /^(t\d|b\d|lib|mkwav|serve).*\.js$/], ['seed', /\.json$/], ['scripts', /\.sh$/]].forEach(([dir, re]) => fs.readdirSync(path.join(__dirname, dir)).filter(f => re.test(f)).sort().forEach(f => add(dir + '/' + f)));
+if (fs.existsSync(picFile)) add('seed/pictures.json');
+[['src', /\.(js|css|html)$/], ['test', /^(t\d|b\d|lib|mkwav|serve).*\.js$/], ['seed', /\.json$/], ['seed/lib', /\.(json|md)$/], ['scripts', /\.(sh|js)$/]].forEach(([dir, re]) => fs.readdirSync(path.join(__dirname, dir)).filter(f => re.test(f)).sort().forEach(f => add(dir + '/' + f)));
 fs.writeFileSync(path.join(__dirname, 'dist', 'kit.json'), JSON.stringify(kit));
-console.log('built', (html.length / 1024).toFixed(1) + ' KB; kit', Object.keys(kit).length, 'files,', (JSON.stringify(kit).length / 1024).toFixed(0) + ' KB');
+console.log('built', (html.length / 1024).toFixed(1) + ' KB with ' + Object.keys(catalog).length + ' library songs; kit', Object.keys(kit).length, 'files,', (JSON.stringify(kit).length / 1024).toFixed(0) + ' KB');

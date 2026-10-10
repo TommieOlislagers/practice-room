@@ -1,0 +1,153 @@
+{
+  "id": "ccr-have-you-ever-seen-the-rain",
+  "title": "Have You Ever Seen the Rain",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Pendulum",
+  "year": 1970,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "C",
+  "bpm": 116,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 159,
+  "note": "The verse sits on C for four bars, so count them or you will change early. In the chorus the bass steps down under C and Am: lift or move one finger and keep the rest of the shape. Until that is easy, just play C and Am for the whole bar. Fmaj7 can stand in for the F barre.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "bass-walk",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "C",
+    "type": "penta-major"
+  },
+  "shapes": [
+    {
+      "n": "C/B",
+      "s": "x22010"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Am",
+        "F",
+        "C",
+        "G",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "C",
+        "C",
+        "C",
+        "C",
+        "G",
+        "G",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "C",
+        "C",
+        "C",
+        "C",
+        "G",
+        "G",
+        "C",
+        "C"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C C/B",
+        "Am Am/G",
+        "F",
+        "G",
+        "C",
+        "C"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G",
+        "C"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.laurenbateman.com/?p=3994",
+    "https://www.tabs4acoustic.com/en/guitar-tabs/creedence-clearwater-revival-tabs/have-you-ever-seen-the-rain-acoustic-tab-471.html",
+    "https://www.skyminds.net/guitar-tabs/creedence-clearwater-revival/have-you-ever-seen-the-rain.tab",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/have-you-ever-seen-the-rain-(Ver2)-chords",
+    "https://en.wikipedia.org/wiki/Have_You_Ever_Seen_the_Rain"
+  ],
+  "checked": true,
+  "confidence": "high",
+  "remarks": "Sources agree on the chords. One writes the last chord of the walk-down as C/G, three as Am/G (followed). Bar counts are worked out from 116 BPM and 2:39: 6-bar intro, 16-bar verses, 12-bar choruses. Only one source shows an ending (C, G, C); its length of three bars is a guess.",
+  "createdAt": 1791642737026,
+  "updatedAt": 1791642737026
+}

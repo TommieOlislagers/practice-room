@@ -102,7 +102,7 @@ function fakeMic() {
     const { ctx, page } = await fresh([fakeMic], true);
     await page.click('#tabs [data-to="songs"]');
     let txt = (await page.textContent('#main')).replace(/\s+/g, ' ');
-    check('both versions of the song are in the library', /Eyes Without a Face\s*Billy Idol/.test(txt) && /Eyes Without a Face \(capo 4, open shapes\)/.test(txt), txt.slice(0, 0));
+    check('both versions of the song are in the library', /Billy Idol/.test(txt) && /Eyes Without a Face\s*Level 3/.test(txt) && /Eyes Without a Face \(capo 4, open shapes\)/.test(txt), txt.slice(0, 0));
     await page.screenshot({ path: SHOT('ask-songs-starters'), fullPage: true });
     await page.click('[data-act="open"][data-id="eyes-original"]');
     await page.waitForTimeout(200);
@@ -116,7 +116,7 @@ function fakeMic() {
     await page.reload(); await page.waitForTimeout(500);
     await page.click('#tabs [data-to="songs"]');
     txt = (await page.textContent('#main')).replace(/\s+/g, ' ');
-    check('a deleted starter stays deleted after a reload', !/Eyes Without a Face\s*Billy Idol/.test(txt) && /capo 4, open shapes/.test(txt));
+    check('a deleted starter stays deleted after a reload', !/Eyes Without a Face\s*Level 3/.test(txt) && /capo 4, open shapes/.test(txt));
     await ctx.close();
   }
   /* Q. settings: the listening panel and the technical log */

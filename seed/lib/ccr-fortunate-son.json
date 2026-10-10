@@ -1,0 +1,139 @@
+{
+  "id": "ccr-fortunate-son",
+  "title": "Fortunate Son",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Willy and the Poor Boys",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "G",
+  "bpm": 133,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 140,
+  "note": "One chord per bar at a fast, driving pace: strum hard downstrokes on the beat and hit the first beat of each bar hardest. Two-finger power chords on the low strings (G5, F5, C5, D5) sound right and make the F easy. Sit on G through the intro and the break while the lead guitar plays its figure.",
+  "strum": "D D D DU",
+  "needs": [
+    "strum-quarters",
+    "strum-eighths",
+    "power-chords"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "mixolydian"
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "G",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "F",
+        "C",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "D",
+        "C",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "F",
+        "C",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "D",
+        "C",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Break",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "G",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "G",
+        "F",
+        "C",
+        "G"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "G",
+        "D",
+        "C",
+        "G"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "D",
+        "C",
+        "G"
+      ]
+    }
+  ],
+  "sources": [
+    "https://tabs4acoustic.com/en/guitar-tabs/creedence-clearwater-revival-tabs/fortunate-son-acoustic-tab-470.html",
+    "https://www.laurenbateman.com/?p=3993",
+    "https://www.skyminds.net/creedence-clearwater-revival/fortunate-son.tab",
+    "https://www.gitaartabs.nl/song/chords/creedence-clearwater-revival/fortunate-son",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-09.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sources agree on verse G F C G and chorus G D C G (one writes C7, D7). Charted at sounding pitch; one lesson has the record tuned a whole step down, played with A shapes. The break is G in two sources; two others show a G, Gdim, C, G figure. Eight-bar intro and break and the fade are fitted to 133 BPM and 2:20.",
+  "createdAt": 1791642737024,
+  "updatedAt": 1791642737024
+}

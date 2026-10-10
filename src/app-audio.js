@@ -188,13 +188,13 @@
         o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.75);
       });
     },
-    click: function (time, accent) {
+    click: function (time, accent, soft) {
       var ctx = A.ctx;
       if (!ctx) return;
       var o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'square'; o.frequency.value = accent ? 2600 : 1900;
+      o.type = 'square'; o.frequency.value = accent ? 2600 : soft ? 1350 : 1900;
       g.gain.setValueAtTime(0.0001, time);
-      g.gain.exponentialRampToValueAtTime(accent ? 0.32 : 0.2, time + 0.002);
+      g.gain.exponentialRampToValueAtTime(accent ? 0.32 : soft ? 0.07 : 0.2, time + 0.002);
       g.gain.exponentialRampToValueAtTime(0.0001, time + 0.03);
       o.connect(g); g.connect(ctx.destination);
       o.start(time); o.stop(time + 0.05);

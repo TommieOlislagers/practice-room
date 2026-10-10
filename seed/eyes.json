@@ -1,174 +1,184 @@
 {
- "title": "Eyes Without a Face",
- "artist": "Billy Idol",
- "level": 3,
- "levelAuto": 3,
- "bpm": 86,
- "capo": 0,
- "tuning": "standard",
- "key": "E",
- "beatsPerSlot": 4,
- "origin": "claude",
- "checked": true,
- "note": "One strum per bar first. In the verse your index finger only ever sits on fret 7 or fret 4. On the record the heavy riff and the solo come between the hold and verse 3: they are left out here. Verse 3 ends with an extra G#m and B before the chorus.",
- "source": {
-  "label": "Cifra Club chart",
-  "url": "https://www.cifraclub.com/billy-idol/eyes-without-face/kgghjs.html"
- },
- "shapes": [
-  {
-   "n": "Emaj7",
-   "s": "x79897"
+  "title": "Eyes Without a Face",
+  "artist": "Billy Idol",
+  "level": 3,
+  "levelAuto": 3,
+  "bpm": 86,
+  "capo": 0,
+  "tuning": "standard",
+  "key": "E",
+  "beatsPerSlot": 4,
+  "origin": "claude",
+  "checked": true,
+  "note": "One strum per bar first. In the verse your index finger only ever sits on fret 7 or fret 4. On the record the heavy riff and the solo come between the hold and verse 3: they are left out here. Verse 3 ends with an extra G#m and B before the chorus.",
+  "source": {
+    "label": "Cifra Club chart",
+    "url": "https://www.cifraclub.com/billy-idol/eyes-without-face/kgghjs.html"
   },
-  {
-   "n": "C#m",
-   "s": "x46654"
+  "shapes": [
+    {
+      "n": "Emaj7",
+      "s": "x79897"
+    },
+    {
+      "n": "C#m",
+      "s": "x46654"
+    },
+    {
+      "n": "G#m",
+      "s": "466444"
+    },
+    {
+      "n": "B",
+      "s": "799877"
+    },
+    {
+      "n": "A",
+      "s": "x02220"
+    },
+    {
+      "n": "F#m",
+      "s": "244222"
+    }
+  ],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A",
+        "B",
+        "A",
+        "B",
+        "A",
+        "B",
+        "F#m",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Link",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A",
+        "B",
+        "A",
+        "B",
+        "A",
+        "B",
+        "F#m",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Hold before the riff",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B",
+        "Emaj7",
+        "C#m",
+        "G#m",
+        "B",
+        "G#m",
+        "B"
+      ]
+    },
+    {
+      "name": "Last chorus",
+      "type": "chords",
+      "bars": [
+        "A",
+        "B",
+        "A",
+        "B",
+        "A",
+        "B",
+        "F#m",
+        "G#m",
+        "F#m",
+        "G#m"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "Emaj7",
+        "Emaj7",
+        "Emaj7",
+        "Emaj7"
+      ]
+    }
+  ],
+  "createdAt": 1791584352774,
+  "updatedAt": 1791642754467,
+  "genre": "New wave",
+  "album": "Rebel Yell",
+  "year": 1984,
+  "scale": {
+    "root": "E",
+    "type": "penta-major"
   },
-  {
-   "n": "G#m",
-   "s": "466444"
-  },
-  {
-   "n": "B",
-   "s": "799877"
-  },
-  {
-   "n": "A",
-   "s": "x02220"
-  },
-  {
-   "n": "F#m",
-   "s": "244222"
-  }
- ],
- "sections": [
-  {
-   "name": "Intro",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "Emaj7",
-    "Emaj7",
-    "Emaj7",
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B"
-   ]
-  },
-  {
-   "name": "Verse 1",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B"
-   ],
-   "repeat": 3
-  },
-  {
-   "name": "Chorus 1",
-   "type": "chords",
-   "bars": [
-    "A",
-    "B",
-    "A",
-    "B",
-    "A",
-    "B",
-    "F#m",
-    "G#m"
-   ]
-  },
-  {
-   "name": "Link",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B"
-   ]
-  },
-  {
-   "name": "Verse 2",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B"
-   ],
-   "repeat": 2
-  },
-  {
-   "name": "Chorus 2",
-   "type": "chords",
-   "bars": [
-    "A",
-    "B",
-    "A",
-    "B",
-    "A",
-    "B",
-    "F#m",
-    "G#m"
-   ]
-  },
-  {
-   "name": "Hold before the riff",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "Emaj7",
-    "Emaj7",
-    "Emaj7"
-   ]
-  },
-  {
-   "name": "Verse 3",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B",
-    "Emaj7",
-    "C#m",
-    "G#m",
-    "B",
-    "G#m",
-    "B"
-   ]
-  },
-  {
-   "name": "Last chorus",
-   "type": "chords",
-   "bars": [
-    "A",
-    "B",
-    "A",
-    "B",
-    "A",
-    "B",
-    "F#m",
-    "G#m",
-    "F#m",
-    "G#m"
-   ]
-  },
-  {
-   "name": "Outro",
-   "type": "chords",
-   "bars": [
-    "Emaj7",
-    "Emaj7",
-    "Emaj7",
-    "Emaj7"
-   ]
-  }
- ],
- "createdAt": 1791584352774,
- "updatedAt": 1791584352774
+  "needs": [
+    "strum-eighths"
+  ]
 }

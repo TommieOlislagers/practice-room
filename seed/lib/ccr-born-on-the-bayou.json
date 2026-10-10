@@ -1,0 +1,189 @@
+{
+  "id": "ccr-born-on-the-bayou",
+  "title": "Born on the Bayou",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Bayou Country",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "E",
+  "bpm": 118,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 316,
+  "note": "Almost the whole song sits on E7: lock into a steady eighth-note groove and keep it rolling. The only change is a quick D then A stab on the last two beats of a phrase, back on E7 for the next downbeat. The tremolo guitar figure of the intro and the solos are left out; their backing is the same E7.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "sevenths",
+    "quick-changes",
+    "arpeggio"
+  ],
+  "scale": {
+    "root": "E",
+    "type": "penta-minor"
+  },
+  "shapes": [],
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A",
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 6
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Break",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 8
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 2
+    },
+    {
+      "name": "Verse 4",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 3
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7 E7 D A"
+      ],
+      "repeat": 4
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "E7",
+        "E7",
+        "E7",
+        "E7"
+      ],
+      "repeat": 3
+    }
+  ],
+  "sources": [
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/born-on-the-bayou-(ver3)-chords",
+    "https://www.skyminds.net/creedence-clearwater-revival/born-on-the-bayou.tab",
+    "https://thebandplan.com/songs/107/docs/471",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH2/CCR______GH2-03.html",
+    "https://en.wikipedia.org/wiki/Born_on_the_Bayou"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Album version (5:16). Three charts agree: E7 throughout with D to A stabs at phrase ends, and on the order of sections. None gives bar lines, so the bar counts and where the stabs fall (beats 3 and 4, every fourth bar in verses, every second in choruses) are my estimate, fitted to tempo and length. The outro fades.",
+  "createdAt": 1791642737019,
+  "updatedAt": 1791642737019
+}

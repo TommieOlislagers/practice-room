@@ -1,0 +1,176 @@
+{
+  "id": "ccr-down-on-the-corner",
+  "title": "Down on the Corner",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Willy and the Poor Boys",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "C",
+  "bpm": 108,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 166,
+  "note": "Keep the strumming short and bouncy: relax the fretting hand just after each stroke so the chord is clipped. In the verse the G lasts only two beats before C returns, so keep the fingers close to the strings. A small four-string F is fine here if the full barre is not ready yet.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "C",
+    "type": "penta-major"
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G C",
+        "C",
+        "G C",
+        "F",
+        "C",
+        "C",
+        "G C"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G C",
+        "C",
+        "G C",
+        "F",
+        "C",
+        "C",
+        "G C"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "F",
+        "C",
+        "G",
+        "C",
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G C",
+        "C",
+        "G C",
+        "F",
+        "C",
+        "C",
+        "G C"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "F",
+        "C",
+        "G",
+        "C",
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    },
+    {
+      "name": "Break",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G C",
+        "C",
+        "G C",
+        "F",
+        "C",
+        "C",
+        "G C"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "F",
+        "C",
+        "G",
+        "C",
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "C",
+        "G C",
+        "C",
+        "G C",
+        "F",
+        "C",
+        "C",
+        "G C"
+      ]
+    },
+    {
+      "name": "Chorus 4",
+      "type": "chords",
+      "bars": [
+        "F",
+        "C",
+        "G",
+        "C",
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "F",
+        "C",
+        "G",
+        "C"
+      ]
+    }
+  ],
+  "sources": [
+    "https://www.skyminds.net/guitar-tabs/creedence-clearwater-revival/down-on-the-corner.tab",
+    "https://www.guitartabsexplorer.com/creedence-clearwater-revival/down-on-the-corner-(ver2)-chords",
+    "https://en.wikipedia.org/wiki/Down_on_the_Corner",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-08.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Both chord sources agree on verse (C, G C, F) and chorus (F C G C twice). Bar lengths are worked out from 108 BPM and about 2:45: eight bars per section. Guesses: the intro as one eight-bar pass of the verse chords (the record builds up from percussion), and the order break, chorus, verse 3, chorus, fade, from one tab.",
+  "createdAt": 1791642737021,
+  "updatedAt": 1791642737021
+}

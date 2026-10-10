@@ -124,7 +124,7 @@ const chart = (title, bars) => ({ title, artist: 'Test', level: 1, bpm: 90, capo
   s = await st(page);
   const g1 = theGist();
   check('signed in: the name is shown and the page says where the data is', s.state === 'in' && s.user === 'tommie' && s.pill === 'Saved to GitHub' && /Tommie Olislagers/.test(s.sheet) && /@tommie/.test(s.sheet) && /Signed in as Tommie Olislagers/.test(s.toast), s.pill + ' / ' + s.toast);
-  check('one secret gist was made, holding the songs and the session played before', Object.keys(gh.gists).length === 1 && g1.public === false && Object.keys(g1.files).sort().join() === 'practice-room.json,' + Object.keys(g1.files).filter(n => /^sessions/.test(n))[0] && /Before signing in/.test(Object.values(g1.files).join('')) && Object.keys(JSON.parse(g1.files['practice-room.json']).songs).sort().join() === 'eyes-capo4,eyes-original', Object.keys(g1.files).join());
+  check('one secret gist was made, holding the songs and the session played before', Object.keys(gh.gists).length === 1 && g1.public === false && Object.keys(g1.files).sort().join() === 'practice-room.json,' + Object.keys(g1.files).filter(n => /^sessions/.test(n))[0] && /Before signing in/.test(Object.values(g1.files).join('')) && Object.keys(JSON.parse(g1.files['practice-room.json']).songs).length === 0, Object.keys(g1.files).join());
   check('the key is kept in this browser only, never in the saved file', s.saved && s.saved.token === KEY1 && s.saved.gist === g1.id && JSON.stringify(gh.gists).indexOf('github_pat_') < 0 && JSON.stringify(gh.gists).indexOf('private@example.com') < 0 && JSON.stringify(s.saved).indexOf('private@example.com') < 0);
   check('the invitation on Today is gone', !/Keep your progress/.test(s.main));
   check('the calls: who am I, look for a saved file, make one', gh.log.join(' | ') === 'GET /user | GET /gists | POST /gists [practice-room.json ' + Object.keys(g1.files).filter(n => /^sessions/.test(n))[0] + ']', gh.log.join(' | '));
@@ -160,7 +160,7 @@ const chart = (title, bars) => ({ title, artist: 'Test', level: 1, bpm: 90, capo
   await signIn(page2, KEY2);
   let s2 = await st(page2);
   check('it finds the same saved file and makes no second one', Object.keys(gh.gists).length === 1 && s2.gist === g1.id && !gh.log.some(l => /^POST/.test(l)), gh.log.join(' | '));
-  check('the phone\'s sessions and settings arrive, and the laptop\'s own work is kept', s2.sessions.length === 4 && s2.sessions.indexOf('Before signing in') >= 0 && s2.sessions.indexOf('On the laptop, signed out') >= 0 && s2.songs.join() === 'eyes-capo4,eyes-original,lap1' && s2.goal === 15 && /from the account is on this device now/.test(s2.toast), s2.sessions.join(', ') + ' / goal ' + s2.goal);
+  check('the phone\'s sessions and settings arrive, and the laptop\'s own work is kept', s2.sessions.length === 4 && s2.sessions.indexOf('Before signing in') >= 0 && s2.sessions.indexOf('On the laptop, signed out') >= 0 && s2.songs.join() === 'lap1' && s2.goal === 15 && /from the account is on this device now/.test(s2.toast), s2.sessions.join(', ') + ' / goal ' + s2.goal);
   check('...and the laptop\'s work went up to the account', JSON.parse(g1.files[month]).sessions.length === 4 && !!JSON.parse(g1.files['practice-room.json']).songs.lap1);
   await page.evaluate(() => window.PR.app.acct.sync('test'));
   await settle(page, 400);
@@ -175,7 +175,8 @@ const chart = (title, bars) => ({ title, artist: 'Test', level: 1, bpm: 90, capo
   await page.evaluate(() => window.PR.app.acct.sync('test')); await page2.evaluate(() => window.PR.app.acct.sync('test'));
   await settle(page, 500);
   s = await st(page); s2 = await st(page2);
-  check('a song deleted on the phone goes from the laptop; a rename on the laptop reaches the phone', s2.songs.join() === 'eyes-original,lap1' && s.songs.join() === 'eyes-original,lap1' && (await page.evaluate(() => window.PR.app.S.songs.lap1.title)) === 'Renamed On The Laptop', s.songs.join() + ' / ' + s2.songs.join());
+  const gone = p => p.evaluate(() => window.PR.app.findSong('eyes-capo4') === null && !!window.PR.app.findSong('eyes-original'));
+  check('a built-in song removed on the phone goes from the laptop; a rename on the laptop reaches the phone', (await gone(page)) && (await gone(page2)) && s2.songs.join() === 'lap1' && s.songs.join() === 'lap1' && (await page.evaluate(() => window.PR.app.S.songs.lap1.title)) === 'Renamed On The Laptop', s.songs.join() + ' / ' + s2.songs.join());
   check('the songs list on the phone shows it without a reload', await page.evaluate(() => { window.PR.app.go({ name: 'songs' }); return /Renamed On The Laptop/.test(document.querySelector('#main').textContent); }));
   await page.evaluate(() => window.PR.app.go({ name: 'today' }));
 
@@ -285,7 +286,7 @@ const chart = (title, bars) => ({ title, artist: 'Test', level: 1, bpm: 90, capo
   gh.gists = {}; gh.log.length = 0;
   page = await fourth.open(); await settle(page, 500);
   s = await st(page);
-  check('a new one is started from what the device holds', s.state === 'in' && Object.keys(gh.gists).length === 1 && s.gist === theGist().id && Object.keys(JSON.parse(theGist().files['practice-room.json']).songs).length === 2, gh.log.join(' | '));
+  check('a new one is started from what the device holds', s.state === 'in' && Object.keys(gh.gists).length === 1 && s.gist === theGist().id && theGist().files['practice-room.json'].indexOf('practice-room') > 0, gh.log.join(' | '));
   await page.close();
 
   /* 15. inside Claude the page has its own database: no GitHub account is offered and GitHub is never called */

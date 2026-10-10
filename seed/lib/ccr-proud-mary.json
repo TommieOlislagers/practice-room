@@ -1,0 +1,195 @@
+{
+  "id": "ccr-proud-mary",
+  "title": "Proud Mary",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Bayou Country",
+  "year": 1969,
+  "genre": "Roots rock",
+  "level": 3,
+  "key": "D",
+  "bpm": 121,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 187,
+  "note": "The verse is eight bars of D, so the work is in the right hand: steady down-up eighths, lightly accented on beats 2 and 4. In the intro figure the chords arrive a little before the beat; learn it slowly by ear against the record. Bm and the F of the intro are barre chords: place the bar first, then the other fingers.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "offbeat",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "D",
+    "type": "penta-major"
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "C A",
+        "C A",
+        "C A G F",
+        "F",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 1",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "Bm",
+        "Bm",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 2",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "Bm",
+        "Bm",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Interlude 1",
+      "type": "chords",
+      "bars": [
+        "C A",
+        "C A",
+        "C A G F",
+        "F",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Solo",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "A",
+        "A",
+        "Bm",
+        "Bm",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Interlude 2",
+      "type": "chords",
+      "bars": [
+        "C A",
+        "C A",
+        "C A G F",
+        "F",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Chorus 3",
+      "type": "chords",
+      "bars": [
+        "A",
+        "A",
+        "Bm",
+        "Bm",
+        "D",
+        "D",
+        "D",
+        "D"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "D",
+        "D",
+        "D",
+        "D"
+      ],
+      "repeat": 3
+    }
+  ],
+  "sources": [
+    "https://tabs4acoustic.com/en/guitar-tabs/creedence-clearwater-revival-tabs/proud-mary-acoustic-tab-132.html",
+    "https://www.laurenbateman.com/proud-mary-chord-chart",
+    "https://classicsongoftheday.com/proud-mary-creedence-clearwater-revival-ike-tina-turner/",
+    "https://en.wikipedia.org/wiki/Proud_Mary",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-03.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sources agree: intro C A, C A, C A G F, then D; verse all D; chorus A, Bm, D. On the record the intro changes fall before the beat and D is pushed into the end of the F bar; the chart spaces them evenly. Four bars of D after Bm follows one source; the fade is written as three passes. Bar counts fit 121 BPM and 3:07.",
+  "createdAt": 1791642737030,
+  "updatedAt": 1791642737030
+}

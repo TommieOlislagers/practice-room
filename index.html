@@ -241,7 +241,7 @@ button.item:active { background: var(--fill); }
 .q-xp { font-family: var(--f-round); font-weight: 700; font-size: 14px; color: var(--tint-text); white-space: nowrap; }
 .quest.is-done .q-xp { color: var(--good); }
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-@media (min-width: 560px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 560px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .stat { background: var(--card); border-radius: var(--r); padding: 12px 14px; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .stat span { font-size: 13px; color: var(--ink-3); font-weight: 500; }
 .stat b { font-family: var(--f-round); font-size: 28px; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
@@ -328,6 +328,67 @@ details > summary::-webkit-details-marker { display: none; }
 .step-n { width: 24px; height: 24px; border-radius: 50%; background: var(--tint); color: var(--tint-ink); display: inline-grid; place-items: center; font-family: var(--f-round); font-weight: 700; font-size: 14px; flex: none; }
 .btn.btn-gh { background: var(--ink); color: var(--bg); }
 .btn-gh svg:last-child { opacity: .6; }
+
+/* ---- pictures: a drawn tile, with the artist's photograph over it where one is known ---- */
+.art { --h: 250; position: relative; overflow: hidden; display: inline-grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 12px; color: #fff; background: linear-gradient(145deg, hsl(var(--h) 58% 54%), hsl(calc(var(--h) + 35) 60% 36%)); }
+.art b { font-family: var(--f-round); font-weight: 700; font-size: 16px; letter-spacing: .02em; }
+.art > svg { width: 52%; height: 52%; }
+.art-game { background: linear-gradient(150deg, #1f8a5a, #0d4b3c); color: #ffd75e; }
+.art-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.art-md { width: 64px; height: 64px; border-radius: 14px; } .art-md b { font-size: 20px; }
+.art-lg { width: 60px; height: 60px; border-radius: 14px; } .art-lg b { font-size: 19px; }
+.art-card { width: 100%; height: auto; aspect-ratio: 1; border-radius: 16px; } .art-card b { font-size: 30px; }
+.art-banner { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0; } .art-banner b { font-size: 56px; opacity: .9; } .art-banner > svg { width: 30%; height: 60%; }
+.artists { display: flex; gap: 12px; overflow-x: auto; margin-inline: -16px; padding: 2px 16px 6px; scrollbar-width: none; scroll-snap-type: x proximity; }
+.artists::-webkit-scrollbar { display: none; }
+.artist-card { flex: none; width: 132px; display: flex; flex-direction: column; gap: 5px; text-align: left; background: none; border: 0; padding: 0; color: inherit; scroll-snap-align: start; }
+.artist-card > b { font-size: 15px; font-weight: 600; line-height: 1.2; margin-top: 3px; }
+.artist-card > span:last-child { font-size: 13px; color: var(--ink-3); }
+.artist-head { position: relative; height: 190px; border-radius: 22px; overflow: hidden; color: #fff; }
+.artist-over { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; padding: 12px 16px 14px; background: linear-gradient(180deg, rgba(0, 0, 0, .3) 0%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .74) 100%); }
+.btn.artist-back { background: rgba(0, 0, 0, .46); color: #fff; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding-left: 8px; }
+/* ---- the path to a song ---- */
+.pring { position: relative; width: 40px; height: 40px; flex: none; display: inline-grid; place-items: center; }
+.pring > svg:first-child { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.pring .track { fill: none; stroke: var(--fill-2); stroke-width: 4; }
+.pring .arc { fill: none; stroke: var(--tint); stroke-width: 4; stroke-linecap: round; }
+.pring b { font-family: var(--f-round); font-size: 12px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pring.is-done .arc { stroke: var(--gold); }
+.pring.is-done > svg:last-child { width: 18px; height: 18px; color: var(--gold); position: relative; }
+.path-num { display: flex; align-items: baseline; gap: 8px; }
+.path-num b { font-family: var(--f-round); font-size: 34px; font-weight: 700; line-height: 1; }
+.path-num span { color: var(--ink-3); font-size: 15px; }
+.group-in { background: var(--fill); }
+.step .q-check { width: 26px; height: 26px; }
+.step .q-check svg { width: 14px; height: 14px; }
+.step.is-done .q-check { background: var(--good-fill); border-color: var(--good-fill); color: #fff; }
+.step.is-done .item-title { color: var(--ink-2); font-weight: 500; }
+.step.is-next { background: var(--tint-soft); }
+.step.is-next .q-check { border-color: var(--tint); }
+.goal-song { display: flex; align-items: center; gap: 12px; background: none; border: 0; padding: 0; text-align: left; color: inherit; width: 100%; }
+.goal-flag svg { width: 14px; height: 14px; display: inline; vertical-align: -1px; color: var(--tint-text); }
+.pill svg { flex: none; }
+.notice-good { background: var(--good-soft); }
+.notice-good > svg { color: var(--good); }
+.unlock-big { background: linear-gradient(140deg, #ffcf3f, #ff9500); color: #1c1c1e; }
+.unlock-big i { background: rgba(255, 255, 255, .4); color: #1c1c1e; }
+.unlock-big .muted { color: rgba(0, 0, 0, .68); }
+/* ---- metronome ---- */
+.metro { background: var(--card); border-radius: 24px; padding: 22px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
+.metro-dots { display: flex; justify-content: center; gap: 12px; min-height: 24px; align-items: center; }
+.metro-dots i { width: 18px; height: 18px; border-radius: 50%; background: var(--fill-2); transition: transform .07s, background .07s; }
+.metro-dots i.is-one { box-shadow: inset 0 0 0 2.5px var(--tint); }
+.metro-dots i.is-on { background: var(--tint); transform: scale(1.35); }
+.metro-bpm { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.metro-bpm .icon-btn { width: 52px; height: 52px; font-size: 28px; line-height: 1; color: var(--ink); }
+.metro-num { display: flex; flex-direction: column; align-items: center; }
+.metro-num b { font-family: var(--f-round); font-size: 76px; font-weight: 700; line-height: .95; font-variant-numeric: tabular-nums; }
+.metro-num span { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+.range { -webkit-appearance: none; appearance: none; width: 100%; height: 32px; background: transparent; margin: 0; }
+.range::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: var(--fill-2); }
+.range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: 0 1px 6px rgba(0, 0, 0, .3); margin-top: -11px; }
+.range::-moz-range-track { height: 6px; border-radius: 3px; background: var(--fill-2); }
+.range::-moz-range-thumb { width: 28px; height: 28px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 1px 6px rgba(0, 0, 0, .3); }
 
 /* ---- sheets ---- */
 .sheet-wrap { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .4); display: flex; align-items: flex-end; justify-content: center; animation: fade .2s ease; }
@@ -505,7 +566,7 @@ details > summary::-webkit-details-marker { display: none; }
   <div class="tabs-in">
     <button class="tab" data-act="go" data-to="today"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.2 3 10.6V20a1 1 0 0 0 1 1h5.5v-6.5h5V21H20a1 1 0 0 0 1-1v-9.4z"/></svg>Today</button>
     <button class="tab" data-act="go" data-to="songs"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 3.2 8.5 5.6v10.1A3.4 3.4 0 1 0 10.5 19V9.6l7.5-1.6v5.7a3.4 3.4 0 1 0 2 3.1z"/></svg>Songs</button>
-    <button class="tab" data-act="go" data-to="tuner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3.5 17a8.5 8.5 0 0 1 17 0"/><path d="M12 17l4.2-6.4"/><circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/></svg>Tuner</button>
+    <button class="tab" data-act="go" data-to="tuner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3.5 17a8.5 8.5 0 0 1 17 0"/><path d="M12 17l4.2-6.4"/><circle cx="12" cy="17" r="1.6" fill="currentColor" stroke="none"/></svg>Tools</button>
     <button class="tab" data-act="go" data-to="me"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3.5h10v5.2a5 5 0 0 1-4 4.9V17h3.2v3.5H7.8V17H11v-3.4a5 5 0 0 1-4-4.9z"/><path d="M5.6 5.2H3.2a3.6 3.6 0 0 0 3 4.4zM18.4 5.2h2.4a3.6 3.6 0 0 1-3 4.4z"/></svg>Progress</button>
   </div>
 </nav>
@@ -2644,7 +2705,8 @@ details > summary::-webkit-details-marker { display: none; }
   if (typeof module !== 'undefined' && module.exports) module.exports = PR;
 })(typeof window !== 'undefined' ? window : globalThis);
 
-(typeof window !== "undefined" ? window : globalThis).PR.starters = {"eyes-original":{"title":"Eyes Without a Face","artist":"Billy Idol","level":3,"levelAuto":3,"bpm":86,"capo":0,"tuning":"standard","key":"E","beatsPerSlot":4,"origin":"claude","checked":true,"note":"One strum per bar first. In the verse your index finger only ever sits on fret 7 or fret 4. On the record the heavy riff and the solo come between the hold and verse 3: they are left out here. Verse 3 ends with an extra G#m and B before the chorus.","source":{"label":"Cifra Club chart","url":"https://www.cifraclub.com/billy-idol/eyes-without-face/kgghjs.html"},"shapes":[{"n":"Emaj7","s":"x79897"},{"n":"C#m","s":"x46654"},{"n":"G#m","s":"466444"},{"n":"B","s":"799877"},{"n":"A","s":"x02220"},{"n":"F#m","s":"244222"}],"sections":[{"name":"Intro","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7","Emaj7","C#m","G#m","B"]},{"name":"Verse 1","type":"chords","bars":["Emaj7","C#m","G#m","B"],"repeat":3},{"name":"Chorus 1","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m"]},{"name":"Link","type":"chords","bars":["Emaj7","C#m","G#m","B"]},{"name":"Verse 2","type":"chords","bars":["Emaj7","C#m","G#m","B"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m"]},{"name":"Hold before the riff","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7"]},{"name":"Verse 3","type":"chords","bars":["Emaj7","C#m","G#m","B","Emaj7","C#m","G#m","B","G#m","B"]},{"name":"Last chorus","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m","F#m","G#m"]},{"name":"Outro","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7"]}],"createdAt":1791584352774,"updatedAt":1791584352774},"eyes-capo4":{"title":"Eyes Without a Face (capo 4, open shapes)","artist":"Billy Idol","level":2,"levelAuto":2,"bpm":86,"capo":4,"tuning":"standard","key":"E","beatsPerSlot":4,"origin":"claude","checked":true,"note":"The same song with a capo on fret 4, so the verse becomes four open shapes. F is the only barre: play the small F (xx3211) if the full one buzzes. The heavy riff and the solo between the hold and verse 3 are left out.","source":{"label":"Ultimate Guitar chords","url":"https://tabs.ultimate-guitar.com/tab/billy-idol/eyes-without-a-face-chords-4699499"},"shapes":[],"sections":[{"name":"Intro","type":"chords","bars":["C","C","C","C","C","Am","Em","G"]},{"name":"Verse 1","type":"chords","bars":["C","Am","Em","G"],"repeat":3},{"name":"Chorus 1","type":"chords","bars":["F","G","F","G","F","G","Dm","Em"]},{"name":"Link","type":"chords","bars":["C","Am","Em","G"]},{"name":"Verse 2","type":"chords","bars":["C","Am","Em","G"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["F","G","F","G","F","G","Dm","Em"]},{"name":"Hold before the riff","type":"chords","bars":["C","C","C","C"]},{"name":"Verse 3","type":"chords","bars":["C","Am","Em","G","C","Am","Em","G","Em","G"]},{"name":"Last chorus","type":"chords","bars":["F","G","F","G","F","G","Dm","Em","Dm","Em"]},{"name":"Outro","type":"chords","bars":["C","C","C","C"]}],"createdAt":1791584352775,"updatedAt":1791584352775}};
+(typeof window !== "undefined" ? window : globalThis).PR.catalog = {"ccr-bad-moon-rising":{"title":"Bad Moon Rising","artist":"Creedence Clearwater Revival","album":"Green River","year":1969,"genre":"Roots rock","level":1,"key":"D","bpm":179,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"Three open chords, but quick: the A and G in the second bar get only two beats each, so move the whole hand at once and keep the strumming arm swinging through the change. Count it in half time (about 90) while learning, then let it bounce.","strum":"D D D DU","needs":["strum-quarters","strum-eighths","quick-changes"],"scale":{"root":"D","type":"penta-major"},"sections":[{"name":"Intro","type":"chords","bars":["D","A G","D","D"]},{"name":"Verse 1","type":"chords","bars":["D","A G","D","D"],"repeat":4},{"name":"Chorus 1","type":"chords","bars":["G","G","D","D","A","G","D","D"]},{"name":"Verse 2","type":"chords","bars":["D","A G","D","D"],"repeat":4},{"name":"Chorus 2","type":"chords","bars":["G","G","D","D","A","G","D","D"]},{"name":"Solo","type":"chords","bars":["D","A G","D","D","D","A G","D","D","G","G","D","D","A","G","D","D"]},{"name":"Verse 3","type":"chords","bars":["D","A G","D","D"],"repeat":4},{"name":"Chorus 3","type":"chords","bars":["G","G","D","D","A","G","D","D"],"repeat":2},{"name":"Outro","type":"chords","bars":["D"]}],"checked":true,"createdAt":1791642737015,"updatedAt":1791642737015,"source":{"label":"richterguitar.com","url":"https://richterguitar.com/bad-moon-rising-creedence-clearwater-revival/"},"origin":"claude"},"ccr-born-on-the-bayou":{"title":"Born on the Bayou","artist":"Creedence Clearwater Revival","album":"Bayou Country","year":1969,"genre":"Roots rock","level":2,"key":"E","bpm":118,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"Almost the whole song sits on E7: lock into a steady eighth-note groove and keep it rolling. The only change is a quick D then A stab on the last two beats of a phrase, back on E7 for the next downbeat. The tremolo guitar figure of the intro and the solos are left out; their backing is the same E7.","strum":"D DU UDU","needs":["strum-eighths","sevenths","quick-changes","arpeggio"],"scale":{"root":"E","type":"penta-minor"},"sections":[{"name":"Intro","type":"chords","bars":["E7","E7","E7","E7"],"repeat":4},{"name":"Verse 1","type":"chords","bars":["E7","E7","E7","E7 E7 D A","E7","E7","E7","E7 E7 D A","E7","E7","E7","E7","E7","E7","E7","E7"]},{"name":"Verse 2","type":"chords","bars":["E7","E7","E7","E7 E7 D A"],"repeat":3},{"name":"Chorus 1","type":"chords","bars":["E7","E7 E7 D A"],"repeat":4},{"name":"Solo","type":"chords","bars":["E7","E7","E7","E7 E7 D A"],"repeat":6},{"name":"Interlude","type":"chords","bars":["E7","E7","E7","E7"],"repeat":2},{"name":"Verse 3","type":"chords","bars":["E7","E7","E7","E7 E7 D A"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["E7","E7 E7 D A"],"repeat":4},{"name":"Break","type":"chords","bars":["E7","E7 E7 D A"],"repeat":8},{"name":"Interlude 2","type":"chords","bars":["E7","E7","E7","E7"],"repeat":2},{"name":"Verse 4","type":"chords","bars":["E7","E7","E7","E7 E7 D A"],"repeat":3},{"name":"Chorus 3","type":"chords","bars":["E7","E7 E7 D A"],"repeat":4},{"name":"Outro","type":"chords","bars":["E7","E7","E7","E7"],"repeat":3}],"checked":true,"createdAt":1791642737019,"updatedAt":1791642737019,"source":{"label":"guitartabsexplorer.com","url":"https://www.guitartabsexplorer.com/creedence-clearwater-revival/born-on-the-bayou-(ver3)-chords"},"origin":"claude"},"ccr-down-on-the-corner":{"title":"Down on the Corner","artist":"Creedence Clearwater Revival","album":"Willy and the Poor Boys","year":1969,"genre":"Roots rock","level":2,"key":"C","bpm":108,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"Keep the strumming short and bouncy: relax the fretting hand just after each stroke so the chord is clipped. In the verse the G lasts only two beats before C returns, so keep the fingers close to the strings. A small four-string F is fine here if the full barre is not ready yet.","strum":"D DU UDU","needs":["strum-eighths","strum-pattern","quick-changes"],"scale":{"root":"C","type":"penta-major"},"sections":[{"name":"Intro","type":"chords","bars":["C","G C","C","G C","F","C","C","G C"]},{"name":"Verse 1","type":"chords","bars":["C","G C","C","G C","F","C","C","G C"]},{"name":"Chorus 1","type":"chords","bars":["F","C","G","C","F","C","G","C"]},{"name":"Verse 2","type":"chords","bars":["C","G C","C","G C","F","C","C","G C"]},{"name":"Chorus 2","type":"chords","bars":["F","C","G","C","F","C","G","C"]},{"name":"Break","type":"chords","bars":["C","G C","C","G C","F","C","C","G C"]},{"name":"Chorus 3","type":"chords","bars":["F","C","G","C","F","C","G","C"]},{"name":"Verse 3","type":"chords","bars":["C","G C","C","G C","F","C","C","G C"]},{"name":"Chorus 4","type":"chords","bars":["F","C","G","C","F","C","G","C"]},{"name":"Outro","type":"chords","bars":["F","C","G","C"]}],"checked":true,"createdAt":1791642737021,"updatedAt":1791642737021,"source":{"label":"skyminds.net","url":"https://www.skyminds.net/guitar-tabs/creedence-clearwater-revival/down-on-the-corner.tab"},"origin":"claude"},"ccr-fortunate-son":{"title":"Fortunate Son","artist":"Creedence Clearwater Revival","album":"Willy and the Poor Boys","year":1969,"genre":"Roots rock","level":2,"key":"G","bpm":133,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"One chord per bar at a fast, driving pace: strum hard downstrokes on the beat and hit the first beat of each bar hardest. Two-finger power chords on the low strings (G5, F5, C5, D5) sound right and make the F easy. Sit on G through the intro and the break while the lead guitar plays its figure.","strum":"D D D DU","needs":["strum-quarters","strum-eighths","power-chords"],"scale":{"root":"G","type":"mixolydian"},"sections":[{"name":"Intro","type":"chords","bars":["G","G","G","G"],"repeat":2},{"name":"Verse 1","type":"chords","bars":["G","F","C","G"],"repeat":2},{"name":"Chorus 1","type":"chords","bars":["G","D","C","G"],"repeat":2},{"name":"Verse 2","type":"chords","bars":["G","F","C","G"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["G","D","C","G"],"repeat":2},{"name":"Break","type":"chords","bars":["G","G","G","G"],"repeat":2},{"name":"Verse 3","type":"chords","bars":["G","F","C","G"],"repeat":2},{"name":"Chorus 3","type":"chords","bars":["G","D","C","G"],"repeat":4},{"name":"Outro","type":"chords","bars":["G","D","C","G"]}],"checked":true,"createdAt":1791642737024,"updatedAt":1791642737024,"source":{"label":"tabs4acoustic.com","url":"https://tabs4acoustic.com/en/guitar-tabs/creedence-clearwater-revival-tabs/fortunate-son-acoustic-tab-470.html"},"origin":"claude"},"ccr-have-you-ever-seen-the-rain":{"title":"Have You Ever Seen the Rain","artist":"Creedence Clearwater Revival","album":"Pendulum","year":1970,"genre":"Roots rock","level":2,"key":"C","bpm":116,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"The verse sits on C for four bars, so count them or you will change early. In the chorus the bass steps down under C and Am: lift or move one finger and keep the rest of the shape. Until that is easy, just play C and Am for the whole bar. Fmaj7 can stand in for the F barre.","strum":"D DU UDU","needs":["strum-eighths","strum-pattern","bass-walk","quick-changes"],"scale":{"root":"C","type":"penta-major"},"shapes":[{"n":"C/B","s":"x22010"}],"sections":[{"name":"Intro","type":"chords","bars":["Am","F","C","G","C","C"]},{"name":"Verse 1","type":"chords","bars":["C","C","C","C","G","G","C","C"],"repeat":2},{"name":"Chorus 1","type":"chords","bars":["F","G","C C/B","Am Am/G","F","G","C C/B","Am Am/G","F","G","C","C"]},{"name":"Verse 2","type":"chords","bars":["C","C","C","C","G","G","C","C"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["F","G","C C/B","Am Am/G","F","G","C C/B","Am Am/G","F","G","C","C"]},{"name":"Chorus 3","type":"chords","bars":["F","G","C C/B","Am Am/G","F","G","C C/B","Am Am/G","F","G","C","C"]},{"name":"Outro","type":"chords","bars":["C","G","C"]}],"checked":true,"createdAt":1791642737026,"updatedAt":1791642737026,"source":{"label":"laurenbateman.com","url":"https://www.laurenbateman.com/?p=3994"},"origin":"claude"},"ccr-lodi":{"title":"Lodi","artist":"Creedence Clearwater Revival","album":"Green River","year":1969,"genre":"Roots rock","level":2,"key":"Bb","bpm":126,"beatsPerBar":4,"beatsPerSlot":4,"capo":3,"tuning":"standard","note":"Capo 3 gives the record's key with G, C, D and Em. Nearly every bar holds one chord, so it is a fine song for an even, relaxed strum and for landing each change on beat one. The last verse steps up a key to A shapes and brings an F#m barre. The picked intro riff is left out.","strum":"D DU UDU","needs":["strum-eighths","strum-pattern","barre-em"],"scale":{"root":"Bb","type":"penta-major"},"sections":[{"name":"Intro","type":"chords","bars":["G","G","D C","G"]},{"name":"Verse 1","type":"chords","bars":["G","G","C","G","G","Em","C","D","G","Em","C","G","G","D","C","G"]},{"name":"Verse 2","type":"chords","bars":["G","G","C","G","G","Em","C","D","G","Em","C","G","G","D","C","G"]},{"name":"Interlude","type":"chords","bars":["G","G","C","G","G","G","D C","G"]},{"name":"Verse 3","type":"chords","bars":["G","G","C","G","G","Em","C","D","G","Em","C","G","G","D","C","G"]},{"name":"Key change","type":"chords","bars":["D","A","E","A","A"]},{"name":"Verse 4 (key up)","type":"chords","bars":["A","A","D","A","A","F#m","D","E","A","F#m","D","A","A","E","D","A","A","E","D","A"]},{"name":"Outro","type":"chords","bars":["A","A","D","A","A","A","E D","A"],"repeat":2}],"checked":true,"createdAt":1791642737027,"updatedAt":1791642737027,"source":{"label":"heartwoodguitar.com","url":"https://www.heartwoodguitar.com/chords/creedence-clearwater-revival-lodi/"},"origin":"claude"},"ccr-lookin-out-my-back-door":{"title":"Lookin' Out My Back Door","artist":"Creedence Clearwater Revival","album":"Cosmo's Factory","year":1970,"genre":"Roots rock","level":2,"key":"Bb","bpm":104,"beatsPerBar":4,"beatsPerSlot":4,"capo":3,"tuning":"standard","note":"Capo 3 turns the record's key into easy open shapes. Keep a light country bass-strum going and move early in the bars that hold two chords. Near the end the band slows right down, steps up a key (A shapes, with an F#m barre) and then runs back up to speed.","strum":"D DUD DU","needs":["strum-eighths","strum-pattern","quick-changes","barre-em","barre-e"],"scale":{"root":"Bb","type":"penta-major"},"sections":[{"name":"Intro","type":"chords","bars":["G","G","G","G"]},{"name":"Verse 1","type":"chords","bars":["G","Em","C G","D","G","Em","C G","D G"]},{"name":"Verse 2","type":"chords","bars":["G","Em","C G","D","G","Em","C G","D G"]},{"name":"Chorus 1","type":"chords","bars":["D","C G","Em","D","G","Em","C G","D G"]},{"name":"Solo","type":"chords","bars":["G","Em","C G","D","G","Em","C G","D G"]},{"name":"Chorus 2","type":"chords","bars":["D","C G","Em","D","G","Em","C G","D G"]},{"name":"Break (slowing down)","type":"chords","bars":["G","G F#","F E"]},{"name":"Verse 3 (key up)","type":"chords","bars":["A","F#m","D A","E","A","F#m","D A","E A"]},{"name":"Outro","type":"chords","bars":["E A","D A","E A","E A"]}],"checked":true,"createdAt":1791642737029,"updatedAt":1791642737029,"source":{"label":"skyminds.net","url":"https://www.skyminds.net/guitar-tabs/creedence-clearwater-revival/looking-out-my-back-door.tab"},"origin":"claude"},"ccr-proud-mary":{"title":"Proud Mary","artist":"Creedence Clearwater Revival","album":"Bayou Country","year":1969,"genre":"Roots rock","level":3,"key":"D","bpm":121,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"The verse is eight bars of D, so the work is in the right hand: steady down-up eighths, lightly accented on beats 2 and 4. In the intro figure the chords arrive a little before the beat; learn it slowly by ear against the record. Bm and the F of the intro are barre chords: place the bar first, then the other fingers.","strum":"D DU UDU","needs":["strum-eighths","strum-pattern","offbeat","quick-changes"],"scale":{"root":"D","type":"penta-major"},"sections":[{"name":"Intro","type":"chords","bars":["C A","C A","C A G F","F","D","D"]},{"name":"Verse 1","type":"chords","bars":["D","D","D","D","D","D","D","D"]},{"name":"Chorus 1","type":"chords","bars":["A","A","Bm","Bm","D","D","D","D"]},{"name":"Verse 2","type":"chords","bars":["D","D","D","D","D","D","D","D"]},{"name":"Chorus 2","type":"chords","bars":["A","A","Bm","Bm","D","D","D","D"]},{"name":"Interlude 1","type":"chords","bars":["C A","C A","C A G F","F","D","D"]},{"name":"Solo","type":"chords","bars":["D","D","D","D","D","D","D","D","A","A","Bm","Bm","D","D","D","D"]},{"name":"Interlude 2","type":"chords","bars":["C A","C A","C A G F","F","D","D"]},{"name":"Verse 3","type":"chords","bars":["D","D","D","D","D","D","D","D"]},{"name":"Chorus 3","type":"chords","bars":["A","A","Bm","Bm","D","D","D","D"]},{"name":"Outro","type":"chords","bars":["D","D","D","D"],"repeat":3}],"checked":true,"createdAt":1791642737030,"updatedAt":1791642737030,"source":{"label":"tabs4acoustic.com","url":"https://tabs4acoustic.com/en/guitar-tabs/creedence-clearwater-revival-tabs/proud-mary-acoustic-tab-132.html"},"origin":"claude"},"ccr-wholl-stop-the-rain":{"title":"Who'll Stop the Rain","artist":"Creedence Clearwater Revival","album":"Cosmo's Factory","year":1970,"genre":"Roots rock","level":2,"key":"G","bpm":123,"beatsPerBar":4,"beatsPerSlot":4,"capo":0,"tuning":"standard","note":"Mostly G, C and D with an easy swing of the wrist. Watch for the Bm in the second line of the later verses and for the two bars of Em near the end of each verse. In the interlude the chords change every two beats: practise that line alone, slowly, before joining it to the rest.","strum":"D DU UDU","needs":["strum-eighths","strum-pattern","quick-changes"],"scale":{"root":"G","type":"major"},"sections":[{"name":"Intro","type":"chords","bars":["G","G","Em","Em","G","G"]},{"name":"Verse 1","type":"chords","bars":["G","G","C","G","G","G","C","G","C","G","C","G","C","D","Em","Em","G","G"]},{"name":"Verse 2","type":"chords","bars":["G","G","C","G","G","Bm","C","G","C","G","C","G","C","D","Em","Em","G","G"]},{"name":"Interlude","type":"chords","bars":["C G","D Am","C Em","D","G","G"]},{"name":"Verse 3","type":"chords","bars":["G","G","C","G","G","Bm","C","G","C","G","C","G","C","D","Em","Em"]},{"name":"Outro","type":"chords","bars":["G","G","Em","Em"],"repeat":3}],"checked":true,"createdAt":1791642737032,"updatedAt":1791642737032,"source":{"label":"gitaartabs.nl","url":"https://www.gitaartabs.nl/song/chords/creedence-clearwater-revival/wholl-stop-the-rain?lang=en"},"origin":"claude"},"eyes-original":{"title":"Eyes Without a Face","artist":"Billy Idol","level":3,"levelAuto":3,"bpm":86,"capo":0,"tuning":"standard","key":"E","beatsPerSlot":4,"origin":"claude","checked":true,"note":"One strum per bar first. In the verse your index finger only ever sits on fret 7 or fret 4. On the record the heavy riff and the solo come between the hold and verse 3: they are left out here. Verse 3 ends with an extra G#m and B before the chorus.","source":{"label":"Cifra Club chart","url":"https://www.cifraclub.com/billy-idol/eyes-without-face/kgghjs.html"},"shapes":[{"n":"Emaj7","s":"x79897"},{"n":"C#m","s":"x46654"},{"n":"G#m","s":"466444"},{"n":"B","s":"799877"},{"n":"A","s":"x02220"},{"n":"F#m","s":"244222"}],"sections":[{"name":"Intro","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7","Emaj7","C#m","G#m","B"]},{"name":"Verse 1","type":"chords","bars":["Emaj7","C#m","G#m","B"],"repeat":3},{"name":"Chorus 1","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m"]},{"name":"Link","type":"chords","bars":["Emaj7","C#m","G#m","B"]},{"name":"Verse 2","type":"chords","bars":["Emaj7","C#m","G#m","B"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m"]},{"name":"Hold before the riff","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7"]},{"name":"Verse 3","type":"chords","bars":["Emaj7","C#m","G#m","B","Emaj7","C#m","G#m","B","G#m","B"]},{"name":"Last chorus","type":"chords","bars":["A","B","A","B","A","B","F#m","G#m","F#m","G#m"]},{"name":"Outro","type":"chords","bars":["Emaj7","Emaj7","Emaj7","Emaj7"]}],"createdAt":1791584352774,"updatedAt":1791642754467,"genre":"New wave","album":"Rebel Yell","year":1984,"scale":{"root":"E","type":"penta-major"},"needs":["strum-eighths"]},"eyes-capo4":{"title":"Eyes Without a Face (capo 4, open shapes)","artist":"Billy Idol","level":2,"levelAuto":2,"bpm":86,"capo":4,"tuning":"standard","key":"E","beatsPerSlot":4,"origin":"claude","checked":true,"note":"The same song with a capo on fret 4, so the verse becomes four open shapes. F is the only barre: play the small F (xx3211) if the full one buzzes. The heavy riff and the solo between the hold and verse 3 are left out.","source":{"label":"Ultimate Guitar chords","url":"https://tabs.ultimate-guitar.com/tab/billy-idol/eyes-without-a-face-chords-4699499"},"shapes":[],"sections":[{"name":"Intro","type":"chords","bars":["C","C","C","C","C","Am","Em","G"]},{"name":"Verse 1","type":"chords","bars":["C","Am","Em","G"],"repeat":3},{"name":"Chorus 1","type":"chords","bars":["F","G","F","G","F","G","Dm","Em"]},{"name":"Link","type":"chords","bars":["C","Am","Em","G"]},{"name":"Verse 2","type":"chords","bars":["C","Am","Em","G"],"repeat":2},{"name":"Chorus 2","type":"chords","bars":["F","G","F","G","F","G","Dm","Em"]},{"name":"Hold before the riff","type":"chords","bars":["C","C","C","C"]},{"name":"Verse 3","type":"chords","bars":["C","Am","Em","G","C","Am","Em","G","Em","G"]},{"name":"Last chorus","type":"chords","bars":["F","G","F","G","F","G","Dm","Em","Dm","Em"]},{"name":"Outro","type":"chords","bars":["C","C","C","C"]}],"createdAt":1791584352775,"updatedAt":1791642754467,"genre":"New wave","album":"Rebel Yell","year":1984,"scale":{"root":"E","type":"penta-major"},"needs":["strum-eighths"]}};
+(typeof window !== "undefined" ? window : globalThis).PR.pictures = {};
 /* app-core.js: state, storage, drills, statistics, small UI helpers. */
 (function (root) {
   'use strict';
@@ -2714,6 +2776,8 @@ details > summary::-webkit-details-marker { display: none; }
     crown: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-1.800 10H4.800z"/></svg>',
     hand: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8h14l-3.500-3.500 1.400-1.400L22.800 9l-5.900 5.900-1.400-1.400L19 10H5zM19 16H5l3.500 3.500-1.400 1.400L1.200 15l5.900-5.900 1.400 1.400L5 14h14z" transform="scale(.82) translate(2.600 2.600)"/></svg>',
     github: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>',
+    metro: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 3.500h7l3.500 17h-14z"/><path d="M12 15.500 17.500 5"/><path d="M6.300 15.500h11.400"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3.200a1 1 0 0 1 1 1V5h11.600a.8.8 0 0 1 .65 1.270L15.800 9.800l2.450 3.530a.8.8 0 0 1-.65 1.270H6v6.200a1 1 0 0 1-2 0V4.200a1 1 0 0 1 1-1z"/></svg>',
     cloud: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 19a5 5 0 0 1-.6-9.96 6 6 0 0 1 11.5 1.02A4.5 4.5 0 0 1 17.5 19z"/></svg>',
     clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>'
   };
@@ -2727,7 +2791,7 @@ details > summary::-webkit-details-marker { display: none; }
     store: 'loading',
     canWrite: true,
     mic: { state: 'idle', pre: 'unknown', detail: '', why: '', framed: false, policy: null, perm: '', tried: false },
-    filter: { level: 0, q: '' },
+    filter: { level: 0, q: '', artist: '', genre: '' },
     hasSample: false
   };
 
@@ -2764,7 +2828,7 @@ details > summary::-webkit-details-marker { display: none; }
   }
   var modelCache = {};
   function modelOf(song) {
-    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
+    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
     if (modelCache[song.id] && modelCache[song.id].key === key) return modelCache[song.id].model;
     var copy = Object.assign({}, song, { shapes: songShapes(song) });
     var model;
@@ -2772,15 +2836,31 @@ details > summary::-webkit-details-marker { display: none; }
     modelCache[song.id] = { key: key, model: model };
     return model;
   }
+  /* The library is the songs the page ships with (PR.catalog, built from seed/) plus the player's own.
+     A song the player edited is saved as their own copy under the same id and replaces the built-in one,
+     until the built-in one is corrected later. A built-in song the player deleted stays hidden the same way. */
+  var CAT = PR.catalog || {};
+  Object.keys(CAT).forEach(function (id) { CAT[id].id = id; CAT[id].builtin = true; });
+  function songOf(id) {
+    var u = S.songs[id], c = CAT[id];
+    if (u && (!c || (u.updatedAt || 0) >= (c.updatedAt || 0))) return u;
+    var gone = App.Store.gone[id];
+    if (c && !(gone && gone >= (c.updatedAt || 0))) return c;
+    return u || null;
+  }
   function allSongs() {
-    var list = Object.keys(S.songs).map(function (id) { return S.songs[id]; });
+    var ids = {}, list = [];
+    Object.keys(CAT).forEach(function (id) { ids[id] = 1; });
+    Object.keys(S.songs).forEach(function (id) { ids[id] = 1; });
+    Object.keys(ids).forEach(function (id) { var x = songOf(id); if (x) list.push(x); });
     list.sort(function (a, b) { return (a.level || 1) - (b.level || 1) || String(a.title).localeCompare(String(b.title)); });
     return list;
   }
   function findSong(id) {
-    if (S.songs[id]) return S.songs[id];
+    var x = songOf(id);
+    if (x) return x;
     for (var i = 0; i < DRILLS.length; i++) if (DRILLS[i].id === id) return DRILLS[i];
-    return null;
+    return App.path ? App.path.exercise(id) : null;
   }
 
   /* ---------- storage: the artifact's database when there is one, this browser otherwise ---------- */
@@ -2869,12 +2949,6 @@ details > summary::-webkit-details-marker { display: none; }
       }
     },
     keep: function () { lsSet(LS.pending, Store.pending); },
-    /* No database in this view and nothing saved in this browser yet: start with the songs the page ships with. */
-    starters: function () {
-      if (Object.keys(S.songs).length || lsGet(LS.starters) || !PR.starters) return;
-      Object.keys(PR.starters).forEach(function (id) { S.songs[id] = Object.assign({ id: id }, PR.starters[id]); });
-      lsSet(LS.songs, S.songs); lsSet(LS.starters, 1);
-    },
     /* what the database holds, plus what is still waiting to be sent */
     mergeSongs: function () {
       var next = Object.assign({}, Store.cloudSongs || {}), p = Store.pending;
@@ -2927,9 +3001,9 @@ details > summary::-webkit-details-marker { display: none; }
       Store.loadLocal();
       Diag.load();
       var cl = root.claude;
-      if (!cl || typeof cl.use !== 'function') { S.store = 'local'; Store.starters(); return Promise.resolve(); }
+      if (!cl || typeof cl.use !== 'function') { S.store = 'local'; return Promise.resolve(); }
       var waitDb = cl.use('db').then(function (db) {
-        if (!db) { S.store = 'local'; Store.starters(); App.render(); return; }
+        if (!db) { S.store = 'local'; App.render(); return; }
         Store.db = db;
         S.store = 'cloud';
         Diag.push();
@@ -2951,7 +3025,7 @@ details > summary::-webkit-details-marker { display: none; }
           if (snap.exists) { Object.assign(S.settings, snap.data()); lsSet(LS.settings, S.settings); App.render(); }
         }, function () { /* settings stay local */ });
         App.render();
-      }).catch(function () { S.store = 'local'; Store.starters(); App.render(); });
+      }).catch(function () { S.store = 'local'; App.render(); });
       cl.use('sample').then(function (fn) { S.hasSample = !!fn; App.sample = fn || null; if (S.route.name === 'songs') App.render(); }).catch(function () {});
       cl.use('user').then(function (u) {
         if (!u) return;
@@ -2972,7 +3046,7 @@ details > summary::-webkit-details-marker { display: none; }
     saveSong: function (song) {
       var id = song.id || uid('s');
       var doc = Object.assign({}, song);
-      delete doc.id; delete doc.drill;
+      delete doc.id; delete doc.drill; delete doc.builtin;
       doc.updatedAt = Date.now();
       if (!doc.createdAt) doc.createdAt = doc.updatedAt;
       S.songs[id] = Object.assign({ id: id }, doc);
@@ -3113,7 +3187,7 @@ details > summary::-webkit-details-marker { display: none; }
     }
     return xp;
   }
-  function questsOf(day, t) {
+  function questsOf(day, t, steps) {
     var goal = (S.settings.goal || 10) * 60, third = new Date(t).getDay() % 3;
     var list = day ? day.list : [];
     var songs = {}; list.forEach(function (x) { if (x.song) songs[x.song] = 1; });
@@ -3122,7 +3196,7 @@ details > summary::-webkit-details-marker { display: none; }
       { id: 'score', label: 'Score 80% or better on a run', done: list.some(function (x) { return !x.self && typeof x.acc === 'number' && x.acc >= 0.8 && x.kind !== 'omc'; }) },
       third === 0 ? { id: 'omc', label: 'Do a one-minute change drill', done: list.some(function (x) { return x.kind === 'omc'; }) } :
       third === 1 ? { id: 'two', label: 'Practise two different songs or drills', done: Object.keys(songs).length >= 2 } :
-        { id: 'three', label: 'Finish three sessions', done: list.length >= 3 }
+        (App.path ? { id: 'step', label: 'Finish a step on a song path', done: !!steps } : { id: 'three', label: 'Finish three sessions', done: list.length >= 3 })
     ];
     q.forEach(function (x) { x.xp = 40; });
     return q;
@@ -3142,7 +3216,11 @@ details > summary::-webkit-details-marker { display: none; }
     { id: 'hour1', name: 'An Hour In', desc: 'One hour of practice in all', icon: 'clock' },
     { id: 'hour10', name: 'Ten Hours', desc: 'Ten hours of practice in all', icon: 'clock' },
     { id: 'quests', name: 'Full House', desc: 'All three quests in one day', icon: 'check' },
-    { id: 'level5', name: 'Level 5', desc: 'Reach player level 5', icon: 'crown' }
+    { id: 'level5', name: 'Level 5', desc: 'Reach player level 5', icon: 'crown' },
+    { id: 'skill10', name: 'Ten Skills', desc: 'Learn 10 shapes, changes or techniques', icon: 'hand' },
+    { id: 'skill40', name: 'Toolbox', desc: 'Learn 40 shapes, changes or techniques', icon: 'hand' },
+    { id: 'song1', name: 'First Song', desc: 'Finish every step of a song', icon: 'trophy' },
+    { id: 'song5', name: 'Setlist', desc: 'Finish 5 songs', icon: 'trophy' }
   ];
   function computeGame() {
     var now = Date.now(), dayMs = 86400000, sessions = S.sessions;
@@ -3161,9 +3239,11 @@ details > summary::-webkit-details-marker { display: none; }
       if (typeof x.acc === 'number' && (g.best === null || x.acc > g.best)) g.best = x.acc;
       if ((x.score || 0) > g.score) g.score = x.score;
     });
+    /* what was reached on the song paths (app-path.js): steps finished, skills learned, songs finished */
+    var pathSum = App.path ? App.path.summary() : null, stepDays = pathSum ? pathSum.days : null;
     var fullDay = false;
     Object.keys(days).forEach(function (k) {
-      var q = questsOf(days[k], days[k].t), n = q.filter(function (x) { return x.done; }).length;
+      var q = questsOf(days[k], days[k].t, stepDays && stepDays[k]), n = q.filter(function (x) { return x.done; }).length;
       xp += n * 40 + (n === 3 ? 60 : 0); if (n === 3) fullDay = true;
     });
     /* level: 250 points for the first, 250 more for each one after */
@@ -3178,16 +3258,19 @@ details > summary::-webkit-details-marker { display: none; }
       run = prev !== null && Math.round((t - prev) / dayMs) === 1 ? run + 1 : 1; prev = t;
       if (run > bestStreak) bestStreak = run;
     });
-    var starsTotal = 0, three = false; Object.keys(songs).forEach(function (id) { starsTotal += songs[id].stars; if (songs[id].stars === 3) three = true; });
-    var today = days[dayKey(now)] || null, quests = questsOf(today, now), qDone = quests.filter(function (x) { return x.done; }).length;
+    var starsTotal = 0, three = false; Object.keys(songs).forEach(function (id) { if (id.indexOf('x:') === 0) return; starsTotal += songs[id].stars; if (songs[id].stars === 3) three = true; });
+    var ps = pathSum || { skills: 0, mastered: 0, steps: 0 };
+    var today = days[dayKey(now)] || null, quests = questsOf(today, now, stepDays && stepDays[dayKey(now)]), qDone = quests.filter(function (x) { return x.done; }).length;
     /* this week, Monday first */
     var d0 = new Date(now); d0.setHours(12, 0, 0, 0);
     var monday = d0.getTime() - ((d0.getDay() + 6) % 7) * dayMs, week = [];
     for (var i = 0; i < 7; i++) { var t = monday + i * dayMs, k = dayKey(t); week.push({ label: 'MTWTFSS'.charAt(i), done: !!days[k], today: k === dayKey(now), future: t > now && k !== dayKey(now) }); }
     var got = { first: sessions.length > 0, streak3: bestStreak >= 3, streak7: bestStreak >= 7, streak30: bestStreak >= 30, star1: starsTotal >= 1, star3: three, stars10: starsTotal >= 10,
-      perfect: perfect, combo25: bestCombo >= 25, omc30: omcBest >= 30, omc60: omcBest >= 60, hour1: total >= 3600, hour10: total >= 36000, quests: fullDay, level5: level >= 5 };
+      perfect: perfect, combo25: bestCombo >= 25, omc30: omcBest >= 30, omc60: omcBest >= 60, hour1: total >= 3600, hour10: total >= 36000, quests: fullDay, level5: level >= 5,
+      skill10: ps.skills >= 10, skill40: ps.skills >= 40, song1: ps.mastered >= 1, song5: ps.mastered >= 5 };
     return { xp: xp, level: level, title: TITLES[Math.min(level, TITLES.length) - 1], into: into, need: need, songs: songs, starsTotal: starsTotal,
       streak: streak, bestStreak: bestStreak, week: week, totalSecs: total, sessions: sessions.length,
+      path: ps,
       today: { secs: today ? today.secs : 0, goal: (S.settings.goal || 10) * 60, quests: quests, done: qDone },
       badges: BADGES.map(function (b) { return { id: b.id, name: b.name, desc: b.desc, icon: b.icon, got: !!got[b.id] }; }) };
   }
@@ -3245,9 +3328,324 @@ details > summary::-webkit-details-marker { display: none; }
 
   App.esc = esc; App.$ = $; App.$all = $all; App.clamp = clamp; App.uid = uid; App.IC = IC; App.ls = { get: lsGet, set: lsSet }; App.LS = LS; App.isFramed = isFramed; App.pad2 = pad2; App.MONTH = MONTH;
   App.fmtDur = fmtDur; App.fmtMin = fmtMin; App.pct = pct; App.fmtDay = fmtDay; App.ago = ago; App.dayKey = dayKey; App.WEEKDAY = WEEKDAY;
-  App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.songShapes = songShapes;
+  App.DRILLS = DRILLS; App.modelOf = modelOf; App.allSongs = allSongs; App.findSong = findSong; App.catalog = CAT; App.songShapes = songShapes;
   App.computeStats = computeStats; App.songStatus = songStatus;
   App.computeGame = computeGame; App.starsFor = starsFor; App.scoreItems = scoreItems; App.multOf = multOf; App.starsHtml = starsHtml; App.xpOfSession = xpOfSession;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* app-path.js: the path to a song.
+
+   Every song gets a list of steps that lead up to playing it: the chord shapes in it, the changes between
+   them, the techniques its rhythm asks for, a scale for its fills or tune, each part in time, and at the end
+   the whole song at full speed. Each step is an exercise that can be started and passed.
+
+   Shapes, changes, techniques and scales are skills: they are the same step in every song that needs them,
+   so what was learned for one song is already ticked off in the next. Parts and whole-song steps belong to
+   the song.
+
+   Nothing about the path is stored. A step counts as done when the session log holds a run that passed it,
+   so it is the same on every device and inside Claude. The exercises are small songs made on the spot
+   (ids starting "x:"), played on the same stage as everything else. */
+(function (root) {
+  'use strict';
+  var PR = root.PR, M = PR.music, App = PR.app, S = App.S;
+  var PASS = 0.8, OMC_PASS = 30, PART_PCT = 70, SLOW_PCT = 75;
+
+  /* ---------- technique drills: written for this app, not taken from any song ---------- */
+  function rep(tok, n) { var out = []; for (var i = 0; i < n; i++) out.push(tok); return out.join(' '); }
+  function boogie(lo, hi) { var a = lo + ':0+' + hi + ':2', b = lo + ':0+' + hi + ':4'; return [a, a, b, a, a, a, b, a].join(' '); }
+  var TECH = {
+    'strum-quarters': { title: 'Steady strums on the beat', bpm: 70, note: 'One down-strum on every click. Count 1, 2, 3, 4 out loud and let the hand swing like a pendulum.',
+      sections: [{ name: 'Four to the bar', type: 'chords', bars: [rep('Em', 4), rep('Em', 4), rep('G', 4), rep('G', 4)], repeat: 2 }] },
+    'strum-eighths': { title: 'Down-up eighths', bpm: 70, note: 'Down on the click, up in between. The hand keeps the same swing the whole time; only the strings change.',
+      sections: [{ name: 'Eight to the bar', type: 'chords', bars: [rep('Em', 8), rep('G', 8), rep('Em', 8), rep('G', 8)], repeat: 2 }] },
+    'strum-pattern': { title: 'A mixed strumming pattern', bpm: 76, note: 'Down, down-up, up-down-up. The hand still swings through the two strokes it leaves out, without touching the strings.',
+      sections: [{ name: 'Down, down-up, up-down-up', type: 'chords', bars: ['G - G G - G G G', 'Em - Em Em - Em Em Em', 'C - C C - C C C', 'D - D D - D D D'], repeat: 2 }] },
+    'strum-sixteenths': { title: 'Sixteenth strumming', bpm: 56, note: 'Four strokes to every click: down-up-down-up. Stay loose in the wrist and strum only the top three or four strings.',
+      sections: [{ name: 'Sixteen to the bar', type: 'chords', bars: [rep('Em', 16), rep('Am', 16)], repeat: 3 }] },
+    'offbeat': { title: 'Off-beat upstrokes', bpm: 80, note: 'Nothing on the click, a short upstroke between clicks. Tap your foot on the click to hold the beat.',
+      sections: [{ name: 'On the "and"', type: 'chords', bars: ['- Am - Am - Am - Am', '- G - G - G - G'], repeat: 4 }] },
+    'shuffle': { title: 'Boogie shuffle in A', bpm: 84, level: 2, note: 'Two strings at a time. Swing it: long-short, long-short. The ring finger reaches two frets up for the higher note. Twelve bars: A, D and E.',
+      sections: [{ name: 'Twelve-bar boogie', type: 'notes', step: 0.5, steps: [boogie(5, 4), boogie(5, 4), boogie(5, 4), boogie(5, 4), boogie(4, 3), boogie(4, 3), boogie(5, 4), boogie(5, 4), boogie(6, 5), boogie(4, 3), boogie(5, 4), boogie(6, 5)].join(' | ') }] },
+    'twelve-eight': { title: 'Slow blues: three strums to the beat', bpm: 58, note: 'Count 1-and-a, 2-and-a, 3-and-a, 4-and-a. Lean on the first of every three and keep the other two light.',
+      sections: [{ name: 'Twelve to the bar', type: 'chords', bars: [rep('A', 12), rep('D', 12), rep('A', 12), rep('E', 12)], repeat: 2 }] },
+    'waltz': { title: 'Three-four time', bpm: 92, beatsPerBar: 3, beatsPerSlot: 3, note: 'Three beats to the bar: a firm strum on one, two lighter ones after it.',
+      sections: [{ name: 'One, two, three', type: 'chords', bars: [rep('G', 3), rep('G', 3), rep('D', 3), rep('D', 3), rep('C', 3), rep('C', 3), rep('G', 3), rep('G', 3)], repeat: 2 }] },
+    'quick-changes': { title: 'Two chords in a bar', bpm: 66, level: 2, note: 'Two beats on each chord. Start moving the fingers on the last upstroke, not after it.',
+      sections: [{ name: 'Half-bar changes', type: 'chords', bars: ['G D', 'Em C', 'G D', 'C G'], repeat: 3 }] },
+    'palm-mute': { title: 'Palm-muted eighths', bpm: 90, level: 2, note: 'Rest the edge of the picking hand on the strings right where they leave the bridge. The notes should thud, not ring. Muted notes are hard for the microphone, so play along and judge it yourself.',
+      sections: [{ name: 'Chug', type: 'notes', step: 0.5, steps: [rep('6:0+5:2', 8), rep('6:0+5:2', 8), rep('5:0+4:2', 8), rep('6:0+5:2', 8)].join(' | '), repeat: 2 }] },
+    'power-chords': { title: 'Power chords', bpm: 80, level: 2, beatsPerSlot: 2, note: 'Index on the root, ring finger two frets up on the next string. Lay the index lightly across the higher strings so they stay silent.',
+      shapes: { F5: '133xxx', G5: '355xxx', A5: '577xxx', C5: 'x355xx', D5: 'x577xx' },
+      sections: [{ name: 'Along two strings', type: 'chords', bars: ['F5', 'G5', 'A5', 'C5', 'D5', 'C5', 'A5', 'G5'], repeat: 2 }] },
+    'barre-e': { title: 'The E-shape barre', bpm: 60, level: 2, beatsPerSlot: 2, note: 'An E chord pushed up the neck with the index finger as a bar. Roll the index slightly onto its bony edge, thumb behind the neck, and squeeze only while the chord sounds.',
+      shapes: { F: '133211', G: '355433', A: '577655' },
+      sections: [{ name: 'F, G, A and back', type: 'chords', bars: ['F', '-', 'G', '-', 'A', '-', 'G', '-'], repeat: 2 }] },
+    'barre-em': { title: 'The Em-shape barre', bpm: 60, level: 2, beatsPerSlot: 2, note: 'The E-shape barre with the middle finger lifted. The bar itself now has to sound the third string cleanly.',
+      shapes: { 'F#m': '244222', Gm: '355333', Am: '577555' },
+      sections: [{ name: 'F#m, Gm, Am and back', type: 'chords', bars: ['F#m', '-', 'Gm', '-', 'Am', '-', 'Gm', '-'], repeat: 2 }] },
+    'barre-a': { title: 'The A-shape barre', bpm: 60, level: 3, beatsPerSlot: 2, note: 'An A chord pushed up the neck: bar with the index, and flatten the ring finger across three strings (or use three fingers). The low E string stays out.',
+      shapes: { B: 'x24442', C: 'x35553', D: 'x57775' },
+      sections: [{ name: 'B, C, D and back', type: 'chords', bars: ['B', '-', 'C', '-', 'D', '-', 'C', '-'], repeat: 2 }] },
+    'barre-am': { title: 'The Am-shape barre', bpm: 60, level: 3, beatsPerSlot: 2, note: 'An Am chord pushed up the neck. Bar five strings with the index and build the Am shape in front of it.',
+      shapes: { Bm: 'x24432', Cm: 'x35543', Dm: 'x57765' },
+      sections: [{ name: 'Bm, Cm, Dm and back', type: 'chords', bars: ['Bm', '-', 'Cm', '-', 'Dm', '-', 'Cm', '-'], repeat: 2 }] },
+    'sevenths': { title: 'Seventh chords', bpm: 66, level: 2, note: 'Each of these is an open chord with one finger lifted or moved. Find that finger first.',
+      sections: [{ name: 'A7, D7, E7, B7', type: 'chords', bars: ['A7', 'D7', 'A7', 'E7', 'B7', 'E7', 'A7', 'A7'], repeat: 2 }] },
+    'sus-moves': { title: 'Sus chords', bpm: 72, level: 2, note: 'Hold the chord and move one finger: add the little finger for sus4, lift a finger for sus2. One strum each.',
+      sections: [{ name: 'Lift and add', type: 'chords', bars: ['D Dsus4 D Dsus2', 'A Asus4 A Asus2', 'D Dsus4 D Dsus2', 'E Esus4 E E'], repeat: 2 }] },
+    'bass-walk': { title: 'Slash chords and a walking bass', bpm: 66, level: 2, beatsPerSlot: 2, note: 'The letter after the slash is the lowest note. Aim the first stroke at that string so the bass line can be heard stepping down.',
+      sections: [{ name: 'Stepping down', type: 'chords', bars: ['G', 'G/B', 'C', 'C', 'Am', 'Am/G', 'D/F#', 'G'], repeat: 2 }] },
+    'travis': { title: 'Alternating thumb', bpm: 66, level: 3, note: 'The thumb plays the two low notes in turn, steady as a clock. Index and middle fill in between on the third and second strings.',
+      sections: [{ name: 'C, G, Am, C', type: 'notes', step: 0.5, steps: ['5:3 3:0 4:2 2:1 5:3 3:0 4:2 2:1', '6:3 3:0 4:0 2:0 6:3 3:0 4:0 2:0', '5:0 3:2 4:2 2:1 5:0 3:2 4:2 2:1', '5:3 3:0 4:2 2:1 5:3 3:0 4:2 2:1'].join(' | '), repeat: 2 }] },
+    'hammer-pull': { title: 'Hammer-ons and pull-offs', bpm: 60, level: 2, note: 'Pick only the first note of each pair. Hammer the ring finger down hard for the second; for a pull-off, flick it sideways off the string.',
+      sections: [{ name: 'Fifth position', type: 'tab', systems: [{ lines: ['e|-----------------------------------|', 'B|-----------------------------------|', 'G|-----------------5h7-7p5-----------|', 'D|---------5h7-7p5---------5h7-7p5---|', 'A|-5h7-7p5---------------------------|', 'E|-----------------------------------|'] }] }] },
+    'bends': { title: 'Bends in tune', bpm: 60, level: 3, note: 'Push the string up with three fingers behind each other until it sounds like the note two frets higher. Play that note first so you know the target.',
+      sections: [{ name: 'Target, then bend', type: 'tab', systems: [{ lines: ['e|-------------------------------|', 'B|-----------10-8b10----10-8b10--|', 'G|-9-7b9-----------9-7b9---------|', 'D|-------------------------------|', 'A|-------------------------------|', 'E|-------------------------------|'] }] }] },
+    'slides': { title: 'Slides', bpm: 60, level: 2, note: 'Pick once, keep the pressure on, and slide to the next fret so the note never stops.',
+      sections: [{ name: 'Up and back', type: 'tab', systems: [{ lines: ['e|---------------------------|', 'B|---------------------------|', 'G|-5/7---7\\5---5/9---9\\5-----|', 'D|-----------------------5/7-|', 'A|---------------------------|', 'E|---------------------------|'] }] }] },
+    'double-stops': { title: 'Double stops', bpm: 66, level: 3, note: 'Two notes at once on the second and third strings, moving up the neck. Pick both strings with one stroke, or pluck them with thumb and finger.',
+      sections: [{ name: 'Thirds in G', type: 'notes', step: 1, steps: '3:0+2:0 3:2+2:1 3:4+2:3 3:5+2:5 | 3:7+2:7 3:5+2:5 3:4+2:3 3:2+2:1 | 3:0+2:0*2', repeat: 2 }] },
+    'alt-picking': { title: 'Alternate picking', bpm: 72, level: 2, note: 'Down, up, down, up on every note, also when you cross to the next string. Small movements from the wrist.',
+      sections: [{ name: 'Open strings', type: 'notes', step: 0.5, steps: [rep('6:0', 4) + ' ' + rep('5:0', 4), rep('4:0', 4) + ' ' + rep('3:0', 4), rep('2:0', 4) + ' ' + rep('1:0', 4)].join(' | ') },
+        { name: 'Four frets a string', type: 'notes', step: 0.5, steps: '6:1 6:2 6:3 6:4 5:1 5:2 5:3 5:4 | 4:1 4:2 4:3 4:4 3:1 3:2 3:3 3:4 | 2:1 2:2 2:3 2:4 1:1 1:2 1:3 1:4' }] }
+  };
+  /* picking a chord one string at a time, made from the shapes of four open chords */
+  (function () {
+    var bars = ['Am', 'C', 'G', 'Em'].map(function (n) {
+      var sh = M.shapeFor(M.parseChord(n)), low = 0;
+      while (sh[low] === null) low++;
+      var s = function (k) { return (6 - k) + ':' + sh[k]; };
+      return [s(low), s(3), s(4), s(5), s(4), s(3)].join(' ');
+    });
+    TECH.arpeggio = { title: 'Picking a chord one string at a time', bpm: 72, level: 2, beatsPerBar: 3, note: 'Hold the whole chord down. The thumb takes the bass note, then index, middle and ring take the top three strings, up and back. Let every note ring into the next.',
+      sections: [{ name: 'Am, C, G, Em', type: 'notes', step: 0.5, steps: bars.join(' | '), repeat: 2 }] };
+  })();
+
+  /* ---------- scales, laid out in one hand position for any key ---------- */
+  var SCALES = {
+    'major': { name: 'major scale', iv: [0, 2, 4, 5, 7, 9, 11] }, 'minor': { name: 'minor scale', iv: [0, 2, 3, 5, 7, 8, 10] },
+    'penta-major': { name: 'major pentatonic', iv: [0, 2, 4, 7, 9] }, 'penta-minor': { name: 'minor pentatonic', iv: [0, 3, 5, 7, 10] },
+    'blues': { name: 'blues scale', iv: [0, 3, 5, 6, 7, 10] }, 'dorian': { name: 'Dorian scale', iv: [0, 2, 3, 5, 7, 9, 10] }, 'mixolydian': { name: 'Mixolydian scale', iv: [0, 2, 4, 5, 7, 9, 10] }
+  };
+  function scaleSong(type, rootName) {
+    var sc = SCALES[type], pc = M.pcOf(rootName);
+    if (!sc || pc === null || pc === undefined || pc !== pc) return null;
+    var open = M.tuningMidi('standard');
+    var p = M.mod12(pc - 4), start = 40 + p;
+    if (p > 8) { p = M.mod12(pc - 9); start = 45 + p; }              /* high on the low string: start from the A string instead */
+    var lo = p === 0 ? 0 : p - 1, hi = p === 0 ? 4 : p + 3, toks = [], m, k;
+    for (m = start; m <= start + 28; m++) {
+      if (sc.iv.indexOf(M.mod12(m - pc)) < 0) continue;
+      var put = null;
+      /* the thickest string that has the note inside the hand position; an open string wins when there is one */
+      for (k = 5; k >= 0; k--) { if (m - open[k] === 0 && lo === 0) put = (6 - k) + ':0'; }
+      for (k = 0; k < 6 && !put; k++) { var f = m - open[k]; if (f >= lo && f <= hi) put = (6 - k) + ':' + f; }
+      if (!put) break;
+      toks.push(put);
+    }
+    if (toks.length < 5) return null;
+    var down = toks.slice(0, -1).reverse(), all = toks.concat(down), bars = [];
+    for (var i = 0; i < all.length; i += 4) bars.push(all.slice(i, i + 4).join(' '));
+    var where = p === 0 ? 'open position' : 'fret ' + p;
+    return { title: M.pcName(pc, /b/.test(rootName)) + ' ' + sc.name, bpm: 70, level: p === 0 ? 1 : 2,
+      note: 'Up and back down, one note a click, starting on ' + M.pcName(pc, /b/.test(rootName)) + ' (' + where + '). One finger per fret; say the note names as you go.',
+      sections: [{ name: 'Up and down, ' + where, type: 'notes', step: 1, steps: bars.join(' | ') }] };
+  }
+
+  /* ---------- exercises as small songs ---------- */
+  function isEx(id) { return typeof id === 'string' && id.indexOf('x:') === 0; }
+  var exCache = {};
+  function exercise(id) {
+    if (!isEx(id)) return null;
+    if (exCache[id]) return exCache[id];
+    var out = null, m;
+    if ((m = /^x:shape:(.+)~([0-9x-]+)$/.exec(id))) {
+      var name = m[1], fr = M.parseShape(m[2]), ch = M.parseChord(name);
+      if (fr && ch) {
+        var toks = [], shapes = {};
+        fr.forEach(function (f, k) { if (f !== null) toks.push((6 - k) + ':' + f); });
+        shapes[name] = m[2];
+        var info = M.shapeInfo(fr);
+        out = { title: name + ' chord', level: info && info.barre ? 2 : 1, bpm: 60, beatsPerSlot: 2, shapes: shapes, kind: 'shape',
+          note: 'First pick the strings one at a time, low to high: every one has to ring clearly. A dull string means a finger is leaning on it or not pressing close to the fret. Then strum the chord, let go, and place it again.',
+          sections: [{ name: 'String by string', type: 'notes', step: 1, steps: toks.join(' ') + ' | ' + toks.slice().reverse().join(' ') },
+            { name: 'Strum, let go, place again', type: 'chords', bars: [name, '-', name, '-', name, '-', name, '-'] }] };
+      }
+    } else if ((m = /^x:tech:([a-z0-9-]+)$/.exec(id)) && TECH[m[1]]) {
+      out = Object.assign({ level: 1, kind: 'tech' }, TECH[m[1]]);
+    } else if ((m = /^x:scale:([a-z-]+):([A-G][#b]?)$/.exec(id))) {
+      out = scaleSong(m[1], m[2]); if (out) out.kind = 'scale';
+    }
+    if (out) { out.id = id; out.exercise = true; out.origin = 'exercise'; out.checked = true; out.artist = ''; }
+    exCache[id] = out;
+    return out;
+  }
+
+  /* ---------- what the session log shows ---------- */
+  var idx = null;
+  function index() {
+    var list = S.sessions, key = list.length + ':' + (list[0] ? list[0].id + ':' + list[0].at : '') + ':' + (list.length ? list[list.length - 1].at : '');
+    if (idx && idx.key === key) return idx;
+    var by = {}, pairs = {};
+    list.forEach(function (x) {
+      if (!x) return;
+      if (x.kind === 'omc' && x.pair && typeof x.count === 'number') {
+        var pk = pairKey(x.pair[0], x.pair[1]), p = pairs[pk] || (pairs[pk] = { best: 0, at: 0 });
+        if (x.count > p.best) p.best = x.count;
+        if (x.count >= OMC_PASS && (!p.at || x.at < p.at)) p.at = x.at;
+        return;
+      }
+      if (!x.song || typeof x.acc !== 'number') return;
+      (by[x.song] || (by[x.song] = [])).push(x);
+    });
+    idx = { key: key, by: by, pairs: pairs };
+    pathCache = {}; sumCache = null;
+    return idx;
+  }
+  function pairKey(a, b) { return a < b ? a + '|' + b : b + '|' + a; }
+  /* the earliest run that passed, and the best accuracy so far */
+  function passOf(list, ok) {
+    var at = 0, best = null;
+    (list || []).forEach(function (x) {
+      if (!ok(x)) return;
+      if (best === null || x.acc > best) best = x.acc;
+      if (x.acc >= PASS && (!at || x.at < at)) at = x.at;
+    });
+    return { at: at, best: best };
+  }
+  function any() { return true; }
+
+  /* ---------- the steps for one song ---------- */
+  function shapeStr(fr) { return fr.map(function (f) { return f === null ? 'x' : String(f); }).join(fr.some(function (f) { return f !== null && f > 9; }) ? '-' : ''); }
+  function needsOf(song, model) {
+    var out = [], seen = {};
+    function add(n) { if (TECH[n] && !seen[n]) { seen[n] = 1; out.push(n); } }
+    if (model.chords.length) add((song.beatsPerBar || 4) === 3 ? 'waltz' : 'strum-quarters');
+    (song.needs || []).forEach(add);
+    model.chords.forEach(function (c) {
+      var info = M.shapeInfo(c.shape), q = c.chord.quality;
+      if (info && info.barre) add(c.shape[0] !== null ? (c.chord.minor ? 'barre-em' : 'barre-e') : (c.chord.minor ? 'barre-am' : 'barre-a'));
+      if (q === '5') add('power-chords');
+      if (q === '7' && !(info && info.barre)) add('sevenths');
+      if (/^sus/.test(q)) add('sus-moves');
+      if (c.chord.bass !== null) add('bass-walk');
+    });
+    if (model.feats.twoPerBar) add('quick-changes');
+    var t = model.feats.tech;
+    if (t.h + t.p > 0) add('hammer-pull');
+    if (t.b > 0) add('bends');
+    if (t.slide > 0) add('slides');
+    return out.slice(0, 9);
+  }
+  var pathCache = {};
+  function build(song) {
+    if (!song || song.drill || song.exercise || isEx(song.id)) return null;
+    var model = App.modelOf(song);
+    if (!model.targets.length) return null;
+    var ix = index(), steps = [], mine = ix.by[song.id] || [];
+    function push(st, pass) {
+      st.done = !!pass.at; st.at = pass.at || 0; st.best = pass.best;
+      steps.push(st);
+    }
+    /* 1. the shapes */
+    model.chords.slice(0, 14).forEach(function (c) {
+      if (!c.shape) return;
+      var ex = 'x:shape:' + c.name + '~' + shapeStr(c.shape);
+      push({ id: ex, ex: ex, kind: 'shape', stage: 'shapes', title: c.name, sub: 'Every string rings, then four clean strums', skill: true }, passOf(ix.by[ex], any));
+    });
+    /* 2. the changes that come up most */
+    var seq = [], count = {}, order = [];
+    model.targets.forEach(function (t) { if (t.chordName && seq[seq.length - 1] !== t.chordName) seq.push(t.chordName); });
+    for (var i = 1; i < seq.length; i++) { var k = pairKey(seq[i - 1], seq[i]); if (!count[k]) { count[k] = 0; order.push([seq[i - 1], seq[i], k]); } count[k]++; }
+    order.sort(function (a, b) { return count[b[2]] - count[a[2]]; });
+    order.slice(0, 6).forEach(function (pr) {
+      var p = ix.pairs[pr[2]] || { best: 0, at: 0 };
+      push({ id: 'chg:' + pr[2], kind: 'change', stage: 'changes', title: pr[0] + ' → ' + pr[1], a: pr[0], b: pr[1], sub: OMC_PASS + ' clean changes in a minute', skill: true, count: p.best }, { at: p.at, best: null });
+    });
+    /* 3. technique and scale */
+    needsOf(song, model).forEach(function (n) {
+      var ex = 'x:tech:' + n;
+      push({ id: ex, ex: ex, kind: 'tech', stage: 'technique', title: TECH[n].title, sub: 'Pass the drill at 80%', skill: true }, passOf(ix.by[ex], any));
+    });
+    if (song.scale && SCALES[song.scale.type] && scaleSong(song.scale.type, song.scale.root)) {
+      var sx = 'x:scale:' + song.scale.type + ':' + song.scale.root, so = exercise(sx);
+      push({ id: sx, ex: sx, kind: 'scale', stage: 'technique', title: so.title, sub: song.melody ? 'The notes the tune is made of' : 'For the fills and the solo', skill: true }, passOf(ix.by[sx], any));
+    }
+    /* 4. each part of the song, in time */
+    var timed = model.timed, sigs = {}, parts = [];
+    model.view.forEach(function (v, vi) {
+      var sig = v.type === 'chords' ? v.cells.map(function (c) { return c.chords.map(function (x) { return x.name; }).join(' '); }).join('|') : 'tab' + vi;
+      var n = v.last - v.first + 1;
+      if (n < 2) return;
+      if (sigs[sig]) { sigs[sig].names.push(v.name || 'Part'); return; }
+      sigs[sig] = { view: vi, names: [v.name || 'Part'], n: n };
+      parts.push(sigs[sig]);
+    });
+    if (parts.length > 1) parts.slice(0, 7).forEach(function (pt) {
+      var base = pt.names.length > 1 ? pt.names[0].replace(/\s*(\d+|\(.*\))\s*$/, '') || pt.names[0] : pt.names[0];
+      push({ id: 'part:' + pt.view, kind: 'part', stage: 'parts', title: base, view: pt.view, pct: PART_PCT, sub: timed ? 'In time at ' + PART_PCT + '% speed or faster, 80% right' : 'Start to finish, 80% right' },
+        passOf(mine, function (x) { return pt.names.indexOf(x.section) >= 0 && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= PART_PCT)); }));
+    });
+    /* 5. the song */
+    var whole = function (pct) { return function (x) { return x.section === 'Whole song' && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= pct)); }; };
+    if (timed) push({ id: 'song:slow', kind: 'song', stage: 'song', title: 'The whole song, slowed down', view: -1, pct: SLOW_PCT, sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT)));
+    push({ id: 'song:full', kind: 'song', stage: 'song', title: 'The whole song', view: -1, pct: 100, final: true, sub: timed ? 'Start to finish at full speed, 80% right' : 'Start to finish, 80% right' }, passOf(mine, whole(100)));
+    return steps;
+  }
+  var STAGES = [['shapes', 'Shapes'], ['changes', 'Changes'], ['technique', 'Technique'], ['parts', 'Parts'], ['song', 'The song']];
+  function of(song) {
+    if (!song) return null;
+    var ix = index(), ck = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0);
+    if (pathCache[ck] && pathCache[ck].key === ix.key) return pathCache[ck].path;
+    var steps = build(song), path = null;
+    if (steps && steps.length) {
+      var last = steps[steps.length - 1], mastered = last.done;
+      var done = steps.filter(function (s) { return s.done; }).length;
+      var next = null; for (var i = 0; i < steps.length; i++) if (!steps[i].done) { next = steps[i]; break; }
+      path = { id: song.id, steps: steps, total: steps.length, done: mastered ? steps.length : done, real: done, mastered: mastered, masteredAt: last.at, next: mastered ? null : next,
+        pct: mastered ? 100 : Math.round(done / steps.length * 100),
+        stages: STAGES.map(function (sg) { return { id: sg[0], title: sg[1], steps: steps.filter(function (s) { return s.stage === sg[0]; }) }; }).filter(function (sg) { return sg.steps.length; }) };
+    }
+    pathCache[ck] = { key: ix.key, path: path };
+    return path;
+  }
+  /* across the whole library: skills learned, songs finished, and the days on which a step was finished */
+  var sumCache = null;
+  function summary() {
+    var ix = index(), songs = App.allSongs(), sk = songs.length + ':' + ix.key;
+    if (sumCache && sumCache.sk === sk) return sumCache.sum;
+    var skills = {}, days = {}, mastered = 0, steps = 0, known = {};
+    songs.forEach(function (song) {
+      var p = of(song); if (!p) return;
+      if (p.mastered) mastered++;
+      p.steps.forEach(function (st) {
+        if (st.skill) known[st.id] = 1;
+        if (!st.done) return;
+        if (st.skill) skills[st.id] = 1; else steps++;
+        days[App.dayKey(st.at)] = 1;
+      });
+    });
+    var sum = { skills: Object.keys(skills).length, skillsOf: Object.keys(known).length, mastered: mastered, songs: songs.length, steps: steps + Object.keys(skills).length, days: days };
+    sumCache = { sk: sk, sum: sum };
+    return sum;
+  }
+  /* what a session just changed on a song's path: call before() first, then diff() after saving */
+  function snap(songId) {
+    var song = songId ? App.findSong(songId) : null, p = song ? of(song) : null;
+    var done = {}; if (p) p.steps.forEach(function (s) { if (s.done) done[s.id] = 1; });
+    return { id: songId, done: done, mastered: !!(p && p.mastered) };
+  }
+  function diff(before) {
+    var song = before.id ? App.findSong(before.id) : null, p = song ? of(song) : null;
+    if (!p) return null;
+    var fresh = p.steps.filter(function (s) { return s.done && !before.done[s.id]; });
+    return { song: song, path: p, steps: fresh, mastered: p.mastered && !before.mastered };
+  }
+
+  function passed(id) { return passOf(index().by[id], any); }
+  App.path = { of: of, passed: passed, exercise: exercise, isExercise: isEx, summary: summary, snap: snap, diff: diff, TECH: TECH, SCALES: SCALES, scaleSong: scaleSong, needsOf: needsOf, PASS: PASS, OMC_PASS: OMC_PASS,
+    reset: function () { idx = null; pathCache = {}; sumCache = null; } };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 /* app-account.js: signing in with GitHub, and keeping the player's progress in their own GitHub account.
@@ -3288,6 +3686,7 @@ details > summary::-webkit-details-marker { display: none; }
     ['tones', 'countIn', 'click', 'guide'].forEach(function (k) { if (typeof v[k] === 'boolean') o[k] = v[k]; });
     if (typeof v.trim === 'number' && Math.abs(v.trim) <= 200) o.trim = v.trim;
     if (num(v.goal) >= 5 && v.goal <= 120) o.goal = v.goal;
+    if (typeof v.focus === 'string' && v.focus.length <= 80) o.focus = v.focus;
     return o;
   }
 
@@ -3780,13 +4179,13 @@ details > summary::-webkit-details-marker { display: none; }
         o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.75);
       });
     },
-    click: function (time, accent) {
+    click: function (time, accent, soft) {
       var ctx = A.ctx;
       if (!ctx) return;
       var o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'square'; o.frequency.value = accent ? 2600 : 1900;
+      o.type = 'square'; o.frequency.value = accent ? 2600 : soft ? 1350 : 1900;
       g.gain.setValueAtTime(0.0001, time);
-      g.gain.exponentialRampToValueAtTime(accent ? 0.32 : 0.2, time + 0.002);
+      g.gain.exponentialRampToValueAtTime(accent ? 0.32 : soft ? 0.07 : 0.2, time + 0.002);
       g.gain.exponentialRampToValueAtTime(0.0001, time + 0.03);
       o.connect(g); g.connect(ctx.destination);
       o.start(time); o.stop(time + 0.05);
@@ -4309,7 +4708,7 @@ details > summary::-webkit-details-marker { display: none; }
     withStat.sort(function (a, b) { return a.st.last - b.st.last; });
     return withStat[0].s;
   }
-  var KIND_LABEL = { wait: 'Live, wait for me', tempo: 'Live, in time', take: 'Recording', self: 'Play along', omc: 'One-minute changes' };
+  var KIND_LABEL = { wait: 'Live, wait for me', tempo: 'Live, in time', take: 'Recording', self: 'Play along', omc: 'One-minute changes', metro: 'Metronome' };
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   function ringSvg(part) {
     var r = 44, c = 2 * Math.PI * r;
@@ -4343,8 +4742,10 @@ details > summary::-webkit-details-marker { display: none; }
     var html = '<section class="stack">' +
       '<div><div class="eyebrow">' + esc(App.WEEKDAY[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()]) + '</div><h2 class="large-title">Today</h2></div>' +
       heroHtml(gm) + '</section>';
-    /* up next */
-    html += '<section class="card next">' +
+    /* the goal song and its next step; the old "up next" card only where there is nothing to work toward */
+    var goalHtml = App.goalCard ? App.goalCard() : '';
+    html += goalHtml;
+    if (!goalHtml) html += '<section class="card next">' +
       '<div class="spread"><span class="eyebrow">' + (ns.key === 'new' ? 'Start here' : 'Up next') + '</span>' + App.starsHtml(gs.stars) + '</div>' +
       '<div class="row" style="align-items:flex-start;flex-wrap:nowrap">' + lvlBadge(next.level || 1) + '<div class="grow"><div class="item-title" style="font-size:20px">' + esc(next.title) + '</div>' +
       '<div class="item-sub">' + esc(next.artist || (next.drill ? 'Built-in drill' : '')) + (ns.last ? ' · last played ' + esc(App.ago(ns.last)) : '') + '</div></div></div>' +
@@ -4392,6 +4793,8 @@ details > summary::-webkit-details-marker { display: none; }
       '<div class="stat"><span>Day streak</span><b>' + gm.streak + '<small>' + (gm.streak === 1 ? 'day' : 'days') + '</small></b><em>best ' + gm.bestStreak + '</em></div>' +
       '<div class="stat"><span>Stars</span><b>' + gm.starsTotal + '<small>of ' + (songs.length + App.DRILLS.length) * 3 + '</small></b><em>' + solid + ' of ' + songs.length + ' songs solid</em></div>' +
       '<div class="stat"><span>Accuracy, last 7 days</span><b>' + (st.acc7 === null ? '–' : App.pct(st.acc7) + '<small>%</small>') + '</b>' + delta + '</div>' +
+      '<div class="stat"><span>Songs finished</span><b>' + gm.path.mastered + '<small>of ' + songs.length + '</small></b><em>every step of the path done</em></div>' +
+      '<div class="stat"><span>Skills learned</span><b>' + gm.path.skills + '<small>of ' + (gm.path.skillsOf || 0) + '</small></b><em>shapes, changes, techniques</em></div>' +
       '<div class="stat"><span>Time played</span><b>' + (gm.totalSecs >= 3600 ? (Math.round(gm.totalSecs / 360) / 10) + '<small>h</small>' : Math.round(gm.totalSecs / 60) + '<small>min</small>') + '</b><em>' + gm.sessions + (gm.sessions === 1 ? ' session' : ' sessions') + '</em></div>' +
       '</div></section>';
     html += '<section class="card stack"><div class="spread"><h3 class="h3">Minutes practised</h3><span class="small muted">last 14 days</span></div>' +
@@ -4616,6 +5019,7 @@ details > summary::-webkit-details-marker { display: none; }
     var song = Object.assign({}, draft.song);
     song.level = App.clamp(parseInt(($('#dLevel') || {}).value, 10) || draft.info.level, 1, 5);
     song.levelAuto = draft.info.level;
+    if (draft.preset) { if (draft.preset.genre) song.genre = draft.preset.genre; if (draft.preset.album) song.album = draft.preset.album; }
     var bpm = parseInt(($('#dBpm') || {}).value, 10); song.bpm = bpm >= 30 && bpm <= 260 ? bpm : (song.bpm || null);
     song.capo = App.clamp(parseInt(($('#dCapo') || {}).value, 10) || 0, 0, 12);
     var id = App.Store.saveSong(song);
@@ -4632,6 +5036,7 @@ details > summary::-webkit-details-marker { display: none; }
     App.sheet.open('<div class="sheet-head"><h2 class="title">Edit song</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
       '<label class="field"><span>Title</span><input class="input" id="eTitle" value="' + esc(s.title) + '"></label>' +
       '<label class="field"><span>Artist</span><input class="input" id="eArtist" value="' + esc(s.artist || '') + '"></label>' +
+      '<label class="field"><span>Genre</span><input class="input" id="eGenre" value="' + esc(s.genre || '') + '" placeholder="e.g. Classic rock"></label>' +
       '<div class="fields"><label class="field"><span>Level</span><select class="select" id="eLevel">' + [1, 2, 3, 4, 5].map(function (n) { return '<option value="' + n + '"' + (n === (s.level || 1) ? ' selected' : '') + '>' + n + ' ' + esc(LEVELS[n].name) + '</option>'; }).join('') + '</select></label>' +
       '<label class="field"><span>Tempo, BPM</span><input class="input" id="eBpm" type="number" inputmode="numeric" min="30" max="260" value="' + esc(s.bpm || '') + '"></label>' +
       '<label class="field"><span>Capo fret</span><input class="input" id="eCapo" type="number" inputmode="numeric" min="0" max="12" value="' + esc(s.capo || 0) + '"></label>' +
@@ -4639,13 +5044,14 @@ details > summary::-webkit-details-marker { display: none; }
       '<label class="field"><span>Tuning</span><select class="select" id="eTuning">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === tun ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + (tun === 'custom' ? '<option value="custom" selected>As written in the tab</option>' : '') + '</select></label></div>' +
       (s.checked === false ? '<label class="toggle"><input type="checkbox" id="eChecked">I checked this draft against a tab</label>' : '') +
       '<button class="btn btn-primary btn-block" data-act="edit-save" data-id="' + esc(id) + '">Save changes</button>' +
-      '<div class="row" id="delRow" style="justify-content:center"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + 'Delete this song</button></div>');
+      '<div class="row" id="delRow" style="justify-content:center"><button class="btn btn-ghost" data-act="del-ask" data-id="' + esc(id) + '" style="color:var(--bad)">' + IC.trash + (s.builtin ? 'Remove from my library' : 'Delete this song') + '</button></div>');
   }
   function saveEdit(id) {
     var s = App.findSong(id); if (!s) return;
     var next = Object.assign({}, s);
     next.title = ($('#eTitle').value || '').trim() || s.title;
     next.artist = ($('#eArtist').value || '').trim();
+    if ($('#eGenre')) next.genre = ($('#eGenre').value || '').trim().slice(0, 40);
     next.level = App.clamp(parseInt($('#eLevel').value, 10) || 1, 1, 5);
     var bpm = parseInt($('#eBpm').value, 10); next.bpm = bpm >= 30 && bpm <= 260 ? bpm : null;
     next.capo = App.clamp(parseInt($('#eCapo').value, 10) || 0, 0, 12);
@@ -4764,11 +5170,12 @@ details > summary::-webkit-details-marker { display: none; }
       '<p class="small muted num">' + Object.keys(S.songs).length + ' songs · ' + S.sessions.length + ' sessions logged</p></div></div>' +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Technical log</span><div class="panel stack"><p class="small muted">What this device allowed and how recordings were read. ' + (S.store === 'cloud' ? 'It is saved with your data, so when something does not work you can ask Claude to look at it.' : 'When something does not work, a screenshot of this helps.') + '</p>' +
       (logLines.length ? '<div class="logbox mono">' + logLines.map(function (l) { return '<div>' + esc(l) + '</div>'; }).join('') + '</div>' : '<p class="small muted">Nothing logged yet.</p>') + '</div></div>' +
+      (App.creditsHtml ? App.creditsHtml() : '') +
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">How scoring works</span><div class="panel stack"><p class="small">Single notes are read with a period detector and checked against the spectrum, so a note counts when it starts, also over ringing strings. Chords are compared with the shape in the chart, including whether the third is major or minor. A note an octave off still counts. A clean hit is worth 100 points and a late one 50, times a multiplier that climbs for every 8 in a row. Stars: one at 60%, two at 80%, three at 95% at full tempo. Scores were tuned on sampled guitars through a simulated phone microphone; a real room is messier, so read them as a guide.</p></div></div>');
   }
 
   /* ================= TUNER ================= */
-  var T = App.tuner = { on: false, sel: -1, hist: [], last: null, lastT: 0, tuned: {}, mode: 'live', timer: null, gate: null, hold: 0, clip: null, busy: '' };
+  var T = App.tuner = { tool: 'tuner', on: false, sel: -1, hist: [], last: null, lastT: 0, tuned: {}, mode: 'live', timer: null, gate: null, hold: 0, clip: null, busy: '' };
   function tuningNow() { return M.tuningMidi(S.settings.tuning); }
   function dialSvg() {
     var cx = 160, cy = 170, r = 132, out = '<svg viewBox="0 0 320 186" aria-hidden="true">';
@@ -4787,9 +5194,11 @@ details > summary::-webkit-details-marker { display: none; }
   }
   function viewTuner() {
     var tun = tuningNow();
+    var tools = '<div class="seg" role="group" aria-label="Tool"><button data-act="tool" data-tool="tuner" aria-pressed="' + (T.tool !== 'metro') + '">Tuner</button><button data-act="tool" data-tool="metro" aria-pressed="' + (T.tool === 'metro') + '">Metronome</button></div>';
+    if (T.tool === 'metro') return '<section class="stack"><h2 class="large-title">Metronome</h2>' + tools + '</section><section class="stack">' + App.metroHtml() + '</section>';
     var html = '<section class="stack"><div class="head"><h2 class="large-title">Tuner</h2>' +
       '<label class="field" style="flex:0 1 190px"><span class="vh">Tuning</span><select class="select" data-in="tuning" aria-label="Tuning" style="min-height:38px;font-size:15px">' + Object.keys(M.TUNINGS).map(function (k) { return '<option value="' + k + '"' + (k === S.settings.tuning ? ' selected' : '') + '>' + esc(M.TUNINGS[k].name) + '</option>'; }).join('') + '</select></label></div>' +
-      '<div class="dial">' + dialSvg() +
+      tools + '<div class="dial">' + dialSvg() +
       '<div class="readout"><span class="note-name" id="tNote">–</span><span class="note-oct" id="tOct"></span></div>' +
       '<div class="readout-sub" id="tSub">' + (T.on ? 'Pluck one string and let it ring' : 'A4 = ' + S.settings.a4 + ' Hz') + '</div>' +
       '<div class="verdict" id="tVerdict"></div></div>';
@@ -4901,11 +5310,285 @@ details > summary::-webkit-details-marker { display: none; }
   };
 
   App.views = { today: viewToday, songs: viewSongs, tuner: viewTuner, me: viewMe, wireChart: wireChart };
-  App.addSong = { open: function () { if (!draft) newDraft(); draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
+  App.addSong = { open: function (preset) { if (!draft || preset) newDraft(); if (preset) { draft.title = preset.title || ''; draft.artist = preset.artist || ''; draft.preset = preset; } draft.err = ''; App.sheet.open(addSheetHtml(), null); }, refresh: refreshAdd, read: readDraft, ask: askDraft, save: saveDraft, draft: function () { return draft; }, reset: newDraft, findBoxHtml: findBoxHtml };
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
   App.accountSheet = accountSheet;
   App.tunerIdle = tunerIdle;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+/* app-library.js: the Songs tab (artists, genres, levels), pictures, the path card and its steps,
+   the goal on Today, and the metronome. */
+(function (root) {
+  'use strict';
+  var PR = root.PR, M = PR.music, App = PR.app, S = App.S, esc = App.esc, IC = App.IC, $ = App.$, $all = App.$all;
+  var LEVELS = M.LEVELS, PICS = PR.pictures || {};
+
+  /* ---------- pictures ----------
+     Every song and artist has a drawn tile. Where a freely licensed photograph of the artist is known
+     (seed/pictures.json, all from Wikimedia Commons, credited in Settings), it is laid over the tile.
+     If the photograph cannot be loaded the tile underneath is what shows. */
+  var failed = {};
+  function tone(str) { var h = 7, i; for (i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) % 360; return h; }
+  function initials(name) {
+    var w = String(name).replace(/^the\s+/i, '').split(/[\s-]+/).filter(Boolean);
+    return (w.length === 1 ? w[0].slice(0, 2) : w.slice(0, 3).map(function (x) { return x.charAt(0); }).join('')).toUpperCase();
+  }
+  var TRI = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" d="M24 7.5 32.2 21.7H15.8zM15.2 23 23.4 37.2H7zM32.8 23 41 37.2H24.6z"/></svg>';
+  function isGame(x) { return x.genre === 'Game music' || /zelda/i.test(x.artist || ''); }
+  function picUrl(artist, w) {
+    var p = PICS[artist];
+    if (!p || !p.file) return '';
+    return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + encodeURIComponent(p.file) + '?width=' + (w || 320);
+  }
+  App.art = function (x, cls, w) {
+    var artist = x.artist || '', game = isGame(x), own = x.exercise || x.drill;
+    var hue = game ? 150 : own ? 248 : tone(artist || x.title || 'song');
+    var inner = game ? TRI : own ? IC.hand : artist ? '<b>' + esc(initials(artist)) + '</b>' : IC.note;
+    var url = w === 0 ? '' : picUrl(artist, w), pos = url && PICS[artist].pos ? ' style="object-position:' + esc(PICS[artist].pos) + '"' : '';
+    return '<span class="art' + (cls ? ' ' + cls : '') + (game ? ' art-game' : '') + '" style="--h:' + hue + '" aria-hidden="true">' + inner +
+      (url && !failed[url] ? '<img class="art-img" src="' + esc(url) + '" alt="" loading="lazy" referrerpolicy="no-referrer"' + pos + '>' : '') + '</span>';
+  };
+  App.artFailed = function (img) { var u = img.getAttribute('src'); if (u) failed[u] = 1; if (img.parentNode) img.parentNode.removeChild(img); };
+  App.pictures = PICS;
+
+  /* ---------- small pieces ---------- */
+  function ringHtml(p) {
+    var r = 17, c = 2 * Math.PI * r, part = p ? p.pct / 100 : 0;
+    return '<span class="pring' + (p && p.mastered ? ' is-done' : '') + '" role="img" aria-label="' + (p ? p.done + ' of ' + p.total + ' steps' : 'No steps') + '"><svg viewBox="0 0 40 40"><circle class="track" cx="20" cy="20" r="' + r + '"/><circle class="arc" cx="20" cy="20" r="' + r + '" stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + (c * (1 - part)).toFixed(1) + '"/></svg>' +
+      (p && p.mastered ? IC.trophy : '<b>' + (p ? p.pct : 0) + '</b>') + '</span>';
+  }
+  function stepValue(st) {
+    if (st.kind === 'change') return st.count ? st.count + ' a min' : '';
+    return typeof st.best === 'number' ? App.pct(st.best) + '%' : '';
+  }
+  function stepRow(songId, st, isNext) {
+    return '<button class="item step' + (st.done ? ' is-done' : '') + (isNext ? ' is-next' : '') + '" data-act="path-step" data-id="' + esc(songId) + '" data-step="' + esc(st.id) + '">' +
+      '<span class="q-check">' + IC.check + '</span><div class="item-main"><span class="item-title">' + esc(st.title) + '</span><span class="item-sub">' + esc(st.done ? 'Done' + (st.at ? ', ' + App.ago(st.at) : '') : st.sub) + '</span></div>' +
+      (stepValue(st) ? '<span class="small num muted">' + esc(stepValue(st)) + '</span>' : '') + IC.chev + '</button>';
+  }
+  App.stepRow = stepRow;
+
+  /* ---------- the path card on a song's page ---------- */
+  App.pathCard = function (song, open) {
+    var p = App.path.of(song); if (!p) return '';
+    var goal = S.settings.focus === song.id;
+    var html = '<section class="card stack path-card" id="pathCard"><div class="spread"><span class="eyebrow">Path to this song</span>' +
+      (goal ? '<span class="pill pill-accent">' + IC.flag + 'Your goal</span>' : '<button class="link" data-act="goal-set" data-id="' + esc(song.id) + '">Make it my goal</button>') + '</div>' +
+      '<div class="path-num"><b>' + p.done + '</b><span>of ' + p.total + ' steps' + (p.mastered ? ', finished' : '') + '</span></div>' +
+      '<div class="meter' + (p.mastered ? ' is-good' : '') + '" role="img" aria-label="' + p.pct + ' percent of the way"><i style="width:' + p.pct + '%"></i></div>';
+    if (p.mastered) html += '<div class="unlock"><i>' + IC.trophy + '</i><div><b>You can play this song.</b><div class="small muted">Finished ' + esc(App.ago(p.masteredAt)) + '. Play it again for three stars, or pick the next one.</div></div></div>';
+    else if (p.next) html += '<div class="stack-sm"><span class="small muted" style="padding-left:4px">Next step</span><div class="group group-in">' + stepRow(song.id, p.next, true) + '</div></div>';
+    html += '<button class="link" data-act="path-toggle" style="align-self:flex-start;min-height:32px">' + (open ? 'Hide the steps' : 'Show all ' + p.total + ' steps') + '</button>';
+    if (open) {
+      p.stages.forEach(function (sg) {
+        var d = sg.steps.filter(function (s) { return s.done; }).length;
+        html += '<div class="stack-sm"><div class="sec-head"><span class="h3">' + esc(sg.title) + '</span><span class="small muted num">' + d + ' of ' + sg.steps.length + '</span></div><div class="group group-in">' +
+          sg.steps.map(function (s) { return stepRow(song.id, s, p.next === s); }).join('') + '</div></div>';
+      });
+      html += '<p class="small muted">Shapes, changes and techniques count for every song that uses them, so the next song starts with some of its steps already done.</p>';
+    }
+    return html + '</section>';
+  };
+  /* start a step: an exercise, the one-minute change drill, or a part of the song set up and running */
+  App.pathRun = function (songId, stepId) {
+    var song = App.findSong(songId), p = song ? App.path.of(song) : null; if (!p) return;
+    var st = stepId ? p.steps.filter(function (s) { return s.id === stepId; })[0] : p.next;
+    if (!st) { App.go({ name: 'practice', id: songId }); return; }
+    var P = App.practice;
+    if (App.sheet.isOpen()) App.sheet.close();
+    if (st.ex) { App.go({ name: 'practice', id: st.ex, from: songId }); return; }
+    if (st.kind === 'change') { if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId }); App.omc.open(st.a, st.b, songId); return; }
+    if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId });
+    var ps = P.st; if (!ps || ps.run) return;
+    ps.section = st.view; ps.marks = {};
+    if (st.kind === 'song' || ps.pct < st.pct) ps.pct = st.pct;
+    if (ps.mode === 'live') ps.live = ps.model.timed ? 'tempo' : 'wait';
+    App.render(true);
+    if (ps.mode === 'take') { App.toast('Record ' + (st.view < 0 ? 'the whole song' : 'this part') + ', then pick the file.'); var a = $('#pAction'); if (a && a.scrollIntoView) a.scrollIntoView({ block: 'center' }); return; }
+    P.start();
+  };
+
+  /* ---------- the goal on Today ---------- */
+  function suggest() {
+    var songs = App.allSongs().filter(function (x) { var p = App.path.of(x); return p && !p.mastered; });
+    if (!songs.length) return null;
+    var played = {}; S.sessions.forEach(function (x) { if (x.song) played[x.song] = 1; });
+    var started = songs.filter(function (x) { return played[x.id]; });
+    return started[0] || songs[0];
+  }
+  App.goalCard = function () {
+    var id = S.settings.focus, song = id ? App.findSong(id) : null, p = song ? App.path.of(song) : null;
+    var head = function (x, eyebrow, right) {
+      return '<div class="spread"><span class="eyebrow">' + eyebrow + '</span>' + (right || '') + '</div>' +
+        '<button class="goal-song" data-act="open" data-id="' + esc(x.id) + '">' + App.art(x, 'art-lg', 240) + '<span class="grow"><span class="item-title" style="font-size:20px;display:block">' + esc(x.title) + '</span><span class="item-sub">' + esc(x.artist || 'Your song') + ' · level ' + (x.level || 1) + '</span></span>' + IC.chev + '</button>';
+    };
+    if (song && p && !p.mastered) {
+      return '<section class="card stack goal">' + head(song, 'Your goal', App.starsHtml((App.computeGame().songs[song.id] || { stars: 0 }).stars)) +
+        '<div class="row" style="flex-wrap:nowrap"><div class="meter grow" role="img" aria-label="' + p.done + ' of ' + p.total + ' steps done"><i style="width:' + p.pct + '%"></i></div><span class="small num muted">' + p.done + ' of ' + p.total + ' steps</span></div>' +
+        '<div class="panel-flat stack-sm"><span class="small muted">Next step</span><b>' + esc(p.next.title) + '</b><span class="small muted">' + esc(p.next.sub) + '</span></div>' +
+        '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-primary btn-play grow" data-act="path-next" data-id="' + esc(song.id) + '">' + IC.play + 'Continue</button><button class="btn btn-play" data-act="go" data-to="tuner" aria-label="Tune first">' + IC.gauge + 'Tune</button></div></section>';
+    }
+    if (song && p && p.mastered) {
+      return '<section class="card stack goal">' + head(song, 'Goal reached', App.starsHtml((App.computeGame().songs[song.id] || { stars: 0 }).stars)) +
+        '<div class="unlock"><i>' + IC.trophy + '</i><div><b>You can play this song.</b><div class="small muted">All ' + p.total + ' steps done. Time for the next one.</div></div></div>' +
+        '<button class="btn btn-primary btn-block" data-act="go" data-to="songs">Pick the next song</button></section>';
+    }
+    var sug = suggest();
+    if (!sug) return '';
+    var sp = App.path.of(sug);
+    return '<section class="card stack goal">' + head(sug, 'Pick a song to work toward') +
+      '<p class="small muted">A goal song gets a path: ' + sp.total + ' steps for this one' + (sp.done ? ', ' + sp.done + ' already done' : '') + ', each a short exercise, ending with playing the song.</p>' +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn btn-primary grow" data-act="goal-set" data-id="' + esc(sug.id) + '">' + IC.flag + 'Make it my goal</button><button class="btn" data-act="go" data-to="songs">Browse</button></div></section>';
+  };
+
+  /* ---------- SONGS ---------- */
+  function kindLabel(model) { return model.kind === 'tab' ? 'Tab' : (model.kind === 'mixed' ? 'Chords and tab' : 'Chords'); }
+  function songRow(x, st, gm, showArtist) {
+    var p = App.path.of(x), gs = gm.songs[x.id] || { stars: 0 };
+    var meta = [showArtist ? (x.artist || '') : '', 'Level ' + (x.level || 1), p ? (p.mastered ? 'finished' : p.done + ' of ' + p.total + ' steps') : kindLabel(App.modelOf(x)), x.checked === false ? 'not checked' : ''].filter(Boolean).join(' · ');
+    return '<button class="item song-row" data-act="open" data-id="' + esc(x.id) + '">' + (p ? ringHtml(p) : App.lvlBadge(x.level || 1)) + '<div class="item-main"><span class="item-title">' + esc(x.title) + (S.settings.focus === x.id ? ' <span class="goal-flag" aria-label="your goal">' + IC.flag + '</span>' : '') + '</span>' +
+      '<span class="item-sub">' + esc(meta) + '</span></div><div class="item-side">' + App.starsHtml(gs.stars) + '</div>' + IC.chev + '</button>';
+  }
+  function viewSongs() {
+    var st = App.computeStats(), gm = App.computeGame(), f = S.filter;
+    var q = f.q.trim().toLowerCase(), lv = f.level, all = App.allSongs();
+    var artists = {}, genres = {}, order = [];
+    all.forEach(function (x) {
+      var a = x.artist || 'My songs';
+      if (!artists[a]) { artists[a] = { name: a, n: 0, done: 0, sample: x }; order.push(a); }
+      artists[a].n++; var p = App.path.of(x); if (p && p.mastered) artists[a].done++;
+      if (x.genre) genres[x.genre] = (genres[x.genre] || 0) + 1;
+    });
+    order.sort(function (a, b) { return (a === 'My songs') - (b === 'My songs') || artists[b].n - artists[a].n || a.localeCompare(b); });
+    if (f.artist && !artists[f.artist]) f.artist = '';
+    if (f.genre && !genres[f.genre]) f.genre = '';
+    var match = function (x) {
+      if (lv && (x.level || 1) !== lv) return false;
+      if (f.artist && (x.artist || 'My songs') !== f.artist) return false;
+      if (f.genre && x.genre !== f.genre) return false;
+      if (!q) return true;
+      if ((x.title + ' ' + (x.artist || '') + ' ' + (x.album || '') + ' ' + (x.genre || '')).toLowerCase().indexOf(q) >= 0) return true;
+      return App.modelOf(x).chords.some(function (c) { return c.name.toLowerCase() === q; });
+    };
+    var list = all.filter(match), drills = (f.artist || f.genre) ? [] : App.DRILLS.filter(match);
+    var html = '<section class="stack">' +
+      '<div class="head"><h2 class="large-title">Songs</h2><button class="btn btn-sm btn-primary" data-act="add">' + IC.plus + 'Add a song</button></div>' +
+      '<div class="search"><label class="vh" for="q">Search your songs</label>' + IC.search + '<input class="input" id="q" type="search" placeholder="Title, artist, genre or a chord" value="' + esc(f.q) + '" data-in="q" autocomplete="off"></div></section>';
+    if (S.store === 'loading') html += '<p class="empty"><span class="row"><span class="spinner"></span>Loading your library…</span></p>';
+    if (f.artist) {
+      var a = artists[f.artist];
+      html += '<section class="artist-head">' + App.art(a.sample, 'art-banner', 800) + '<div class="artist-over"><button class="btn btn-sm artist-back" data-act="artist" data-name="">' + IC.back + 'All artists</button><div><h3 class="h2">' + esc(a.name) + '</h3><span class="small">' + a.n + (a.n === 1 ? ' song' : ' songs') + (a.done ? ' · ' + a.done + ' finished' : '') + '</span></div></div></section>';
+    } else if (!q && order.length > 1) {
+      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Artists</h3><span class="small muted num">' + order.length + '</span></div><div class="artists">' + order.map(function (n) {
+        var a = artists[n];
+        return '<button class="artist-card" data-act="artist" data-name="' + esc(n) + '">' + App.art(n === 'My songs' ? { title: 'My songs' } : a.sample, 'art-card', 320) + '<b>' + esc(n) + '</b><span>' + a.n + (a.n === 1 ? ' song' : ' songs') + (a.done ? ' · ' + a.done + ' done' : '') + '</span></button>';
+      }).join('') + '</div></section>';
+    }
+    var gk = Object.keys(genres).sort();
+    html += '<section class="stack-sm">' +
+      (gk.length > 1 && !f.artist ? '<div class="chips" role="group" aria-label="Filter by genre"><button class="chip" data-act="genre" data-name="" aria-pressed="' + (!f.genre) + '">All genres</button>' + gk.map(function (g) { return '<button class="chip" data-act="genre" data-name="' + esc(g) + '" aria-pressed="' + (f.genre === g) + '">' + esc(g) + '</button>'; }).join('') + '</div>' : '') +
+      '<div class="chips" role="group" aria-label="Filter by level"><button class="chip" data-act="level" data-level="0" aria-pressed="' + (lv === 0) + '">All levels</button>' +
+      [1, 2, 3, 4, 5].map(function (n) { return '<button class="chip" data-act="level" data-level="' + n + '" aria-pressed="' + (lv === n) + '">Level ' + n + '</button>'; }).join('') + '</div></section>';
+    var shown = 0;
+    order.forEach(function (n) {
+      var inA = list.filter(function (x) { return (x.artist || 'My songs') === n; });
+      if (!inA.length) return;
+      shown += inA.length;
+      html += '<section class="stack">' + (f.artist ? '' : '<div class="sec-head"><h3 class="h2">' + esc(n) + '</h3><span class="small muted num">' + inA.length + '</span></div>') +
+        '<div class="group">' + inA.map(function (x) { return songRow(x, st, gm, false); }).join('') + '</div></section>';
+    });
+    if (drills.length) {
+      shown += drills.length;
+      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Warm-up drills</h3><span class="small muted num">' + drills.length + '</span></div><div class="group">' + drills.map(function (x) {
+        var gs = gm.songs[x.id] || { stars: 0 };
+        return '<button class="item song-row" data-act="open" data-id="' + esc(x.id) + '">' + App.lvlBadge(x.level || 1) + '<div class="item-main"><span class="item-title">' + esc(x.title) + '</span><span class="item-sub">' + esc(kindLabel(App.modelOf(x)) + (x.bpm ? ' · ' + x.bpm + ' BPM' : '')) + '</span></div><div class="item-side">' + App.starsHtml(gs.stars) + '</div>' + IC.chev + '</button>';
+      }).join('') + '</div></section>';
+    }
+    if (!shown && S.store !== 'loading') html += '<p class="empty">Nothing matches that. Clear the search or pick another filter.</p>';
+    html += '<div class="panel-flat stack-sm"><b>Want a song that is not here?</b><span class="small">Add a song takes a pasted tab or chord sheet from any tab site and builds a path for it. Or tell Claude in the chat which song you want.</span></div>';
+    return html;
+  }
+  App.views.songs = viewSongs;
+
+  /* ---------- METRONOME ---------- */
+  var Met = App.met = { on: false, bpm: 90, per: 4, sub: 1, accent: true, timer: null, nextT: 0, n: 0, began: 0, taps: [] };
+  (function () { var k = App.ls.get('pr.metro.v1'); if (k && typeof k === 'object') { if (k.bpm >= 30 && k.bpm <= 240) Met.bpm = Math.round(k.bpm); if ([2, 3, 4, 6].indexOf(k.per) >= 0) Met.per = k.per; if ([1, 2, 3, 4].indexOf(k.sub) >= 0) Met.sub = k.sub; if (typeof k.accent === 'boolean') Met.accent = k.accent; } })();
+  function metKeep() { App.ls.set('pr.metro.v1', { bpm: Met.bpm, per: Met.per, sub: Met.sub, accent: Met.accent }); }
+  function tempoWord(b) { return b < 60 ? 'Largo' : b < 76 ? 'Adagio' : b < 108 ? 'Andante' : b < 120 ? 'Moderato' : b < 168 ? 'Allegro' : 'Presto'; }
+  function dotsHtml() { var h = ''; for (var i = 0; i < Met.per; i++) h += '<i' + (i === 0 && Met.accent ? ' class="is-one"' : '') + '></i>'; return h; }
+  App.metroHtml = function () {
+    var seg = function (act, vals, cur, label) {
+      return '<div class="seg" role="group" aria-label="' + label + '">' + vals.map(function (v) { return '<button data-act="' + act + '" data-v="' + v[0] + '" aria-pressed="' + (cur === v[0]) + '">' + v[1] + '</button>'; }).join('') + '</div>';
+    };
+    return '<div class="metro"><div class="metro-dots" id="mDots">' + dotsHtml() + '</div>' +
+      '<div class="metro-bpm"><button class="icon-btn" data-act="met-step" data-d="-1" aria-label="One slower">−</button><div class="metro-num"><b id="mBpm">' + Met.bpm + '</b><span id="mWord">BPM · ' + tempoWord(Met.bpm) + '</span></div><button class="icon-btn" data-act="met-step" data-d="1" aria-label="One faster">+</button></div>' +
+      '<input class="range" type="range" min="30" max="240" step="1" value="' + Met.bpm + '" id="mRange" data-in="met-bpm" aria-label="Tempo in beats per minute"></div>' +
+      (Met.on ? '<button class="btn btn-stop btn-play btn-block" data-act="met-toggle">' + IC.stop + 'Stop</button>' : '<button class="btn btn-primary btn-play btn-block" data-act="met-toggle">' + IC.play + 'Start</button>') +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Beats in a bar</span>' + seg('met-per', [[2, '2'], [3, '3'], [4, '4'], [6, '6']], Met.per, 'Beats in a bar') + '</div>' +
+      '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Clicks per beat</span>' + seg('met-sub', [[1, 'One'], [2, 'Two'], [3, 'Three'], [4, 'Four']], Met.sub, 'Clicks per beat') + '</div>' +
+      '<div class="group"><label class="item toggle"><input type="checkbox" data-in="met-accent"' + (Met.accent ? ' checked' : '') + '><span>Louder click on beat one</span></label>' +
+      '<button class="item" data-act="met-tap"><span class="grow">Tap the tempo</span><span class="small muted" id="mTap">tap four times</span></button></div>' +
+      '<p class="small muted" style="padding-inline:4px">A minute or more with the metronome is logged as practice. No sound on an iPhone? Flip the ring switch on the side to ring.</p>';
+  };
+  function metPaint() {
+    var b = $('#mBpm'); if (b) b.textContent = Met.bpm;
+    var w = $('#mWord'); if (w) w.textContent = 'BPM · ' + tempoWord(Met.bpm);
+    var r = $('#mRange'); if (r && +r.value !== Met.bpm) r.value = Met.bpm;
+  }
+  Met.set = function (bpm) { Met.bpm = App.clamp(Math.round(bpm), 30, 240); metKeep(); metPaint(); };
+  Met.start = function () {
+    var A = App.audio, ctx = A.ensure();
+    if (!ctx || Met.on) return;
+    A.hush();
+    Met.on = true; Met.n = 0; Met.nextT = ctx.currentTime + 0.12; Met.began = Date.now();
+    var pump = function () {
+      var horizon = ctx.currentTime + 0.14;
+      while (Met.nextT < horizon) {
+        var n = Met.n, onBeat = n % Met.sub === 0, beat = Math.floor(n / Met.sub) % Met.per, t = Math.max(Met.nextT, ctx.currentTime);
+        A.click(t, onBeat && beat === 0 && Met.accent, !onBeat);
+        if (onBeat) (function (bt, when) { setTimeout(function () { if (Met.on) Met.flash(bt); }, Math.max(0, (when - ctx.currentTime) * 1000)); })(beat, t);
+        Met.n++; Met.nextT += 60 / Met.bpm / Met.sub;
+      }
+    };
+    Met.timer = setInterval(pump, 25); pump();
+    App.wake.on();
+  };
+  Met.flash = function (beat) {
+    var d = $('#mDots'); if (!d) return;
+    for (var i = 0; i < d.children.length; i++) d.children[i].classList.toggle('is-on', i === beat);
+  };
+  /* stopping logs the time when it was a minute or more */
+  Met.stop = function (quiet) {
+    if (!Met.on) return;
+    Met.on = false; clearInterval(Met.timer); Met.timer = null; App.wake.off();
+    var secs = Math.round((Date.now() - Met.began) / 1000);
+    if (secs >= 60 && S.canWrite) {
+      App.Store.addSession({ song: '', title: 'Metronome at ' + Met.bpm + ' BPM', kind: 'metro', secs: Math.min(secs, 3600), bpm: Met.bpm });
+      if (!quiet) App.toast('Logged ' + Math.round(secs / 60) + ' min with the metronome.');
+    }
+  };
+  Met.tap = function () {
+    var now = Date.now(), t = Met.taps;
+    if (t.length && now - t[t.length - 1] > 2500) t.length = 0;
+    t.push(now); if (t.length > 6) t.shift();
+    var el = $('#mTap');
+    if (t.length < 2) { if (el) el.textContent = 'keep tapping'; return; }
+    var gaps = []; for (var i = 1; i < t.length; i++) gaps.push(t[i] - t[i - 1]);
+    Met.set(60000 / (gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length));
+    if (el) el.textContent = Met.bpm + ' BPM';
+  };
+
+  /* ---------- who took the pictures ---------- */
+  App.creditsHtml = function () {
+    var names = Object.keys(PICS).filter(function (n) { return PICS[n] && PICS[n].file; });
+    if (!names.length) return '';
+    return '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Pictures</span><div class="panel stack-sm"><p class="small muted">Artist photographs come from Wikimedia Commons under free licences.</p>' + names.map(function (n) {
+      var p = PICS[n];
+      return '<span class="small"><b>' + esc(n) + '</b>: ' + esc(p.author || 'unknown') + ', ' + esc(p.license || '') + (/^https:\/\/commons\.wikimedia\.org\//.test(p.page || '') ? ' · <a href="' + esc(p.page) + '" target="_blank" rel="noopener">source</a>' : '') + '</span>';
+    }).join('') + '</div></div>';
+  };
+  App.ringHtml = ringHtml;
 })(typeof window !== 'undefined' ? window : globalThis);
 
 /* app-practice.js: the song page, live listening, play-along, take scoring, the one-minute change drill. */
@@ -4985,7 +5668,7 @@ details > summary::-webkit-details-marker { display: none; }
     if (!song) { App.go({ name: 'songs' }); return; }
     P.stopAll(true);
     var model = App.modelOf(song);
-    P.st = { id: id, song: song, model: model, mode: modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null };
+    P.st = { id: id, song: song, model: model, mode: song.exercise && modeDefault() === 'take' ? 'along' : modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null, from: '', showPath: false };
   };
   function controlsHtml() {
     var st = P.st, model = st.model, sel = selection(), timed = selTimed(sel);
@@ -5026,17 +5709,24 @@ details > summary::-webkit-details-marker { display: none; }
     var st = P.st; if (!st) return '';
     var song = st.song, model = st.model;
     var stats = App.computeStats(), ss = App.songStatus(stats, song.id), game = App.computeGame(), gs = game.songs[song.id] || { stars: 0, best: null, score: 0 };
+    var own = song.drill || song.exercise, parent = st.from ? App.findSong(st.from) : null, path = own ? null : App.path.of(song);
+    var exPass = song.exercise ? App.path.passed(song.id) : null;
+    var listen = own || !song.artist ? '' : '<a class="chip" href="https://www.youtube.com/results?search_query=' + encodeURIComponent(song.artist + ' ' + song.title) + '" target="_blank" rel="noopener noreferrer" style="color:var(--tint-text)">Listen' + IC.ext + '</a>';
     var html = '<section class="stack">' +
-      '<div class="spread"><button class="btn btn-ghost back" data-act="go" data-to="songs">' + IC.back + 'Songs</button>' + (song.drill ? '' : '<button class="btn btn-ghost" data-act="edit" data-id="' + esc(song.id) + '">Edit</button>') + '</div>' +
-      '<div class="title-row">' + App.lvlBadge(song.level || 1) + '<div class="grow"><h2 class="title">' + esc(song.title) + '</h2><div class="item-sub" style="font-size:16px">' + esc(song.artist || (song.drill ? 'Built-in drill' : '')) + '</div></div><span class="pill ' + ss.cls + '" style="margin-top:8px">' + ss.label + '</span></div>' +
-      '<div class="row-tight">' + App.songChips(song, model) + (song.key ? '<span class="chip">Key ' + esc(song.key) + '</span>' : '') +
+      '<div class="spread">' + (parent ? '<button class="btn btn-ghost back" data-act="open" data-id="' + esc(parent.id) + '">' + IC.back + esc(parent.title.length > 22 ? parent.title.slice(0, 21) + '…' : parent.title) + '</button>' : '<button class="btn btn-ghost back" data-act="go" data-to="' + (song.exercise ? 'today' : 'songs') + '">' + IC.back + (song.exercise ? 'Today' : 'Songs') + '</button>') + (own ? '' : '<button class="btn btn-ghost" data-act="edit" data-id="' + esc(song.id) + '">Edit</button>') + '</div>' +
+      '<div class="title-row">' + (own ? App.lvlBadge(song.level || 1) : App.art(song, 'art-md', 160)) + '<div class="grow"><h2 class="title">' + esc(song.title) + '</h2><div class="item-sub" style="font-size:16px">' + esc(song.artist ? song.artist + (song.album ? ' · ' + song.album : '') + (song.year ? ', ' + song.year : '') : (song.drill ? 'Built-in drill' : song.exercise ? (song.kind === 'shape' ? 'Chord shape' : song.kind === 'scale' ? 'Scale' : 'Technique drill') : '')) + '</div></div>' + (own ? '' : '<span class="pill ' + (path && path.mastered ? 'pill-good' : ss.cls) + '" style="margin-top:8px">' + (path && path.mastered ? 'Finished' : ss.label) + '</span>') + '</div>' +
+      (song.exercise ? '<div class="notice' + (exPass && exPass.at ? ' notice-good' : '') + '">' + (exPass && exPass.at ? IC.check : IC.target) + '<div>' + (exPass && exPass.at ? '<b>Passed.</b> Best so far ' + App.pct(exPass.best) + '%. Play it again any time to keep it fresh.' : '<b>Pass this at 80% to tick the step.</b>' + (exPass && exPass.best !== null ? ' Best so far ' + App.pct(exPass.best) + '%.' : '')) + (parent ? ' It is a step toward ' + esc(parent.title) + '.' : '') + '</div></div>' : '') +
+      '<div class="row-tight">' + (own ? '' : '<span class="chip">Level ' + (song.level || 1) + '</span>') + App.songChips(song, model) + (song.key ? '<span class="chip">Key ' + esc(song.key) + '</span>' : '') + (song.genre ? '<span class="chip">' + esc(song.genre) + '</span>' : '') + listen +
       (song.source && song.source.url && /^https?:\/\//.test(song.source.url) ? '<a class="chip" href="' + esc(song.source.url) + '" target="_blank" rel="noopener noreferrer" style="color:var(--tint-text)">' + esc(song.source.label || 'Source') + IC.ext + '</a>' : '') + '</div>' +
       '<div class="best"><div><span>Stars</span>' + App.starsHtml(gs.stars) + '</div><div><span>Best</span><b>' + (gs.best === null ? '–' : App.pct(gs.best) + '%') + '</b></div><div><span>High score</span><b>' + (gs.score ? fmtScore(gs.score) : '–') + '</b></div></div>' +
       (song.checked === false ? '<div class="notice notice-warn">' + IC.warn + '<div><b>Draft, not checked.</b> These chords came from memory. Compare them with a tab, then mark the song as checked under Edit.</div></div>' : '') +
       (song.note ? '<p class="note">' + esc(song.note) + '</p>' : '') +
+      (song.strum ? '<p class="small muted" style="padding-left:4px">Strumming: <b class="mono" style="color:var(--ink);white-space:pre">' + esc(song.strum) + '</b> (D down, U up)</p>' : '') +
+      (song.melody && song.builtin ? '<div class="panel-flat stack-sm"><b>This is the chord backing.</b><span class="small">The tune itself is not written out here. Paste a tab of the melody from a tab site and the app builds a path for it, note by note.</span><button class="btn btn-sm btn-tinted" data-act="melody-add" data-id="' + esc(song.id) + '" style="align-self:flex-start">' + IC.plus + 'Add the melody tab</button></div>' : '') +
       (model.broken || !model.targets.length ? '<div class="notice notice-bad">' + IC.warn + '<div>This song has nothing playable in it. Delete it and add it again.</div></div>' : '') +
       '</section>';
     if (!model.targets.length) return html;
+    if (path) html += App.pathCard(song, st.showPath) + '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">any part, any tempo</span></div>';
     html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
     html += '<section class="stack" id="pAction">' + actionHtml() + (st.mode === 'live' ? App.micNotice(true) : '') + '</section>';
     if (model.chords.length) {
@@ -5343,9 +6033,11 @@ details > summary::-webkit-details-marker { display: none; }
     return true;
   }
   /* what the game layer gained from a session that was just saved */
-  function gains(before, after, songId, score) {
+  /* which song's path a run on this page can move: the song itself, or the song an exercise was opened from */
+  function pathId() { var st = P.st; return st.from || (st.song.drill || st.song.exercise ? '' : st.id); }
+  function gains(before, after, songId, score, snap) {
     var b = before.songs[songId] || { stars: 0, score: 0 }, a = after.songs[songId] || { stars: 0, score: 0 };
-    return { xp: after.xp - before.xp, levelUp: after.level > before.level, game: after,
+    return { path: snap ? App.path.diff(snap) : null, xp: after.xp - before.xp, levelUp: after.level > before.level, game: after,
       newBest: !!score && score > (b.score || 0) && (b.score || 0) > 0, firstScore: !!score && !(b.score > 0),
       newStars: a.stars > b.stars, badges: after.badges.filter(function (x, i) { return x.got && !before.badges[i].got; }),
       quests: after.today.quests.filter(function (q, i) { return q.done && !before.today.quests[i].done; }) };
@@ -5358,7 +6050,19 @@ details > summary::-webkit-details-marker { display: none; }
       '<span class="small">' + (gn.levelUp ? 'Level up! ' : '') + (gm.need - gm.into) + ' XP to level ' + (gm.level + 1) + '</span></div>';
     gn.quests.forEach(function (q) { html += '<div class="unlock"><i>' + IC.check + '</i><div><b>Quest done</b><div class="small muted">' + esc(q.label) + ' · +' + q.xp + ' XP</div></div></div>'; });
     gn.badges.forEach(function (b) { html += '<div class="unlock"><i>' + (IC[b.icon] || IC.star) + '</i><div><b>Badge: ' + esc(b.name) + '</b><div class="small muted">' + esc(b.desc) + '</div></div></div>'; });
+    return pathGainHtml(gn.path) + html;
+  }
+  function pathGainHtml(pd) {
+    if (!pd || !(pd.steps.length || pd.mastered)) return '';
+    var p = pd.path, html = '';
+    if (pd.mastered) html += '<div class="unlock unlock-big"><i>' + IC.trophy + '</i><div><b>Song finished: ' + esc(pd.song.title) + '</b><div class="small muted">Every step of the path is done. You can play this song.</div></div></div>';
+    pd.steps.forEach(function (s) { if (!(pd.mastered && s.final)) html += '<div class="unlock"><i>' + IC.check + '</i><div><b>Step done: ' + esc(s.title) + '</b><div class="small muted">' + esc(s.skill ? 'Counts for every song that needs it' : s.sub) + '</div></div></div>'; });
+    html += '<div class="panel stack-sm"><div class="spread"><b>' + esc(pd.song.title) + '</b><span class="small num muted">' + p.done + ' of ' + p.total + ' steps</span></div><div class="meter' + (p.mastered ? ' is-good' : '') + '"><i style="width:' + p.pct + '%"></i></div></div>';
     return html;
+  }
+  function nextBtn(pd, primary) {
+    if (!pd || !pd.path.next) return '';
+    return '<button class="btn ' + (primary ? 'btn-primary ' : '') + 'btn-block" data-act="path-next" data-id="' + esc(pd.song.id) + '">Next step: ' + esc(pd.path.next.title) + '</button>';
   }
   P.showReport = function (rep) {
     var st = P.st, html = '<div class="sheet-head"><div><div class="eyebrow">' + esc(st.song.title) + ' · ' + esc(sectionName()) + '</div><h2 class="title">' + (rep.self ? 'How did that go?' : 'Result') + '</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>';
@@ -5370,9 +6074,10 @@ details > summary::-webkit-details-marker { display: none; }
     }
     if (!rep.total) { App.toast('Stopped before anything was scored.'); return; }
     var stars = App.starsFor(rep.acc, st.pct, false);
-    var before = App.computeGame();
+    var before = App.computeGame(), snap = pathId() ? App.path.snap(pathId()) : null;
     var saved = saveSession(rep, { score: rep.score || 0, combo: rep.combo || 0, stars: stars });
-    var gn = saved ? gains(before, App.computeGame(), st.id, rep.score) : null;
+    var gn = saved ? gains(before, App.computeGame(), st.id, rep.score, snap) : null;
+    var moved = gn && gn.path && (gn.path.steps.length || gn.path.mastered) ? gn.path : null;
     var acc = App.pct(rep.acc);
     var verdict = acc >= 90 ? 'Solid. ' + (st.pct < 100 ? 'Raise the tempo next.' : 'Play it again tomorrow to lock it in.') : acc >= 70 ? 'Close. Loop the part that tripped you and go again.' : 'Slow it down and take one part at a time.';
     html += App.starsHtml(stars, 'stars-lg') +
@@ -5403,21 +6108,27 @@ details > summary::-webkit-details-marker { display: none; }
     html += itemsHtml(rep.items);
     if (!saved) html += '<p class="small muted">' + (S.canWrite ? 'Too short to log.' : 'Not saved: this view cannot write.') + '</p>';
     if (rep.read) html += '<p class="small muted">' + (rep.read.how === 'track' ? 'Read from the recording\'s sound track' : rep.read.how === 'decode' ? 'Decoded by the browser' : 'Played through to read it') + ' in ' + (rep.read.ms / 1000).toFixed(1) + ' s.</p>';
-    html += '<div class="stack"><button class="btn btn-primary btn-block" data-act="p-again">' + (rep.kind === 'take' ? 'Done' : 'Play again') + '</button><div class="row">' +
+    html += '<div class="stack">' + nextBtn(moved, true) + '<button class="btn ' + (moved && moved.path.next ? '' : 'btn-primary ') + 'btn-block" data-act="p-again">' + (rep.kind === 'take' ? 'Done' : 'Play again') + '</button><div class="row">' +
       (slow && slow.mean >= 0.6 ? '<button class="btn grow" data-act="omc" data-a="' + esc(slow.f) + '" data-b="' + esc(slow.t) + '" data-id="' + esc(st.id) + '">Drill ' + esc(slow.key) + '</button>' : (acc < 90 && st.pct > 60 && rep.kind !== 'take' ? '<button class="btn grow" data-act="p-slower">Slower</button>' : '')) +
       (rep.kind === 'take' ? '' : '<button class="btn grow" data-act="sheet-close">Done</button>') + '</div></div>';
     App.sheet.open(html, function () { App.render(); });
-    if (stars === 3 || (gn && (gn.levelUp || gn.badges.length))) App.confetti();
-    A.chime(stars);
+    if (stars === 3 || (gn && (gn.levelUp || gn.badges.length)) || (moved && moved.mastered)) App.confetti();
+    A.chime(moved && moved.mastered ? 3 : stars);
   };
   P.rate = function (v) {
     var st = P.st, rep = st.report; if (!rep) return;
     rep.acc = v; rep.kind = 'self'; rep.hits = 0; rep.total = 0;
-    var before = App.computeGame();
+    var before = App.computeGame(), snap = pathId() ? App.path.snap(pathId()) : null;
     var ok = saveSession({ kind: 'self', secs: rep.secs, acc: v, total: 0, hits: 0, changes: [] }, { self: true });
     App.sheet.close();
-    var gn = ok ? gains(before, App.computeGame(), st.id, 0) : null;
-    App.toast(ok ? 'Logged. +' + gn.xp + ' XP' + (gn.levelUp ? '. Level up!' : '') : 'Too short to log.');
+    var gn = ok ? gains(before, App.computeGame(), st.id, 0, snap) : null;
+    var moved = gn && gn.path && (gn.path.steps.length || gn.path.mastered) ? gn.path : null;
+    if (moved) {
+      /* a step was ticked: say so properly instead of in a passing line */
+      App.sheet.open('<div class="sheet-head"><div><div class="eyebrow">' + esc(st.song.title) + '</div><h2 class="title">' + (moved.mastered ? 'Song finished' : 'Step done') + '</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+        gainsHtml(gn) + '<div class="stack">' + nextBtn(moved, true) + '<button class="btn ' + (moved.path.next ? '' : 'btn-primary ') + 'btn-block" data-act="sheet-close">Done</button></div>', function () { App.render(); });
+      if (moved.mastered) { App.confetti(); A.chime(3); } else A.chime(2);
+    } else App.toast(ok ? 'Logged. +' + gn.xp + ' XP' + (gn.levelUp ? '. Level up!' : '') + (st.song.exercise && v < App.path.PASS ? ' Rate it clean to tick the step.' : '') : 'Too short to log.');
     if (gn && (gn.levelUp || gn.badges.length)) App.confetti();
     App.render();
   };
@@ -5551,8 +6262,12 @@ details > summary::-webkit-details-marker { display: none; }
     var secs = Math.round(Math.min(60, A.now() - o.t0));
     O.stop(false);
     if (secs >= 30 && S.canWrite) {
-      App.Store.addSession({ song: o.song, title: o.a + ' → ' + o.b + (o.songTitle ? ' (' + o.songTitle + ')' : ''), kind: 'omc', secs: secs, pair: [o.a, o.b], count: Math.round(o.count * 60 / secs), counted: o.live ? 'heard' : 'tapped' });
-      setText('#omcLeft', 'Logged: ' + Math.round(o.count * 60 / secs) + ' changes a minute');
+      var snap = o.song ? App.path.snap(o.song) : null, rate = Math.round(o.count * 60 / secs);
+      App.Store.addSession({ song: o.song, title: o.a + ' → ' + o.b + (o.songTitle ? ' (' + o.songTitle + ')' : ''), kind: 'omc', secs: secs, pair: [o.a, o.b], count: rate, counted: o.live ? 'heard' : 'tapped' });
+      setText('#omcLeft', 'Logged: ' + rate + ' changes a minute');
+      var pd = snap ? App.path.diff(snap) : null, act = $('#omcAct');
+      if (pd && pd.steps.length && act) { act.innerHTML = pathGainHtml(pd) + nextBtn(pd, true) + act.innerHTML.replace('btn-primary ', ''); A.chime(2); }
+      else if (snap && rate < App.path.OMC_PASS) { var hint = $('#omcHint'); if (hint) hint.textContent = App.path.OMC_PASS + ' clean changes in the minute ticks this step. ' + (App.path.OMC_PASS - rate) + ' to go.'; }
     } else setText('#omcLeft', 'Stopped early, not logged');
   };
   App.shapeSvg = shapeSvg;
@@ -5566,9 +6281,9 @@ details > summary::-webkit-details-marker { display: none; }
 
   App.go = function (route) {
     var from = S.route.name;
-    if (from === 'tuner' && route.name !== 'tuner') T.stop();
+    if (from === 'tuner' && route.name !== 'tuner') { T.stop(); App.met.stop(); }
     if (from === 'practice' && (route.name !== 'practice' || (P.st && route.id !== P.st.id))) P.stopAll(true);
-    if (route.name === 'practice') { if (!P.st || P.st.id !== route.id) P.open(route.id); if (!P.st) route = { name: 'songs' }; }
+    if (route.name === 'practice') { if (!P.st || P.st.id !== route.id) P.open(route.id); if (!P.st) route = { name: 'songs' }; else if (route.from) P.st.from = route.from; }
     S.route = route;
     try { if (route.name !== 'practice') root.history.replaceState(null, '', '#' + route.name); } catch (e) { /* hash is a nicety */ }
     App.render(true);
@@ -5580,7 +6295,7 @@ details > summary::-webkit-details-marker { display: none; }
     if (!main) return;
     if (!force) {
       if (r === 'practice' && P.st && (P.st.run || P.st.busy)) return;
-      if (r === 'tuner' && (T.on || T.busy)) return;
+      if (r === 'tuner' && (T.on || T.busy || App.met.on)) return;
     }
     var active = document.activeElement, keep = active && active.id === 'q' ? [active.selectionStart, active.selectionEnd] : null;
     var html = r === 'songs' ? App.views.songs() : r === 'tuner' ? App.views.tuner() : r === 'me' ? App.views.me() : r === 'practice' ? P.view() : App.views.today();
@@ -5641,6 +6356,28 @@ details > summary::-webkit-details-marker { display: none; }
     'draft-read': function () { App.addSong.read(); },
     'draft-ask': function () { App.addSong.ask(); },
     'draft-save': function () { App.addSong.save(); App.addSong.reset(); },
+
+    /* the library: one artist or genre at a time */
+    artist: function (el) { S.filter.artist = el.getAttribute('data-name') || ''; S.filter.genre = ''; App.render(true); try { root.scrollTo(0, 0); } catch (e) { /* ignore */ } },
+    genre: function (el) { S.filter.genre = el.getAttribute('data-name') || ''; App.render(true); },
+    /* the path to a song */
+    'path-step': function (el) { App.pathRun(el.getAttribute('data-id'), el.getAttribute('data-step')); },
+    'path-next': function (el) { App.pathRun(el.getAttribute('data-id'), ''); },
+    'path-toggle': function () { if (P.st) { P.st.showPath = !P.st.showPath; App.render(true); } },
+    'goal-set': function (el) {
+      var id = el.getAttribute('data-id'), song = App.findSong(id); if (!song) return;
+      S.settings.focus = id; App.Store.saveSettings();
+      App.toast(song.title + ' is your goal now.');
+      App.render(true);
+    },
+    'melody-add': function (el) { var s = App.findSong(el.getAttribute('data-id')); if (s) App.addSong.open({ title: s.title + ' (melody)', artist: s.artist || '', genre: s.genre || '', album: s.album || '' }); },
+    /* tuner and metronome share a tab */
+    tool: function (el) { var t = el.getAttribute('data-tool'); if (t !== 'tuner' && T.on) T.stop(); if (t !== 'metro') App.met.stop(); T.tool = t; App.render(true); },
+    'met-toggle': function () { if (App.met.on) App.met.stop(); else App.met.start(); App.render(true); },
+    'met-step': function (el) { App.met.set(App.met.bpm + parseInt(el.getAttribute('data-d'), 10)); },
+    'met-per': function (el) { App.met.per = parseInt(el.getAttribute('data-v'), 10) || 4; App.met.set(App.met.bpm); App.render(true); },
+    'met-sub': function (el) { App.met.sub = parseInt(el.getAttribute('data-v'), 10) || 1; App.met.set(App.met.bpm); App.render(true); },
+    'met-tap': function () { App.met.tap(); },
 
     edit: function (el) { App.editSong.open(el.getAttribute('data-id')); },
     'edit-save': function (el) { App.editSong.save(el.getAttribute('data-id')); if (P.st) { P.open(P.st.id); App.render(true); } },
@@ -5717,7 +6454,9 @@ details > summary::-webkit-details-marker { display: none; }
     'set-click': function (el) { S.settings.click = !!el.checked; App.Store.saveSettings(); },
     'set-guide': function (el) { S.settings.guide = !!el.checked; App.Store.saveSettings(); },
     'set-countin': function (el) { S.settings.countIn = !!el.checked; App.Store.saveSettings(); },
-    'set-tones': function (el) { S.settings.tones = !!el.checked; App.Store.saveSettings(); }
+    'set-tones': function (el) { S.settings.tones = !!el.checked; App.Store.saveSettings(); },
+    'met-bpm': function (el) { App.met.set(parseInt(el.value, 10) || 90); },
+    'met-accent': function (el) { App.met.accent = !!el.checked; App.met.set(App.met.bpm); var d = $('#mDots'); if (d && d.firstChild) d.firstChild.classList.toggle('is-one', App.met.accent); }
   };
 
   App.boot = function () {
@@ -5743,7 +6482,7 @@ details > summary::-webkit-details-marker { display: none; }
       }
       var key = el.getAttribute('data-in');
       if (!key || !inputs[key]) return;
-      var isText = el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'search' || !el.type) || el.tagName === 'TEXTAREA';
+      var isText = el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'search' || el.type === 'range' || !el.type) || el.tagName === 'TEXTAREA';
       if (isText ? ev.type === 'input' : ev.type === 'change') inputs[key](el);
     }
     document.addEventListener('input', onInput);
@@ -5752,6 +6491,8 @@ details > summary::-webkit-details-marker { display: none; }
       if (ev.key === 'Escape' && App.sheet.isOpen()) App.sheet.close();
       if (ev.key === 'Enter' && ev.target && ev.target.id === 'ghKey') actions['acct-in']();
     });
+    /* a picture that does not load leaves the drawn tile underneath showing */
+    document.addEventListener('error', function (ev) { var el = ev.target; if (el && el.tagName === 'IMG' && el.classList && el.classList.contains('art-img')) App.artFailed(el); }, true);
     document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.hasAttribute && el.hasAttribute('data-select')) { try { el.select(); } catch (e) { /* ignore */ } } });
     /* anything that goes wrong on a device nobody can look at ends up in the technical log */
     var errs = 0;
@@ -5765,6 +6506,7 @@ details > summary::-webkit-details-marker { display: none; }
     root.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { if (S.route.name === 'me' && !App.sheet.isOpen()) App.render(); }, 180); });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden && T.on) { T.stop(); App.render(true); }
+      if (document.hidden && App.met.on) { App.met.stop(true); App.render(true); }
     });
     A.probe();
     var h = (root.location.hash || '').replace('#', '');

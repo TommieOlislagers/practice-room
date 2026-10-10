@@ -39,6 +39,32 @@ can be added by a commit; a "copy my progress" export for coaching.
 - The device keeps the newest 2000 sessions (`Store.cap()`); the gist keeps all of them. The game layer counts
   what the device holds. Inside Claude the database still hands over 500.
 
+## Library, paths and metronome (added 10 Oct 2026)
+
+- **Library.** Songs the page ships with live in `seed/lib/<id>.json` (format and rules: `seed/lib/FORMAT.md`), plus the two
+  `seed/eyes*.json`. `build.js` checks each with `scripts/check_song.js` and builds them into `PR.catalog`. They are not
+  stored per player: `App.allSongs()` joins the catalog with the player's own songs. A player's edit is saved as their own
+  copy under the same id and wins while its `updatedAt` is not older than the catalog's; a removed built-in song stays
+  hidden through `Store.gone`. So **when a chart in `seed/lib` is corrected, raise its `updatedAt`** (build.js stamps new files).
+- **Chords only, always.** Library songs hold section names and chords. Never lyrics, and never a melody, riff, solo or bass
+  line written out note by note; game music (Zelda) is charted as the chord backing with `melody: true`, and the page offers
+  the player a place to paste a melody tab of their own. The checker refuses anything but chord sections.
+- **To add songs:** research the chart against two sources (see the agent brief in FORMAT.md), write the file, run
+  `node scripts/check_song.js seed/lib/<id>.json` (it compares playing time with `lengthSec`), build, test, deploy.
+- **Paths** (`src/app-path.js`). Every song gets steps: its chord shapes, its commonest changes, technique drills (the
+  song's `needs` plus what the chart implies), a scale, each distinct part in time, the whole song slowed down, the whole
+  song. Shapes, changes, techniques and scales are skills shared by every song (ids `x:shape:G~320003`, `chg:C|G`,
+  `x:tech:<id>`, `x:scale:<type>:<root>`); parts and whole-song steps belong to the song. Exercises are small songs made on
+  the spot from those ids (`App.path.exercise`). A step is done when the session log holds a run of 80% or better (30 a
+  minute for a change; parts at 70% speed, the song at 75% then 100%). Nothing is stored: the path is worked out from
+  sessions, like the game layer. The technique drills (`TECH`) are written for this app.
+- **Goal.** `S.settings.focus` is the goal song; Today shows its next step. Badges and the "finish a step" quest come from
+  `App.path.summary()`.
+- **Pictures.** `seed/pictures.json` names one freely licensed Wikimedia Commons photograph per artist (credited in
+  Settings). The page links to it through `Special:FilePath`; when it does not load, the drawn tile underneath shows.
+  No album covers and no game art: those are not free.
+- **Metronome.** Second tool on the Tuner tab (`App.met` in `app-library.js`); a minute or more is logged as a `metro` session.
+
 ## Look and game (redesign of 10 Oct 2026)
 
 - The look follows iOS conventions: system fonts, large titles, grouped cards, a blurred tab bar, sheets.
@@ -70,12 +96,14 @@ can be added by a commit; a "copy my progress" export for coaching.
 | `music.js` | notes, chord symbols, shapes, tab and chord-sheet parsers, song model, difficulty levels |
 | `engine.js` | pitch (YIN), chroma and chord templates, note-onset logic, the live trackers, take scoring |
 | `mp4audio.js` | reads the AAC sound track out of MP4, M4A, MOV files; wraps it as M4A or ADTS |
-| (generated) | `PR.starters`: the songs in `seed/`, used only where the page has no database |
+| (generated) | `PR.catalog`: the built-in library from `seed/`; `PR.pictures` |
 | `app-core.js` | state, technical log, storage (database, browser cache, offline queue), statistics |
+| `app-path.js` | the path to a song: steps, exercises, technique drills, scales, what counts as passed |
 | `app-account.js` | the GitHub account for the Pages copy: sign-in with a key, the gist, joining and saving |
 | `app-audio.js` | microphone, tones, metronome, reading recordings |
 | `stage.js` | the playing screen: the note highway, bursts, multiplier, stars |
 | `app-views.js` | Today, Songs, add and edit sheets, Settings, Tuner |
+| `app-library.js` | Songs tab (artists, genres), pictures, the path card, the goal on Today, the metronome |
 | `app-practice.js` | song page, live runs, take scoring flow, one-minute changes |
 | `app-boot.js` | routing, rendering, every tap |
 
@@ -96,10 +124,10 @@ To load a song from a chat: research the chart, check it against a second source
 
 ## Tests
 
-Node (`node test/tN_*.js`): t1 pitch, t2 chords, t3 tracking, t4 false positives, t5 parsers, t6 sound-track reader, t7 game layer, t8 the rules for joining a device with the account.
+Node (`node test/tN_*.js`): t1 pitch, t2 chords, t3 tracking, t4 false positives, t5 parsers, t6 sound-track reader, t7 game layer, t8 the rules for joining a device with the account, t9 paths (every built-in song and every exercise must be playable).
 Browser (`node test/bN_*.js`, Playwright with the preinstalled Chromium): b1 smoke and screenshots, b2 live
 listening with a fake microphone, b3 database, b4 marks, b5 locked-down frame, b6 asking for the microphone,
-b7 recordings, b8 offline queue, b9 the iPhone case, b10 the GitHub account (a stand-in GitHub, two devices).
+b7 recordings, b8 offline queue, b9 the iPhone case, b10 the GitHub account (a stand-in GitHub, two devices), b11 library, path, goal and metronome.
 
 Test material is not in the kit: `scripts/get_samples.sh` (sampled guitar notes), `node test/mkwav.js`
 (test performances), `scripts/make_media.sh` (phone-style videos, needs ffmpeg), and

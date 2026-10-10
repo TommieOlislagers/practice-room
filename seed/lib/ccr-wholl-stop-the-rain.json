@@ -1,0 +1,146 @@
+{
+  "id": "ccr-wholl-stop-the-rain",
+  "title": "Who'll Stop the Rain",
+  "artist": "Creedence Clearwater Revival",
+  "album": "Cosmo's Factory",
+  "year": 1970,
+  "genre": "Roots rock",
+  "level": 2,
+  "key": "G",
+  "bpm": 123,
+  "beatsPerBar": 4,
+  "beatsPerSlot": 4,
+  "capo": 0,
+  "tuning": "standard",
+  "lengthSec": 149,
+  "note": "Mostly G, C and D with an easy swing of the wrist. Watch for the Bm in the second line of the later verses and for the two bars of Em near the end of each verse. In the interlude the chords change every two beats: practise that line alone, slowly, before joining it to the rest.",
+  "strum": "D DU UDU",
+  "needs": [
+    "strum-eighths",
+    "strum-pattern",
+    "quick-changes"
+  ],
+  "scale": {
+    "root": "G",
+    "type": "major"
+  },
+  "sections": [
+    {
+      "name": "Intro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Em",
+        "Em",
+        "G",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 1",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "G",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "D",
+        "Em",
+        "Em",
+        "G",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 2",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "Bm",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "D",
+        "Em",
+        "Em",
+        "G",
+        "G"
+      ]
+    },
+    {
+      "name": "Interlude",
+      "type": "chords",
+      "bars": [
+        "C G",
+        "D Am",
+        "C Em",
+        "D",
+        "G",
+        "G"
+      ]
+    },
+    {
+      "name": "Verse 3",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "C",
+        "G",
+        "G",
+        "Bm",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "G",
+        "C",
+        "D",
+        "Em",
+        "Em"
+      ]
+    },
+    {
+      "name": "Outro",
+      "type": "chords",
+      "bars": [
+        "G",
+        "G",
+        "Em",
+        "Em"
+      ],
+      "repeat": 3
+    }
+  ],
+  "sources": [
+    "https://www.gitaartabs.nl/song/chords/creedence-clearwater-revival/wholl-stop-the-rain?lang=en",
+    "https://guitaralliance.net/wp-content/uploads/2023/09/Quick-Notes-Chord-Reference-File-Wholl-Stop-The-Rain-CCR.pdf",
+    "https://www.laurenbateman.com/?p=3997",
+    "https://www.skyminds.net/creedence-clearwater-revival/wholl-stop-the-rain.tab",
+    "https://cs.uwaterloo.ca/~dtompkin/music/track/CCR______GH1/CCR______GH1-11.html"
+  ],
+  "checked": true,
+  "confidence": "medium",
+  "remarks": "Sources agree on the verse; three give Bm in line two of verses 2 and 3 only (one writes Em). One source's C/G and passing D/F# are left out. Interlude order C G D Am C Em D G is agreed; bar lengths (two chords a bar, then D, then two bars of G) and the two bars of G ending verses 1 and 2 are guesses fitted to 2:29.",
+  "createdAt": 1791642737032,
+  "updatedAt": 1791642737032
+}

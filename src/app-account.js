@@ -36,6 +36,7 @@
     ['tones', 'countIn', 'click', 'guide'].forEach(function (k) { if (typeof v[k] === 'boolean') o[k] = v[k]; });
     if (typeof v.trim === 'number' && Math.abs(v.trim) <= 200) o.trim = v.trim;
     if (num(v.goal) >= 5 && v.goal <= 120) o.goal = v.goal;
+    if (typeof v.focus === 'string' && v.focus.length <= 80) o.focus = v.focus;
     return o;
   }
 

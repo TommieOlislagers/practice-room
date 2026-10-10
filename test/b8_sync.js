@@ -69,7 +69,7 @@ const chart = (title, bars) => ({ title, artist: 'Test', level: 1, bpm: 90, capo
   let page = await open('none');
   await page.evaluate(c => { const A = window.PR.app; A.Store.saveSong(Object.assign({ id: 'mine1' }, c)); A.Store.addSession({ song: 'mine1', title: 'Offline session', kind: 'self', secs: 40, acc: 0.8 }); A.Store.deleteSong('eyes-capo4'); }, chart('Made Offline', ['Am', 'G']));
   let s = await st(page);
-  check('the page works from this browser and remembers what to send', s.store === 'local' && s.songs.join() === 'eyes-original,mine1' && s.sessions.join() === 'Offline session' && s.pending && Object.keys(s.pending.songs).join() === 'mine1' && s.pending.sessions.length === 1 && s.pending.gone['eyes-capo4'] === 1, JSON.stringify(s.pending).slice(0, 120));
+  check('the page works from this browser and remembers what to send', s.store === 'local' && s.songs.join() === 'mine1' && (await page.evaluate(() => window.PR.app.findSong('eyes-capo4') === null && !!window.PR.app.findSong('eyes-original'))) && s.sessions.join() === 'Offline session' && s.pending && Object.keys(s.pending.songs).join() === 'mine1' && s.pending.sessions.length === 1 && s.pending.gone['eyes-capo4'] === 1, JSON.stringify(s.pending).slice(0, 120));
   await page.close();
 
   /* 2. the next visit has a database holding other things: both sides are kept, and the offline work is sent */
