@@ -22,8 +22,24 @@ fs.readdirSync(libDir).filter(f => /\.json$/.test(f)).sort().forEach(f => {
 });
 [['eyes-original', 'eyes.json'], ['eyes-capo4', 'eyes-capo4.json']].forEach(([id, f]) => { catalog[id] = JSON.parse(fs.readFileSync(path.join(__dirname, 'seed', f), 'utf8')); });
 const picFile = path.join(__dirname, 'seed', 'pictures.json'), pictures = fs.existsSync(picFile) ? JSON.parse(fs.readFileSync(picFile, 'utf8')) : {};
+/* Lesson videos: found by search (seed/videos/BRIEF.md), one list per song id or skill. Only the id, the kind and the
+   title are kept; the page plays them in YouTube's own player. */
+const vidDir = path.join(__dirname, 'seed', 'videos'), videos = {};
+if (fs.existsSync(vidDir)) fs.readdirSync(vidDir).filter(f => /\.json$/.test(f)).sort().forEach(f => {
+  const raw = JSON.parse(fs.readFileSync(path.join(vidDir, f), 'utf8'));
+  Object.keys(raw).forEach(key => {
+    const seen = {}, list = [];
+    (raw[key] || []).forEach(v => {
+      if (!v || !/^[A-Za-z0-9_-]{11}$/.test(v.id || '') || seen[v.id]) throw new Error('videos ' + f + ', ' + key + ': bad or repeated id ' + JSON.stringify(v));
+      if (['lesson', 'riff', 'intro', 'solo', 'melody', 'technique'].indexOf(v.kind) < 0) throw new Error('videos ' + f + ', ' + key + ': unknown kind ' + v.kind);
+      seen[v.id] = 1; list.push({ id: v.id, kind: v.kind, title: String(v.title || '').replace(/\s+/g, ' ').trim().slice(0, 140) });
+    });
+    if (list.length) videos[key] = (videos[key] || []).concat(list).slice(0, 4);
+  });
+});
+if (videos['eyes-original'] && !videos['eyes-capo4']) videos['eyes-capo4'] = videos['eyes-original'];
 const G = '(typeof window !== "undefined" ? window : globalThis).PR';
-const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), G + '.catalog = ' + JSON.stringify(catalog) + ';\n' + G + '.pictures = ' + JSON.stringify(pictures) + ';']
+const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), G + '.catalog = ' + JSON.stringify(catalog) + ';\n' + G + '.pictures = ' + JSON.stringify(pictures) + ';\n' + G + '.videos = ' + JSON.stringify(videos) + ';']
   .concat(['app-core.js', 'app-ways.js', 'app-path.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-library.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
 if (/<\/script/i.test(js)) throw new Error('script end tag inside the script');
 const html = '<title>Tommie\'s Practice Room</title>\n' +
@@ -43,6 +59,6 @@ const kit = {};
 const add = f => { kit[f] = fs.readFileSync(path.join(__dirname, f), 'utf8'); };
 ['CLAUDE.md', 'build.js'].forEach(add);
 if (fs.existsSync(picFile)) add('seed/pictures.json');
-[['src', /\.(js|css|html)$/], ['test', /^(t\d|b\d|lib|mkwav|serve).*\.js$/], ['seed', /\.json$/], ['seed/lib', /\.(json|md)$/], ['scripts', /\.(sh|js)$/]].forEach(([dir, re]) => fs.readdirSync(path.join(__dirname, dir)).filter(f => re.test(f)).sort().forEach(f => add(dir + '/' + f)));
+[['src', /\.(js|css|html)$/], ['test', /^(t\d|b\d|lib|mkwav|serve).*\.js$/], ['seed', /\.json$/], ['seed/lib', /\.(json|md)$/], ['seed/videos', /\.(json|md)$/], ['scripts', /\.(sh|js)$/]].forEach(([dir, re]) => fs.readdirSync(path.join(__dirname, dir)).filter(f => re.test(f)).sort().forEach(f => add(dir + '/' + f)));
 fs.writeFileSync(path.join(__dirname, 'dist', 'kit.json'), JSON.stringify(kit));
-console.log('built', (html.length / 1024).toFixed(1) + ' KB with ' + Object.keys(catalog).length + ' library songs; kit', Object.keys(kit).length, 'files,', (JSON.stringify(kit).length / 1024).toFixed(0) + ' KB');
+console.log('built', (html.length / 1024).toFixed(1) + ' KB with ' + Object.keys(catalog).length + ' library songs and ' + Object.keys(videos).reduce((n, k) => n + videos[k].length, 0) + ' videos; kit', Object.keys(kit).length, 'files,', (JSON.stringify(kit).length / 1024).toFixed(0) + ' KB');

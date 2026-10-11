@@ -150,6 +150,7 @@
     'p-start': function () { P.start(); },
     'p-way': function (el) { if (!P.st || P.st.run) return; P.setWay(el.getAttribute('data-way')); App.render(true); },
     'strum-hear': function () { P.hearStrum(); },
+    video: function (el) { if (P.st && P.st.run) return; App.video.open(el.getAttribute('data-v'), el.getAttribute('data-title'), el.getAttribute('data-kind')); },
     'lead-add': function (el) { App.lead.open(el.getAttribute('data-id')); },
     'lead-read': function () { App.lead.read(); },
     'lead-save': function () { App.lead.save(); },
@@ -221,7 +222,13 @@
       if (ev.key === 'Enter' && ev.target && ev.target.id === 'ghKey') actions['acct-in']();
     });
     /* a picture that does not load leaves the drawn tile underneath showing */
-    document.addEventListener('error', function (ev) { var el = ev.target; if (el && el.tagName === 'IMG' && el.classList && el.classList.contains('art-img')) App.artFailed(el); }, true);
+    document.addEventListener('error', function (ev) {
+      var el = ev.target; if (!el || el.tagName !== 'IMG' || !el.classList) return;
+      if (el.classList.contains('art-img')) App.artFailed(el);
+      else if (el.classList.contains('vid-img') && el.parentNode) el.parentNode.removeChild(el);      /* no picture (offline, or blocked): the row stays */
+    }, true);
+    /* YouTube answers for a video that no longer exists with a 120-pixel placeholder instead of the real thumbnail */
+    document.addEventListener('load', function (ev) { var el = ev.target; if (el && el.tagName === 'IMG' && el.classList && el.classList.contains('vid-img') && el.naturalWidth > 0 && el.naturalWidth <= 120) App.video.dead(el); }, true);
     document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.hasAttribute && el.hasAttribute('data-select')) { try { el.select(); } catch (e) { /* ignore */ } } });
     /* anything that goes wrong on a device nobody can look at ends up in the technical log */
     var errs = 0;

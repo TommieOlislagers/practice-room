@@ -68,6 +68,16 @@ can be added by a commit; a "copy my progress" export for coaching.
 - **The riff, solo or melody** is never written by Claude. The player pastes a tab on the song page; it is saved with the
   song as `song.lead = {sections, capo, tuning, at}` (in their own copy of the song, so it syncs) and becomes the way `tab`.
   When a built-in chart is corrected later, the player's `lead` is carried over to it (`songOf` in `app-core.js`).
+- **Lesson videos** (`seed/videos/*.json`, built into `PR.videos`, shown by `App.videosHtml` in `app-library.js`). One list
+  per song id or skill key (`tech:<id>`, `scale:<type>`, `shape`, `change`, `way:bass`, `way:lead`, `tool:tuner`,
+  `tool:metro`), each entry `{id, kind, title}` with kind lesson, riff, intro, solo, melody or technique. They were found
+  with WebSearch limited to youtube.com (brief: `seed/videos/BRIEF.md`); **no page is opened to find them**, because
+  Tommie approves every fetched page by hand and asked for that to stop, and YouTube cannot be reached from a session's
+  shell either. So the ids are not checked at build time: the page checks each thumbnail (YouTube answers with a
+  120-pixel placeholder for a video that is gone) and leaves dead ones out, and `node scripts/check_videos.js [--fix]`
+  checks them all from a machine with ordinary internet. Videos play in YouTube's own player
+  (`youtube-nocookie.com/embed`, in a sheet); inside Claude they are plain links. This is how Tommie gets the real
+  riffs, solos and melodies: a teacher shows them. Claude still does not write them out.
 - **Goal.** `S.settings.focus` is the goal song; Today shows its next step. Badges and the "finish a step" quest come from
   `App.path.summary()`.
 - **Pictures.** `seed/pictures.json` names one freely licensed Wikimedia Commons photograph per artist (credited in
@@ -138,7 +148,7 @@ To load a song from a chat: research the chart, check it against a second source
 Node (`node test/tN_*.js`): t1 pitch, t2 chords, t3 tracking, t4 false positives, t5 parsers, t6 sound-track reader, t7 game layer, t8 the rules for joining a device with the account, t9 paths (every built-in song and every exercise must be playable).
 Browser (`node test/bN_*.js`, Playwright with the preinstalled Chromium): b1 smoke and screenshots, b2 live
 listening with a fake microphone, b3 database, b4 marks, b5 locked-down frame, b6 asking for the microphone,
-b7 recordings, b8 offline queue, b9 the iPhone case, b10 the GitHub account (a stand-in GitHub, two devices), b11 library, path, goal and metronome.
+b7 recordings, b8 offline queue, b9 the iPhone case, b10 the GitHub account (a stand-in GitHub, two devices), b11 library, path, goal, metronome, ways to play, pasted tabs and lesson videos.
 
 Test material is not in the kit: `scripts/get_samples.sh` (sampled guitar notes), `node test/mkwav.js`
 (test performances), `scripts/make_media.sh` (phone-style videos, needs ffmpeg), and

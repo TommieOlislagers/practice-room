@@ -191,7 +191,40 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   t = await main();
   check('a song added as a tab still gets a path of its own', /Path to this song/i.test(t) && /0 of \d+ steps/.test(t));
 
-  check('pictures are only ever asked for from Wikimedia Commons', outside.every(u => /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(u)), outside.slice(0, 3).join(' '));
+  console.log('10. lesson videos');
+  const SVG = (w, h) => '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '"><rect width="100%" height="100%" fill="#345"/></svg>';
+  const lodi = await ev(() => window.PR.videos['ccr-lodi'].map(v => v.id));
+  /* YouTube's thumbnails: a real one for every video but the second, which answers with the small placeholder */
+  await ctx.route('https://i.ytimg.com/**', r => r.fulfill({ status: 200, contentType: 'image/svg+xml', body: r.request().url().indexOf('/' + lodi[1] + '/') > 0 ? SVG(120, 90) : SVG(320, 180) }));
+  await ev(() => window.PR.app.go({ name: 'practice', id: 'ccr-lodi' }));
+  await page.waitForTimeout(500);
+  let v = await ev(() => ({ rows: [...document.querySelectorAll('.vids[data-vkey="ccr-lodi"] .vid')].map(x => x.getAttribute('data-v')), titles: [...document.querySelectorAll('.vids[data-vkey="ccr-lodi"] .vid b')].map(x => x.textContent), kinds: [...document.querySelectorAll('.vids[data-vkey="ccr-lodi"] .vid small')].map(x => x.textContent), all: window.PR.videos['ccr-lodi'].length, more: !!document.querySelector('.vids[data-vkey="ccr-lodi"] a[href*="youtube.com/results"]') }));
+  check('the song page lists its lessons with their titles and what each is for', v.rows.length === v.all - 1 && v.titles.every(t => t.length > 10) && /How to play it/i.test(v.kinds[0]) && v.more, JSON.stringify(v.kinds) + ' ' + v.titles[0]);
+  check('a video that is gone (YouTube sends its placeholder picture) is left out', v.rows.indexOf(lodi[1]) < 0 && v.rows.indexOf(lodi[0]) >= 0);
+  check('the riff panel points at the lesson that shows it', await ev(() => { const b = document.querySelector('#pWays .btn[data-act="video"]'); return !!b && /Watch how it is played/.test(b.textContent); }));
+  await shot('9-videos');
+  await page.click('.vids[data-vkey="ccr-lodi"] .vid');
+  await page.waitForTimeout(250);
+  v = await ev(() => { const f = document.querySelector('#sheetBody iframe'); return { src: f && f.getAttribute('src'), ref: f && f.getAttribute('referrerpolicy'), title: document.querySelector('#sheetBody .h2').textContent, open: !!document.querySelector('#sheetBody a[href*="youtube.com/watch"]') }; });
+  check('tapping one plays it in YouTube\'s own player, inside the app', new RegExp('^https://www\\.youtube-nocookie\\.com/embed/' + lodi[0] + '\\?').test(v.src || '') && v.ref === 'strict-origin-when-cross-origin' && v.title.length > 10 && v.open, JSON.stringify(v));
+  await shot('10-video-player');
+  await page.click('#sheetBody [data-act="sheet-close"]');
+  check('closing the sheet stops it', (await page.locator('iframe').count()) === 0);
+  await ev(() => window.PR.app.go({ name: 'practice', id: 'x:tech:barre-e', from: 'ccr-lodi' }));
+  check('an exercise shows the lesson for its technique', (await page.locator('.vids[data-vkey="tech:barre-e"] .vid').count()) >= 1 && /Watch it first/i.test(await main()));
+  await ev(() => window.PR.app.go({ name: 'practice', id: 'x:scale:penta-minor:A' }));
+  check('...and a scale the lesson for that kind of scale', (await page.locator('.vids[data-vkey="scale:penta-minor"] .vid').count()) >= 1);
+  const keys = await ev(() => { const A = window.PR.app, P = A.path, bad = []; Object.keys(window.PR.videos).forEach(k => { let m; const ok = A.findSong(k) || ((m = /^tech:(.+)$/.exec(k)) && P.TECH[m[1]]) || ((m = /^scale:(.+)$/.exec(k)) && P.SCALES[m[1]]) || ['shape', 'change', 'way:bass', 'way:lead', 'tool:tuner', 'tool:metro'].indexOf(k) >= 0; if (!ok) bad.push(k); }); return { bad, n: Object.keys(window.PR.videos).length, songs: A.allSongs().filter(s => !s.id.startsWith('s') && !(window.PR.videos[s.id] || []).length && s.builtin).map(s => s.id) }; });
+  check('every list of videos belongs to a song or an exercise the app has, and every built-in song has one', keys.bad.length === 0 && keys.n > 80 && keys.songs.length === 0, JSON.stringify(keys));
+  /* inside Claude other sites cannot be shown in the page: the lessons are links there */
+  const inClaude = await ctx.newPage();
+  await inClaude.addInitScript(() => { const ref = () => ({ set: async () => {}, delete: async () => {}, get: async () => ({ exists: false, data: () => undefined }), onSnapshot: n => { setTimeout(() => n({ exists: false, data: () => undefined }), 5); return () => {}; } }); const api = { where: () => api, orderBy: () => api, limit: () => api, doc: ref, onSnapshot: n => { setTimeout(() => n({ docs: [], size: 0, empty: true }), 5); return () => {}; } }; window.claude = { use: async name => (name === 'db' ? { doc: ref, collection: () => api } : name === 'user' ? { can: async () => true } : null) }; });
+  await inClaude.goto(BASE + '/dist/local.html'); await inClaude.waitForTimeout(500);
+  await inClaude.evaluate(() => window.PR.app.go({ name: 'practice', id: 'ccr-lodi' }));
+  check('inside Claude each lesson is a plain link to YouTube', (await inClaude.locator('.vids a.vid[href^="https://www.youtube.com/watch?v="]').count()) >= 2 && (await inClaude.locator('.vids button.vid').count()) === 0);
+  await inClaude.close();
+
+  check('the page only ever reaches out for artist photos, video thumbnails and the video player', outside.every(u => /^https:\/\/(commons\.wikimedia\.org\/wiki\/Special:FilePath\/|i\.ytimg\.com\/vi\/|www\.youtube-nocookie\.com\/embed\/)/.test(u)), outside.filter(u => !/^https:\/\/(commons\.wikimedia\.org|i\.ytimg\.com|www\.youtube-nocookie\.com)\//.test(u)).slice(0, 3).join(' '));
   await browser.close(); srv.close();
   if (errors.length) { console.log('PAGE ERRORS:\n' + errors.join('\n')); failures += errors.length; }
   console.log(failures ? '\nLIBRARY: ' + failures + ' CHECK(S) FAILED' : '\nLIBRARY: ALL CHECKS PASSED');

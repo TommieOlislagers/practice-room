@@ -1,0 +1,153 @@
+{
+  "tech:strum-quarters": [
+    { "id": "NNl9OpLQzmk", "kind": "technique", "title": "4:4 all down rhythm (Guitar Lesson BC-116) Guitar for beginners Stage 1" },
+    { "id": "8fawVazOeUg", "kind": "technique", "title": "Guitar Strumming Tips for Beginners (Beginner Guitar Lesson)" }
+  ],
+  "tech:strum-eighths": [
+    { "id": "x4z3DoavP8o", "kind": "technique", "title": "Strumming with 8th Notes! - Basic Guitar Lesson" },
+    { "id": "k9afRT_r1Mk", "kind": "technique", "title": "How to Strum 1/8 Notes - Guitar Basics" }
+  ],
+  "tech:strum-pattern": [
+    { "id": "EpofligWQg4", "kind": "technique", "title": "How to Play the DDU UDU Strumming Pattern" },
+    { "id": "_D4mq63snQU", "kind": "technique", "title": "The \"Down Down Up Up Down Up\" Guitar Strumming Rhythm" }
+  ],
+  "tech:strum-sixteenths": [
+    { "id": "2eEkowCKS1I", "kind": "technique", "title": "Strumming Patterns: How to Strum 16th Notes and Instantly Sound Better! Beginner Guitar Lesson" },
+    { "id": "xkNTYfum2pI", "kind": "technique", "title": "Difference Between 8th and 16th Note Strumming - Guitar Lesson Tutorial [QA-001] - JustinGuitar" }
+  ],
+  "tech:offbeat": [
+    { "id": "XBCSLXiY3ag", "kind": "technique", "title": "Reggae rhythm guitar skank - How to play the chop - off-beat tutorial" },
+    { "id": "DdxRrZoi7Hg", "kind": "technique", "title": "Here's How To Strum Reggae On Guitar || Full Details" }
+  ],
+  "tech:shuffle": [
+    { "id": "nt133KcqZZc", "kind": "technique", "title": "Classic 12 Bar Blues Shuffle Rhythms - Stage 9 Guitar Lesson - Guitar for Beginners [BC-194]" },
+    { "id": "PPrSRnLEK3o", "kind": "technique", "title": "The Complete Beginner Blues Shuffle Lesson" }
+  ],
+  "tech:twelve-eight": [
+    { "id": "Sj453iDVSnc", "kind": "technique", "title": "Blues Rhythm Guitar Lesson Corey Congilio Slow Blues" },
+    { "id": "frCvgToLoyY", "kind": "technique", "title": "Blues Rhythms Explained - the I IV V 12 Bar Theory 6/8 time Practice Tools" }
+  ],
+  "tech:waltz": [
+    { "id": "Qe6fvc2d5C8", "kind": "technique", "title": "How to strum a waltz - easy folk guitar lesson from Folk Friend" },
+    { "id": "WkkwtX799dU", "kind": "technique", "title": "Beginning Guitar Strumming Patterns in 3/4 Time" }
+  ],
+  "tech:quick-changes": [
+    { "id": "JgY8hFf8cUo", "kind": "technique", "title": "Make Your Chord Changes Faster (Guitar Lesson) How to play" },
+    { "id": "jqs-M67fw7I", "kind": "technique", "title": "The Secret to Changing Chords Quickly" }
+  ],
+  "tech:palm-mute": [
+    { "id": "lRVhrOuIiE4", "kind": "technique", "title": "How to Palm Mute (Beginner Guitar Lesson)" },
+    { "id": "RoFHaYFC6H4", "kind": "technique", "title": "How to Palm Mute on Guitar" }
+  ],
+  "tech:power-chords": [
+    { "id": "XacSttupjBA", "kind": "technique", "title": "How to Play Power Chords (Beginner Guitar Lesson)" },
+    { "id": "WafggLrshGI", "kind": "technique", "title": "How To Play Guitar Power Chords - Beginner's Guitar Lesson" }
+  ],
+  "tech:barre-e": [
+    { "id": "-uJP2rWbMig", "kind": "technique", "title": "E Shape Barre Chord Grip, Major and Minor (Guitar Lesson IM-111) How to play IF Stage 1" },
+    { "id": "THt0wjNJriQ", "kind": "technique", "title": "How To Play The E Shape Barre Chord - Beginners Guitar Lesson" }
+  ],
+  "tech:barre-em": [
+    { "id": "JluLp-Q0RN4", "kind": "technique", "title": "6th String Minor Barre Chord (Em Shape)" },
+    { "id": "BkUwCSRmlEw", "kind": "technique", "title": "E Minor Barre Chords in 3 Easy Steps" }
+  ],
+  "tech:barre-a": [
+    { "id": "8sh9a6HzM9Y", "kind": "technique", "title": "A Shape Major Barre Chord Grip - How to Play Guitar - Stage 3 Guitar Lesson [IM-131]" },
+    { "id": "C7k0CWgI-xI", "kind": "technique", "title": "A Shape Major Barre Chords on Guitar (my best tricks and exercises)" }
+  ],
+  "tech:barre-am": [
+    { "id": "noNKHcnSZQg", "kind": "technique", "title": "A Shape Barre Chords: Minor (easy as pie!)" },
+    { "id": "L3QmoogQDzA", "kind": "technique", "title": "Easy guitar tutorial: the B minor barre chord" }
+  ],
+  "tech:sevenths": [
+    { "id": "tjIGQJU8y5s", "kind": "technique", "title": "Guitar Chords - How to play the Open Position Dominant 7th Chords" },
+    { "id": "jqoCZLCOSL0", "kind": "technique", "title": "A7, B7, C7, D7, E7, F7, G7 Chords for Beginners" }
+  ],
+  "tech:sus-moves": [
+    { "id": "CUnR6tfsCsE", "kind": "technique", "title": "Suspended Chords Lesson - Dsus2, Dsus4, Asus2, Asus4 Chords - Lee Hodgson Licklibrary" },
+    { "id": "l3GMwiew5tA", "kind": "technique", "title": "Suspended Chords Asus2/sus4 -Dsus2/sus4- Esus4 - Lesson 27- Beginner Guitar Series" }
+  ],
+  "tech:bass-walk": [
+    { "id": "Ksy2QKDZFpg", "kind": "technique", "title": "Add WALK-DOWNS and WALK-UPS to EASY Chords & Strumming" },
+    { "id": "sqt8CFz4v-A", "kind": "technique", "title": "how to play / slash chords, D/F# A/C# B/D# E/G# etc etc" }
+  ],
+  "tech:travis": [
+    { "id": "y2GzphzE-74", "kind": "technique", "title": "Travis Picking Lesson for Beginners" },
+    { "id": "ZTPxC0-r54I", "kind": "technique", "title": "TRAVIS PICKING - The most useful fingerpicking pattern, 6 easy steps!" }
+  ],
+  "tech:hammer-pull": [
+    { "id": "To7vDfgzSJE", "kind": "technique", "title": "Hammer-Ons and Pull-Offs Guitar Lesson" },
+    { "id": "72to3wFn6GE", "kind": "technique", "title": "How to Practice Hammer Ons and Pull Offs for beginners" }
+  ],
+  "tech:bends": [
+    { "id": "xGl0urYSuug", "kind": "technique", "title": "Bending Strings - Technique Series - How To Play IF Stage 4 - Guitar Lesson [IM-144]" },
+    { "id": "zmxvLZztAFI", "kind": "technique", "title": "Get Bent! How To Bend Guitar Strings In Tune" }
+  ],
+  "tech:slides": [
+    { "id": "rxFxozjxHeE", "kind": "technique", "title": "Beginning Guitar Lesson: How to Play a Slide" }
+  ],
+  "tech:double-stops": [
+    { "id": "Tht6eY8qKhw", "kind": "technique", "title": "Double Stops Guitar Lesson - Learn how to Play Double Stops - Blues - Rock - Country" },
+    { "id": "krWRuA9xoSY", "kind": "technique", "title": "Start Using Simple Double Stops on Guitar" }
+  ],
+  "tech:alt-picking": [
+    { "id": "v2OuK2ECy10", "kind": "technique", "title": "Best Picking Exercise for Beginners - Alternate Picking Guitar Lesson" },
+    { "id": "S6_wziT6ONk", "kind": "technique", "title": "Beginning Guitar Lesson: Alternate Picking" }
+  ],
+  "tech:arpeggio": [
+    { "id": "gtNC1Mfkfwg", "kind": "technique", "title": "Guitar Lesson: Simple Arpeggios With Open Chords And Picking" },
+    { "id": "Xi9R2mlNSrM", "kind": "technique", "title": "The Easiest Fingerstyle Arpeggio on Guitar (beginner stuff)." }
+  ],
+  "scale:major": [
+    { "id": "DtaRQoXtIOs", "kind": "technique", "title": "Major Scale Pattern 1 (Guitar Lesson IM-113) How to play IF Stage 1" },
+    { "id": "T84Wiid_ZfE", "kind": "technique", "title": "How to play Pattern 1 of the Major Scale on guitar" }
+  ],
+  "scale:minor": [
+    { "id": "LFSEf1JQRo0", "kind": "technique", "title": "Master the Natural Minor Scale in this Guitar Lesson" },
+    { "id": "WzoDvT8QnXA", "kind": "technique", "title": "Natural Minor Scale - Guitar Lesson" }
+  ],
+  "scale:penta-major": [
+    { "id": "kNJQsKIUYQE", "kind": "technique", "title": "Major Pentatonic Scale - How To Play Guitar - Stage 5 Guitar Lesson [IM-153]" },
+    { "id": "KkcNLIhLeMQ", "kind": "technique", "title": "How To Play the Major Pentatonic Scale on Guitar" }
+  ],
+  "scale:penta-minor": [
+    { "id": "z_MhORl8Zmg", "kind": "technique", "title": "Minor Pentatonic Scale Position 1 (Lead Guitar Lesson)" },
+    { "id": "IIZ2TxyW1BQ", "kind": "technique", "title": "The A Minor Pentatonic Scale (1st Position)" }
+  ],
+  "scale:blues": [
+    { "id": "EZ41DRVfxQc", "kind": "technique", "title": "How To Play the Blues Scale - Guitar Lesson" },
+    { "id": "AUuKGm6Lv8o", "kind": "technique", "title": "The Blues Scale Guitar Lesson" }
+  ],
+  "scale:dorian": [
+    { "id": "rhGS4ZjWfnk", "kind": "technique", "title": "Dorian Mode on Guitar Is Easier Than You Think!" },
+    { "id": "czpRqkS8JrQ", "kind": "technique", "title": "What Is The Dorian Mode? Guitar Theory Lesson" }
+  ],
+  "scale:mixolydian": [
+    { "id": "RCG5iUMd6VU", "kind": "technique", "title": "Mixolydian Mode Guitar Lesson" },
+    { "id": "0wHhlRg_JD4", "kind": "technique", "title": "Lesson 72 The Mixolydian Mode Guitar Lesson" }
+  ],
+  "shape": [
+    { "id": "ki4oFzivwAM", "kind": "technique", "title": "Guitar Finger Placement for Clear Sounding Chords" },
+    { "id": "zo8vF0DBxNE", "kind": "technique", "title": "The #1 Trick to Playing CLEAN Sounding Chords on the Guitar" }
+  ],
+  "change": [
+    { "id": "qXK_If0QzDM", "kind": "technique", "title": "One Minute Changes (Guitar Lesson BC-115) Guitar for beginners Stage 1" },
+    { "id": "3LYxpVxZ-kg", "kind": "technique", "title": "One Minute Chord Changes on Guitar (Chord Change Tips 5/6)" }
+  ],
+  "way:bass": [
+    { "id": "HEk1P7G1LoU", "kind": "technique", "title": "Classic Strumming Pattern #1 The Boom Chick for Country and Folk Guitar" },
+    { "id": "7ueeFKUO97g", "kind": "technique", "title": "Beginner Guitar Lesson ➜ How to Play the \"boom chick-a\" Rhythm (5.3)" }
+  ],
+  "way:lead": [
+    { "id": "M28nz2jUt7A", "kind": "technique", "title": "Play Better Blues Solos! Target the Right Notes to Nail The Changes - Arpeggio Guitar Lesson" },
+    { "id": "1rkRIoffK7I", "kind": "technique", "title": "MAJOR Triad Arpeggio Guitar Shapes for Soloing with Chordal Tones" }
+  ],
+  "tool:tuner": [
+    { "id": "7si11pQ5mgw", "kind": "technique", "title": "How to Tune a Guitar [For Beginners]" },
+    { "id": "GN7qtzCPMwU", "kind": "technique", "title": "How To Tune a Guitar -Beginner Guitar Lesson" }
+  ],
+  "tool:metro": [
+    { "id": "FLgq5VPRT6k", "kind": "technique", "title": "How to Use a Metronome with Guitar - How to Play Guitar - Stage 2 Guitar Lesson [IM-124]" },
+    { "id": "Bs_X3GeAr5U", "kind": "technique", "title": "How to Use and Practice Guitar with a Metronome" }
+  ]
+}

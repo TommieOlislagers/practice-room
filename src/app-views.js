@@ -618,6 +618,7 @@
         '<div id="tapBox"></div></div>';
     }
     html += '</section>';
+    if (App.videosHtml && !T.on) html += App.videosHtml('tool:tuner', 'How to tune a guitar');
     return html;
   }
   function showReading(midi, live) {

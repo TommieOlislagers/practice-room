@@ -33,6 +33,68 @@
   App.artFailed = function (img) { var u = img.getAttribute('src'); if (u) failed[u] = 1; if (img.parentNode) img.parentNode.removeChild(img); };
   App.pictures = PICS;
 
+  /* ---------- lesson videos ----------
+     Found by search and listed in seed/videos (id, kind, title). They play in YouTube's own player inside a
+     sheet; nothing is downloaded or copied. A video that has gone is noticed by its thumbnail (YouTube answers
+     with a small grey placeholder) and left out. Inside Claude, where other sites cannot be shown in the
+     page, each one is a plain link instead. */
+  var VID = PR.videos || {}, deadVid = {};
+  var canEmbed = !(root.claude && typeof root.claude.use === 'function');
+  var VKIND = { lesson: 'How to play it', riff: 'The riff', intro: 'The intro', solo: 'The solo', melody: 'The melody', technique: 'Lesson' };
+  function vids(key, tuneFirst) {
+    var seen = {}, rank = tuneFirst ? { melody: 0, lesson: 1, riff: 2, intro: 3, solo: 4 } : { lesson: 0, riff: 1, intro: 2, solo: 3, melody: 4 };
+    return (VID[key] || []).filter(function (v) { return v && !deadVid[v.id]; }).map(function (v, i) { var n = seen[v.kind] || 0; seen[v.kind] = n + 1; return { v: v, r: n * 100 + (rank[v.kind] === undefined ? 9 : rank[v.kind]) * 10 + i / 10 }; })
+      .sort(function (a, b) { return a.r - b.r; }).map(function (x) { return x.v; });
+  }
+  function vidRow(v) {
+    var label = VKIND[v.kind] || 'Lesson';
+    var inner = '<span class="vid-thumb"><img class="vid-img" data-v="' + v.id + '" src="https://i.ytimg.com/vi/' + v.id + '/mqdefault.jpg" alt="" loading="lazy" referrerpolicy="no-referrer">' + IC.play + '</span><span class="vid-main"><small>' + esc(label) + '</small><b>' + esc(v.title) + '</b></span>';
+    return canEmbed ? '<button class="vid" data-act="video" data-v="' + v.id + '" data-kind="' + esc(label) + '" data-title="' + esc(v.title) + '">' + inner + '</button>'
+      : '<a class="vid" href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener noreferrer">' + inner + '</a>';
+  }
+  App.videos = vids;
+  /* a list of lessons; `more` is what to search YouTube for when the player wants others */
+  App.videosHtml = function (key, heading, more, tuneFirst) {
+    var list = vids(key, tuneFirst);
+    if (!list.length && !more) return '';
+    return '<section class="stack vids" data-vkey="' + esc(key) + '"><div class="sec-head"><h3 class="h2">' + esc(heading) + '</h3>' + (list.length ? '<span class="small muted num">' + list.length + '</span>' : '') + '</div>' +
+      (list.length ? '<div class="group">' + list.map(vidRow).join('') + '</div>' : '') +
+      (more ? '<a class="link small" style="padding-left:4px;min-height:28px" href="https://www.youtube.com/results?search_query=' + encodeURIComponent(more) + '" target="_blank" rel="noopener noreferrer">' + (list.length ? 'More lessons on YouTube' : 'Find lessons on YouTube') + '</a>' : '') + '</section>';
+  };
+  /* one lesson as a button, for places where a whole list would be too much */
+  App.videoButton = function (key, text, kinds) {
+    var list = vids(key).filter(function (v) { return !kinds || kinds.indexOf(v.kind) >= 0; });
+    if (!list.length) return '';
+    var v = list[0], label = VKIND[v.kind] || 'Lesson';
+    return canEmbed ? '<button class="btn btn-sm btn-tinted" data-act="video" data-v="' + v.id + '" data-kind="' + esc(label) + '" data-title="' + esc(v.title) + '">' + IC.play + esc(text) + '</button>'
+      : '<a class="btn btn-sm btn-tinted" href="https://www.youtube.com/watch?v=' + v.id + '" target="_blank" rel="noopener noreferrer">' + IC.play + esc(text) + '</a>';
+  };
+  App.video = {
+    open: function (id, title, kind) {
+      if (!/^[A-Za-z0-9_-]{11}$/.test(id || '')) return;
+      App.audio.hush(); if (App.met && App.met.on) App.met.stop(true);
+      App.sheet.open('<div class="sheet-head"><div class="grow"><div class="eyebrow">' + esc(kind || 'Lesson') + '</div><h2 class="h2">' + esc(title || '') + '</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+        '<div class="vid-frame"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&amp;playsinline=1&amp;rel=0" title="' + esc(title || 'Lesson video') + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>' +
+        '<a class="btn btn-block" href="https://www.youtube.com/watch?v=' + id + '" target="_blank" rel="noopener noreferrer">Open in YouTube' + IC.ext + '</a>' +
+        '<p class="small muted">This is YouTube\'s own player. If it says the video is unavailable, its maker has removed it or does not allow it to play on other sites; "Open in YouTube" may still work.</p>', function () { App.render(); });
+    },
+    /* the thumbnail came back as YouTube's placeholder: the video is gone */
+    dead: function (img) {
+      var id = img.getAttribute('data-v'); if (id) deadVid[id] = 1;
+      var row = img.closest ? img.closest('.vid') : null, sec = row && row.closest('.vids'), grp = row && row.parentNode;
+      if (row && grp) grp.removeChild(row);
+      if (sec && !sec.querySelector('.vid')) { var g = sec.querySelector('.group'); if (g) g.hidden = true; var c = sec.querySelector('.sec-head .num'); if (c) c.textContent = ''; }
+    }
+  };
+  /* which lesson goes with an exercise or a way of playing */
+  App.videoKeyOf = function (id) {
+    var m;
+    if ((m = /^x:tech:([a-z0-9-]+)$/.exec(id || ''))) return 'tech:' + m[1];
+    if ((m = /^x:scale:([a-z-]+):/.exec(id || ''))) return 'scale:' + m[1];
+    if (/^x:shape:/.test(id || '')) return 'shape';
+    return { strum: 'tech:strum-pattern', bass: 'way:bass', arp: 'tech:arpeggio', thumb: 'tech:travis', power: 'tech:power-chords', boogie: 'tech:shuffle', lead: 'way:lead', chords: 'shape' }[id] || '';
+  };
+
   /* ---------- small pieces ---------- */
   function ringHtml(p) {
     var r = 17, c = 2 * Math.PI * r, part = p ? p.pct / 100 : 0;
@@ -263,7 +325,8 @@
       '<div class="stack-sm"><span class="eyebrow" style="padding-left:4px">Clicks per beat</span>' + seg('met-sub', [[1, 'One'], [2, 'Two'], [3, 'Three'], [4, 'Four']], Met.sub, 'Clicks per beat') + '</div>' +
       '<div class="group"><label class="item toggle"><input type="checkbox" data-in="met-accent"' + (Met.accent ? ' checked' : '') + '><span>Louder click on beat one</span></label>' +
       '<button class="item" data-act="met-tap"><span class="grow">Tap the tempo</span><span class="small muted" id="mTap">tap four times</span></button></div>' +
-      '<p class="small muted" style="padding-inline:4px">A minute or more with the metronome is logged as practice. No sound on an iPhone? Flip the ring switch on the side to ring.</p>';
+      '<p class="small muted" style="padding-inline:4px">A minute or more with the metronome is logged as practice. No sound on an iPhone? Flip the ring switch on the side to ring.</p>' +
+      App.videosHtml('tool:metro', 'How to practise with it');
   };
   function metPaint() {
     var b = $('#mBpm'); if (b) b.textContent = Met.bpm;

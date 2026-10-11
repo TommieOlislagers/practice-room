@@ -123,10 +123,11 @@
     var html = '<section class="stack" id="pWays"><div class="sec-head"><h3 class="h2">Ways to play it</h3><span class="small muted num">' + ways.length + '</span></div>' +
       '<div class="chips" role="group" aria-label="Way to play">' + ways.map(function (w) { return '<button class="chip" data-act="p-way" data-way="' + w.id + '" aria-pressed="' + (st.way === w.id) + '">' + esc(w.name) + (w.id === main ? ' ★' : '') + '</button>'; }).join('') + '</div>' +
       '<div class="panel stack-sm"><div class="spread"><b>' + esc(cur.name) + '</b>' + (cur.id === main ? '<span class="small muted">the way this song is finished</span>' : '') + '</div><span class="small">' + esc(cur.blurb) + '</span>' +
-      (cur.id === 'strum' || cur.id === 'chords' ? (cur.id === 'chords' ? '<span class="small muted">Once the changes land, this is the pattern the song is strummed with:</span>' : '') + strumHtml(song) + '<div class="row"><button class="btn btn-sm btn-tinted" data-act="strum-hear">' + IC.play + 'Hear the pattern</button>' + (cur.id === 'chords' ? '<button class="btn btn-sm" data-act="p-way" data-way="strum">Play it this way</button>' : '') + '</div>' : '') + '</div>' +
+      (cur.id === 'strum' || cur.id === 'chords' ? (cur.id === 'chords' ? '<span class="small muted">Once the changes land, this is the pattern the song is strummed with:</span>' : '') + strumHtml(song) + '<div class="row"><button class="btn btn-sm btn-tinted" data-act="strum-hear">' + IC.play + 'Hear the pattern</button>' + (cur.id === 'chords' ? '<button class="btn btn-sm" data-act="p-way" data-way="strum">Play it this way</button>' : '') + '</div>' : '') +
+      (cur.id !== 'chords' && cur.id !== 'tab' && App.videoButton(App.videoKeyOf(cur.id), 'Watch a lesson on this') ? '<div class="row">' + App.videoButton(App.videoKeyOf(cur.id), 'Watch a lesson on this') + '</div>' : '') + '</div>' +
       '<div class="panel stack-sm"><b>The ' + what + ' itself</b>' + (has
         ? '<span class="small">Your tab is attached to this song' + (st.way === 'tab' ? ' and selected' : '') + '.</span><div class="row">' + (st.way === 'tab' ? '' : '<button class="btn btn-sm btn-tinted" data-act="p-way" data-way="tab">Play it</button>') + '<button class="btn btn-sm" data-act="lead-add" data-id="' + esc(song.id) + '">Replace</button><button class="btn btn-sm" data-act="lead-remove" data-id="' + esc(song.id) + '" style="color:var(--bad)">Remove</button></div>'
-        : '<span class="small">The recorded ' + what + ' is not written out here. Find a tab of it, paste it in, and it becomes a part of this song with its own notes on the highway and its own step on the path.</span><div class="row"><button class="btn btn-sm btn-tinted" data-act="lead-add" data-id="' + esc(song.id) + '">' + IC.plus + 'Paste a tab</button></div>') + '</div></section>';
+        : '<span class="small">' + (App.videoButton(song.id, 'x', ['riff', 'intro', 'solo', 'melody']) ? 'A teacher shows it in the video. To practise it on the highway as well, find a tab of it and paste it in: it becomes a part of this song with its own step on the path.' : 'The recorded ' + what + ' is not written out here. Find a tab of it, paste it in, and it becomes a part of this song with its own notes on the highway and its own step on the path.') + '</span><div class="row">' + App.videoButton(song.id, 'Watch how it is played', ['riff', 'intro', 'solo', 'melody']) + '<button class="btn btn-sm' + (App.videoButton(song.id, 'x', ['riff', 'intro', 'solo', 'melody']) ? '' : ' btn-tinted') + '" data-act="lead-add" data-id="' + esc(song.id) + '">' + IC.plus + 'Paste a tab</button></div>') + '</div></section>';
     return html;
   }
   function controlsHtml() {
@@ -185,6 +186,8 @@
       '</section>';
     if (!model.targets.length) return html;
     if (path) html += App.pathCard(song, st.showPath);
+    if (song.exercise) html += App.videosHtml(App.videoKeyOf(song.id), 'Watch it first');
+    else if (!song.drill) html += App.videosHtml(song.id, 'Video lessons', song.artist ? song.artist + ' ' + song.title + ' guitar lesson' : (song.title + ' guitar lesson'), !!song.melody);
     if (!own) html += waysHtml();
     if (path) html += '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">' + esc((App.ways.by[st.way] || {}).name || 'Chords') + ' · any part, any tempo</span></div>';
     html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
@@ -667,6 +670,7 @@
       '<div class="spread"><span class="muted" id="omcLeft">60 seconds</span><span class="muted">' + (best ? 'Your best: ' + best : 'No best yet') + '</span></div>' +
       '<div class="progress"><i id="omcProg"></i></div>' +
       '<div id="omcAct" class="stack">' + omcActHtml() + '</div>' +
+      (App.videos('change')[0] ? '<a class="link small" href="https://www.youtube.com/watch?v=' + App.videos('change')[0].id + '" target="_blank" rel="noopener noreferrer">Watch: ' + esc(App.videos('change')[0].title) + '</a>' : '') +
       '<p class="small muted" id="omcHint">' + ((S.mic.pre === 'blocked' || S.mic.state === 'blocked') ? 'Strum each chord once, then change. Tap the big button after every clean change.' : 'Strum each chord once, then change. The page counts the changes it hears.') + '</p>';
   }
   function omcActHtml() {
