@@ -119,12 +119,12 @@
   }
   var modelCache = {};
   function modelOf(song) {
-    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
-    if (modelCache[song.id] && modelCache[song.id].key === key) return modelCache[song.id].model;
+    var slot = song.id + '~' + (song.way || ''), key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.way || '') + ':' + (song.lead ? song.lead.at || 1 : 0) + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
+    if (modelCache[slot] && modelCache[slot].key === key) return modelCache[slot].model;
     var copy = Object.assign({}, song, { shapes: songShapes(song) });
     var model;
     try { model = M.buildSong(copy); } catch (e) { model = { song: copy, targets: [], view: [], chords: [], timed: false, feats: { tabNotes: 0, chords: 0 }, kind: 'chords', broken: true }; }
-    modelCache[song.id] = { key: key, model: model };
+    modelCache[slot] = { key: key, model: model };
     return model;
   }
   /* The library is the songs the page ships with (PR.catalog, built from seed/) plus the player's own.
@@ -132,11 +132,16 @@
      until the built-in one is corrected later. A built-in song the player deleted stays hidden the same way. */
   var CAT = PR.catalog || {};
   Object.keys(CAT).forEach(function (id) { CAT[id].id = id; CAT[id].builtin = true; });
+  var leadJoin = {};
   function songOf(id) {
     var u = S.songs[id], c = CAT[id];
     if (u && (!c || (u.updatedAt || 0) >= (c.updatedAt || 0))) return u;
     var gone = App.Store.gone[id];
-    if (c && !(gone && gone >= (c.updatedAt || 0))) return c;
+    if (c && !(gone && gone >= (c.updatedAt || 0))) {
+      /* the chart was corrected after the player's copy was made: the new chart, but their pasted tab stays with it */
+      if (u && u.lead && !c.lead) { if (!leadJoin[id] || leadJoin[id].lead !== u.lead) leadJoin[id] = Object.assign({}, c, { lead: u.lead }); return leadJoin[id]; }
+      return c;
+    }
     return u || null;
   }
   function allSongs() {

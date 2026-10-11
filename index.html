@@ -373,6 +373,14 @@ details > summary::-webkit-details-marker { display: none; }
 .unlock-big { background: linear-gradient(140deg, #ffcf3f, #ff9500); color: #1c1c1e; }
 .unlock-big i { background: rgba(255, 255, 255, .4); color: #1c1c1e; }
 .unlock-big .muted { color: rgba(0, 0, 0, .68); }
+/* ---- the strumming pattern: arrows over the count ---- */
+.strum-pat { display: flex; gap: 2px; background: var(--fill); border-radius: 12px; padding: 8px 6px 6px; }
+.sp-cell { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sp-cell i { font-style: normal; font-size: 24px; line-height: 1; font-weight: 700; color: var(--ink); height: 26px; }
+.sp-cell i.up { color: var(--tint-text); }
+.sp-cell.is-miss i { color: var(--ink-3); opacity: .5; }
+.sp-cell small { font-size: 11px; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.sp-cell.is-beat small { color: var(--ink); }
 /* ---- metronome ---- */
 .metro { background: var(--card); border-radius: 24px; padding: 22px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
 .metro-dots { display: flex; justify-content: center; gap: 12px; min-height: 24px; align-items: center; }
@@ -1131,6 +1139,24 @@ details > summary::-webkit-details-marker { display: none; }
   /* ---------- building a playable model from a stored song ---------- */
   function splitBar(bar) { return String(bar).trim().split(/\s+/).filter(Boolean); }
 
+  /* A strumming pattern for one bar, as slots: "D DU UDU" is eight slots (down, miss, down, up, miss, up,
+     down, up). The number of slots has to divide evenly into the beats; if it does not, each group between
+     spaces is taken as one beat ("D DU D DU"). Returns ['D', null, 'D', 'U', ...] or null. */
+  function strumSlots(pattern, beats) {
+    if (typeof pattern !== 'string' || !/[DU]/i.test(pattern)) return null;
+    var p = pattern.toUpperCase().replace(/[^DU ]/g, ' '), out = [], i;
+    if (p.length % beats !== 0 || p.length / beats > 4) {
+      var groups = p.trim().split(/\s+/), sub = 1;
+      if (groups.length !== beats) { p = p.replace(/\s+$/, ''); while (p.length % beats !== 0) p += ' '; }
+      else {
+        groups.forEach(function (g) { if (g.length > sub) sub = g.length; });
+        p = groups.map(function (g) { while (g.length < sub) g += ' '; return g; }).join('');
+      }
+    }
+    for (i = 0; i < p.length; i++) out.push(p.charAt(i) === 'D' ? 'D' : p.charAt(i) === 'U' ? 'U' : null);
+    return out.length && out.length <= 16 * 2 ? out : null;
+  }
+
   function buildSong(song) {
     var capo = song.capo || 0;
     var tuning = song.tuning || 'standard';
@@ -1157,9 +1183,9 @@ details > summary::-webkit-details-marker { display: none; }
           String(sec.steps || '').trim().split(/\s+/).forEach(function (tok) {
             if (!tok) return;
             if (tok === '|') { if (perRow >= 8) flush(); else if (lines[0].length) lines = lines.map(function (l) { return l + '-|'; }); return; }
-            var mm = /^([^*]+)(?:\*([\d.]+))?$/.exec(tok);
+            var mm = /^([^*@]+)(?:\*([\d.]+))?(?:@(.+))?$/.exec(tok);
             if (!mm) return;
-            var beats = mm[2] ? parseFloat(mm[2]) : (sec.step || 1);
+            var beats = mm[2] ? parseFloat(mm[2]) : (sec.step || 1), named = mm[3] ? parseChord(mm[3].replace(/[↓↑]$/, '')) : null;
             var notes = [];
             mm[1].split('+').forEach(function (pr) {
               var q = /^([1-6]):(\d{1,2})$/.exec(pr);
@@ -1178,13 +1204,16 @@ details > summary::-webkit-details-marker { display: none; }
             var midis = notes.map(function (n) { if (n.fret > feats.maxFret) feats.maxFret = n.fret; if (n.fret > 0 && n.fret < feats.minFret) feats.minFret = n.fret; return tn[n.s] + capo + n.fret; });
             feats.tabNotes++; perRow++;
             if (midis.length > 1) feats.stacks++;
-            targets.push({
+            var tg = {
               index: idx, kind: midis.length > 1 ? 'chord' : 'note', midis: midis,
-              label: midis.map(function (m) { return midiName(m); }).join(' '),
+              label: mm[3] ? mm[3].replace(/[↓↑]$/, '') : midis.map(function (m) { return midiName(m); }).join(' '),
               detail: notes.map(function (n) { return 'string ' + (6 - n.s) + ', fret ' + n.fret; }).join(' + '),
               pos: notes.map(function (n) { return { s: n.s, f: n.fret }; }),
               section: si, beat: beat, beats: beats
-            });
+            };
+            /* a named group of strings is a chord for the listener: it is matched by its root and third */
+            if (named && midis.length > 1) { tg.chordName = mm[3].replace(/[↓↑]$/, ''); tg.root = mod12(named.root + capo); tg.third = named.third; tg.capo = capo; if (/↑$/.test(mm[3])) tg.stroke = 'U'; else if (/↓$/.test(mm[3])) tg.stroke = 'D'; }
+            targets.push(tg);
             beat += beats;
           });
           flush();
@@ -1227,12 +1256,34 @@ details > summary::-webkit-details-marker { display: none; }
         if (vsec.systems.length) view.push(vsec);
       } else {
         var vs = { name: sec.name || '', type: 'chords', index: si, cells: [], first: targets.length, repeat: reps };
+        var pat = strumSlots(sec.strum, beatsPerSlot);
         for (var r = 0; r < reps; r++) {
           (sec.bars || []).forEach(function (bar) {
             var names = splitBar(bar);
             if (!names.length) return;
             if (names.length > 1) feats.twoPerBar = true;
             var cell = { rep: r, chords: [] };
+            if (pat) {
+              /* every stroke of the pattern is something to play; the chart still shows one cell a bar */
+              var slot = beatsPerSlot / pat.length, last = -1;
+              names.forEach(function (nm) { cell.chords.push({ name: nm, target: -1 }); });
+              pat.forEach(function (stroke, pi) {
+                var ci = Math.min(names.length - 1, Math.floor(pi * names.length / pat.length)), nm = names[ci], ch = parseChord(nm);
+                if (!stroke || !ch || /^(n\.?c\.?|-|rest)$/i.test(nm)) { beat += slot; return; }
+                var shape = shapeFor(ch, song.shapes), full = shape ? shapeMidi(shape, tuning, capo) : genericVoicing(ch, capo);
+                if (!chordSet[nm]) chordSet[nm] = { name: nm, chord: ch, shape: shape, midis: full, count: 0 };
+                chordSet[nm].count++;
+                var pos = shape ? shape.map(function (f, k) { return f === null ? null : { s: k, f: f }; }).filter(Boolean) : null, midis = full;
+                /* an upstroke catches the thin strings only */
+                if (stroke === 'U' && pos && pos.length > 3) { pos = pos.slice(-3); midis = full.slice(-3); }
+                var idx = targets.length;
+                targets.push({ index: idx, kind: 'chord', midis: midis, label: nm, chordName: nm, pos: pos, section: si, beat: beat, beats: slot, root: mod12(ch.root + capo), third: ch.third, capo: capo, stroke: stroke, quiet: last === ci });
+                if (cell.chords[ci].target < 0) cell.chords[ci].target = idx;
+                last = ci; beat += slot;
+              });
+              vs.cells.push(cell);
+              return;
+            }
             var each = beatsPerSlot / names.length;
             names.forEach(function (nm) {
               var ch = parseChord(nm);
@@ -1323,7 +1374,7 @@ details > summary::-webkit-details-marker { display: none; }
     TUNINGS: TUNINGS, tuningMidi: tuningMidi, tuningName: tuningName,
     parseChord: parseChord, parseShape: parseShape, shapeToString: shapeToString, shapeFor: shapeFor, shapeInfo: shapeInfo, shapeMidi: shapeMidi,
     genericVoicing: genericVoicing, readChordLine: readChordLine, readTabLine: readTabLine, parseSystem: parseSystem, parseSheet: parseSheet,
-    buildSong: buildSong, splitBar: splitBar, LEVELS: LEVELS, suggestLevel: suggestLevel
+    buildSong: buildSong, splitBar: splitBar, strumSlots: strumSlots, LEVELS: LEVELS, suggestLevel: suggestLevel
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = PR;
 })(typeof window !== 'undefined' ? window : globalThis);
@@ -2828,12 +2879,12 @@ details > summary::-webkit-details-marker { display: none; }
   }
   var modelCache = {};
   function modelOf(song) {
-    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
-    if (modelCache[song.id] && modelCache[song.id].key === key) return modelCache[song.id].model;
+    var slot = song.id + '~' + (song.way || ''), key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.way || '') + ':' + (song.lead ? song.lead.at || 1 : 0) + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.beatsPerSlot || 0) + ':' + JSON.stringify(song.tuning || '');
+    if (modelCache[slot] && modelCache[slot].key === key) return modelCache[slot].model;
     var copy = Object.assign({}, song, { shapes: songShapes(song) });
     var model;
     try { model = M.buildSong(copy); } catch (e) { model = { song: copy, targets: [], view: [], chords: [], timed: false, feats: { tabNotes: 0, chords: 0 }, kind: 'chords', broken: true }; }
-    modelCache[song.id] = { key: key, model: model };
+    modelCache[slot] = { key: key, model: model };
     return model;
   }
   /* The library is the songs the page ships with (PR.catalog, built from seed/) plus the player's own.
@@ -2841,11 +2892,16 @@ details > summary::-webkit-details-marker { display: none; }
      until the built-in one is corrected later. A built-in song the player deleted stays hidden the same way. */
   var CAT = PR.catalog || {};
   Object.keys(CAT).forEach(function (id) { CAT[id].id = id; CAT[id].builtin = true; });
+  var leadJoin = {};
   function songOf(id) {
     var u = S.songs[id], c = CAT[id];
     if (u && (!c || (u.updatedAt || 0) >= (c.updatedAt || 0))) return u;
     var gone = App.Store.gone[id];
-    if (c && !(gone && gone >= (c.updatedAt || 0))) return c;
+    if (c && !(gone && gone >= (c.updatedAt || 0))) {
+      /* the chart was corrected after the player's copy was made: the new chart, but their pasted tab stays with it */
+      if (u && u.lead && !c.lead) { if (!leadJoin[id] || leadJoin[id].lead !== u.lead) leadJoin[id] = Object.assign({}, c, { lead: u.lead }); return leadJoin[id]; }
+      return c;
+    }
     return u || null;
   }
   function allSongs() {
@@ -3333,6 +3389,179 @@ details > summary::-webkit-details-marker { display: none; }
   App.computeGame = computeGame; App.starsFor = starsFor; App.scoreItems = scoreItems; App.multOf = multOf; App.starsHtml = starsHtml; App.xpOfSession = xpOfSession;
 })(typeof window !== 'undefined' ? window : globalThis);
 
+/* app-ways.js: more ways to play a song than one strum a bar.
+
+   A library song is a chord chart. From the chart and the chord shapes this file works out other parts to
+   play over the same bars: the strumming pattern stroke by stroke, bass note and strum, a picked arpeggio,
+   alternating-thumb fingerpicking, palm-muted power chords, a boogie shuffle, and a lead line that climbs
+   through the notes of each chord. They are standard accompaniment patterns applied to the chords, made by
+   rule; none of them is a transcription of what is played on the record.
+
+   The recorded riff, solo or melody is the one part that is not made here. The player can paste a tab of it
+   (song.lead), and it then becomes one more way to play the song. */
+(function (root) {
+  'use strict';
+  var PR = root.PR, M = PR.music, App = PR.app;
+
+  var WAYS = [
+    { id: 'chords', name: 'Chords', short: 'one strum a chord', blurb: 'One strum for every chord. Start here: it is about landing each change on time.' },
+    { id: 'strum', name: 'Strumming', short: 'the strumming pattern', blurb: 'The strumming pattern, stroke by stroke. White arrows are downstrokes, yellow ones upstrokes on the thin strings.' },
+    { id: 'bass', name: 'Bass and strum', short: 'bass note, then strum', blurb: 'A bass note on the beat and the rest of the chord after it, the bass swapping between two strings. The backbone of roots rock and country.' },
+    { id: 'arp', name: 'Arpeggio', short: 'picked one string at a time', blurb: 'Hold each chord down and pick its strings one at a time, bass note first. Let every note ring into the next.' },
+    { id: 'thumb', name: 'Fingerpicking', short: 'alternating thumb', blurb: 'The thumb keeps time on two bass strings, back and forth, while index and middle fill in on the thin strings.' },
+    { id: 'power', name: 'Power chords', short: 'driving eighth notes', blurb: 'Each chord cut down to two low strings and played in steady eighth notes. Rest the edge of the hand on the bridge for the chug.' },
+    { id: 'boogie', name: 'Boogie shuffle', short: 'the rock and roll riff', blurb: 'The two-string rock and roll figure under every chord: the ring finger, then the little finger two frets higher.' },
+    { id: 'lead', name: 'Lead line', short: 'notes that follow the chords', blurb: 'Single notes in one position up the neck: the root, third and fifth of each chord as it comes by. This is the skeleton a solo is built on.' },
+    { id: 'tab', name: 'Your tab', short: 'the riff, solo or melody', blurb: 'The riff, solo or melody from the tab you pasted.' }
+  ];
+  var BY = {}; WAYS.forEach(function (w) { BY[w.id] = w; });
+
+  function shapesOf(song) { return App.songShapes(song); }
+  function hasChords(song) { return (song.sections || []).some(function (s) { return s && (s.type === 'chords' || (!s.type && s.bars)); }); }
+  function barBeats(song) { return song.beatsPerSlot || song.beatsPerBar || 4; }
+  function pattern(song) {
+    var b = barBeats(song);
+    if (M.strumSlots(song.strum, b)) return song.strum;
+    return b === 3 ? 'D D DU' : b === 2 ? 'D  DDD' : b === 6 ? 'D  DU D  DU ' : 'D DU UDU';
+  }
+  /* three clicks to the beat (twelve-eight, six-eight): picked parts then go in threes */
+  function inThrees(song) { var s = M.strumSlots(pattern(song), barBeats(song)); return !!s && (s.length / barBeats(song)) % 3 === 0; }
+
+  /* ---------- one chord, as something to pick ---------- */
+  function tk(k, f) { return (6 - k) + ':' + f; }
+  function chordInfo(song, name, shapes) {
+    var ch = M.parseChord(name);
+    if (!ch) return null;
+    var sh = M.shapeFor(ch, shapes);
+    if (!sh) return { ch: ch, name: name, shape: null };
+    var played = [], k;
+    for (k = 0; k < 6; k++) if (sh[k] !== null) played.push(k);
+    var low = played[0], open = M.tuningMidi(song.tuning || 'standard');
+    /* the other bass note: the fifth of the chord if it is on one of the next two strings */
+    var fifth = M.mod12(ch.root + 7), alt = -1;
+    var has = function (c) { return sh[c] !== null && sh[c] !== undefined; };
+    /* on a wound string where there is one (the thumb's side of the hand), the fifth before anything else */
+    [low + 1, low + 2].forEach(function (c) { if (alt < 0 && c <= 2 && has(c) && M.mod12(open[c] + sh[c]) === fifth) alt = c; });
+    [low + 2, low + 1].forEach(function (c) { if (alt < 0 && c <= 2 && has(c)) alt = c; });
+    if (alt < 0) alt = has(low + 1) ? low + 1 : low;
+    var near = function (want) { var best = played[played.length - 1]; played.forEach(function (p) { if (Math.abs(p - want) < Math.abs(best - want) || (Math.abs(p - want) === Math.abs(best - want) && p > best)) best = p; }); return best; };
+    var top = played.filter(function (p) { return p >= Math.max(3, low + 1); });
+    if (top.length < 2) top = played.slice(-3);
+    /* when the second bass note is already on the third string, the fingers move one string over */
+    var up = alt >= 3;
+    return { ch: ch, name: name, shape: sh, played: played, low: low, alt: alt, s3: near(3), s2: near(4), s1: near(5), f3: up ? near(4) : near(3), f2: up ? near(5) : near(4), top: top };
+  }
+  function stack(info, strings, mark) { return strings.map(function (k) { return tk(k, info.shape[k]); }).join('+') + '@' + info.name + (mark || ''); }
+  function power(info, stretch) {
+    var r = info.ch.root, e = M.mod12(r - 4), a = M.mod12(r - 9), d = M.mod12(r - 2);
+    var k = e <= a && e <= d ? 0 : (a <= d ? 1 : 2), f = k === 0 ? e : k === 1 ? a : d;
+    return tk(k, f) + '+' + tk(k + 1, f + 2 + (stretch ? 2 : 0)) + '@' + M.pcName(r, info.ch.flats) + '5';
+  }
+  /* the notes of a chord inside one hand position on the four thin strings, lowest root first */
+  function leadNotes(info, win, open) {
+    var cand = [], k, f;
+    for (k = 2; k < 6; k++) for (f = win.lo; f <= win.hi; f++) cand.push({ k: k, f: f, m: open[k] + f });
+    cand.sort(function (x, y) { return x.m - y.m || y.k - x.k; });
+    var pcs = info.ch.pcs, find = function (pc, above) { for (var i = 0; i < cand.length; i++) if (M.mod12(cand[i].m) === pc && cand[i].m > above) return cand[i]; return null; };
+    var R = find(pcs[0], -1); if (!R) return null;
+    /* leave room above the root for the rest of the chord */
+    var R2 = find(pcs[0], R.m), T = find(pcs[1], R.m) || find(pcs[1], -1), V = find(pcs[2] === undefined ? pcs[0] : pcs[2], T ? Math.max(T.m, R.m) : R.m) || find(pcs[2] === undefined ? pcs[0] : pcs[2], -1);
+    if (!T) T = R2 || R; if (!V) V = R2 || R;
+    return { R: tk(R.k, R.f), T: tk(T.k, T.f), V: tk(V.k, V.f) };
+  }
+
+  /* ---------- a chart section turned into a picked part ---------- */
+  var CYCLES = {
+    bass: { 4: ['b', 'S', 'a', 'S'], 3: ['b', 'S', 'S'], tri: ['b', 'S', 'S', 'a', 'S', 'S'], unit: 1 },
+    arp: { 4: ['b', '3', '2', '3', '1', '3', '2', '3'], 3: ['b', '3', '2', '1', '2', '3'], tri: ['b', '3', '2', '1', '2', '3'], unit: 0.5 },
+    thumb: { 4: ['b', '3', 'a', '2', 'b', '1', 'a', '2'], 3: ['b', '3', 'a', '2', 'a', '3'], tri: ['b', '3', '2', 'a', '3', '2'], unit: 0.5 },
+    power: { 4: ['P'], 3: ['P'], tri: ['P'], unit: 0.5 },
+    boogie: { 4: ['P', 'P', 'Q', 'P'], 3: ['P', 'P', 'Q', 'P', 'P', 'P'], tri: ['P', 'P', 'Q'], unit: 0.5 },
+    lead: { 4: ['R', 'T', 'V', 'T'], 3: ['R', 'T', 'V'], tri: ['R', 'T', 'V'], unit: 1 }
+  };
+  function fmt(n) { return String(Math.round(n * 1e9) / 1e9); }
+  function picked(song, sec, way, ctx) {
+    var B = barBeats(song), cyc = CYCLES[way], tri = ctx.tri, unit = way === 'bass' || way === 'lead' ? (tri && way === 'bass' ? 1 / 3 : 1) : (tri ? 1 / 3 : 0.5);
+    var bars = (sec.bars || []).map(function (bar) {
+      var names = M.splitBar(bar), cb = B / Math.max(1, names.length), out = [];
+      names.forEach(function (nm) {
+        var info = /^(n\.?c\.?|-|rest)$/i.test(nm) ? null : (ctx.info[nm] || (ctx.info[nm] = chordInfo(song, nm, ctx.shapes)));
+        var n = Math.max(1, Math.round(cb / unit)), dur = cb / n, c = tri ? cyc.tri : (B === 3 ? cyc[3] : cyc[4]);
+        if (!info || (!info.shape && way !== 'power' && way !== 'boogie' && way !== 'lead')) { out.push('r*' + fmt(cb)); return; }
+        var ln = way === 'lead' ? (ctx.lead[nm] || (ctx.lead[nm] = leadNotes(info, ctx.win, ctx.open))) : null;
+        if (way === 'lead' && !ln) { out.push('r*' + fmt(cb)); return; }
+        if (way === 'bass' && n === 1) c = ['S'];
+        for (var i = 0; i < n; i++) {
+          var role = c[i % c.length], t;
+          if (role === 'b') t = tk(info.low, info.shape[info.low]);
+          else if (role === 'a') t = tk(info.alt, info.shape[info.alt]);
+          else if (role === '3') { var k3 = way === 'thumb' ? info.f3 : info.s3; t = tk(k3, info.shape[k3]); }
+          else if (role === '2') { var k2 = way === 'thumb' ? info.f2 : info.s2; t = tk(k2, info.shape[k2]); }
+          else if (role === '1') t = tk(info.s1, info.shape[info.s1]);
+          else if (role === 'S') t = stack(info, info.top, '↓').replace('@', '*' + fmt(dur) + '@');
+          else if (role === 'P' || role === 'Q') t = power(info, role === 'Q').replace('@', '*' + fmt(dur) + '@');
+          else t = ln[role];
+          out.push(t.indexOf('*') >= 0 ? t : t + '*' + fmt(dur));
+        }
+      });
+      return out.join(' ');
+    });
+    return { name: sec.name, type: 'notes', step: 1, steps: bars.join(' | '), repeat: sec.repeat };
+  }
+
+  /* ---------- the song, played one of these ways ---------- */
+  var cache = {};
+  function songAs(song, way) {
+    if (!song || !way || way === 'chords') return song;
+    var key = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + way + ':' + (song.capo || 0) + ':' + (song.beatsPerSlot || 0) + ':' + (song.lead ? song.lead.at || 1 : 0);
+    if (cache[key]) return cache[key];
+    var out;
+    if (way === 'tab') {
+      if (!song.lead || !Array.isArray(song.lead.sections) || !song.lead.sections.length) return song;
+      out = Object.assign({}, song, { sections: song.lead.sections, capo: song.lead.capo || 0, tuning: song.lead.tuning || 'standard', way: 'tab' });
+    } else if (!BY[way] || !hasChords(song)) return song;
+    else if (way === 'strum') {
+      var pat = pattern(song);
+      out = Object.assign({}, song, { way: 'strum', sections: song.sections.map(function (s) { return s.type === 'chords' || (!s.type && s.bars) ? Object.assign({}, s, { strum: pat }) : s; }) });
+    } else {
+      var open = M.tuningMidi(song.tuning || 'standard'), rootName = (song.scale && song.scale.root) || (M.parseChord(song.key || '') || {}).rootName || 'E';
+      var pc = M.mod12(M.pcOf(rootName) - (song.capo || 0)), p = M.mod12(pc - 4);
+      if (p > 8) p = M.mod12(pc - 9);
+      var ctx = { shapes: shapesOf(song), info: {}, lead: {}, tri: inThrees(song), open: open, win: { lo: p === 0 ? 0 : p - 1, hi: p === 0 ? 4 : p + 3 } };
+      out = Object.assign({}, song, { way: way, sections: song.sections.map(function (s) { return s.type === 'chords' || (!s.type && s.bars) ? picked(song, s, way, ctx) : s; }) });
+    }
+    cache[key] = out;
+    return out;
+  }
+  /* which ways suit a song, in the order they are offered */
+  function list(song) {
+    if (!song || song.drill || song.exercise) return [];
+    var out = [];
+    if (hasChords(song)) {
+      var B = barBeats(song), tri = inThrees(song), needs = song.needs || [], g = song.genre || '';
+      var rock = /rock|wave/i.test(g) || needs.indexOf('power-chords') >= 0 || needs.indexOf('palm-mute') >= 0;
+      out = ['chords', 'strum', 'bass', 'arp'];
+      if (!tri && (B === 4 || B === 3)) out.push('thumb');
+      if (rock) out.push('power');
+      if (!tri && B === 4 && (/roots|blues/i.test(g) || needs.indexOf('shuffle') >= 0)) out.push('boogie');
+      out.push('lead');
+    }
+    if (song.lead && Array.isArray(song.lead.sections) && song.lead.sections.length) out.push('tab');
+    return out.map(function (id) { return BY[id]; });
+  }
+  /* the way the song is meant to be finished in: not one strum a bar */
+  function main(song) {
+    var ids = list(song).map(function (w) { return w.id; }), needs = song.needs || [];
+    if (ids.indexOf('strum') < 0) return '';
+    if (song.way && ids.indexOf(song.way) >= 0 && song.way !== 'chords') return song.way;
+    if (needs.indexOf('travis') >= 0 && ids.indexOf('thumb') >= 0) return 'thumb';
+    if (needs[0] === 'arpeggio') return 'arp';
+    return 'strum';
+  }
+
+  App.ways = { WAYS: WAYS, by: BY, list: list, main: main, song: songAs, pattern: pattern, inThrees: inThrees, barBeats: barBeats };
+})(typeof window !== 'undefined' ? window : globalThis);
+
 /* app-path.js: the path to a song.
 
    Every song gets a list of steps that lead up to playing it: the chord shapes in it, the changes between
@@ -3587,23 +3816,42 @@ details > summary::-webkit-details-marker { display: none; }
       push({ id: 'part:' + pt.view, kind: 'part', stage: 'parts', title: base, view: pt.view, pct: PART_PCT, sub: timed ? 'In time at ' + PART_PCT + '% speed or faster, 80% right' : 'Start to finish, 80% right' },
         passOf(mine, function (x) { return pt.names.indexOf(x.section) >= 0 && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= PART_PCT)); }));
     });
-    /* 5. the song */
-    var whole = function (pct) { return function (x) { return x.section === 'Whole song' && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= pct)); }; };
-    if (timed) push({ id: 'song:slow', kind: 'song', stage: 'song', title: 'The whole song, slowed down', view: -1, pct: SLOW_PCT, sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT)));
-    push({ id: 'song:full', kind: 'song', stage: 'song', title: 'The whole song', view: -1, pct: 100, final: true, sub: timed ? 'Start to finish at full speed, 80% right' : 'Start to finish, 80% right' }, passOf(mine, whole(100)));
+    /* 5. the song: first one strum a chord, then the way it is really played (app-ways.js), then that at full speed */
+    var ways = App.ways.list(song), main = App.ways.main(song), mw = main ? App.ways.by[main] : null;
+    var whole = function (pct, real) { return function (x) {
+      if (x.section !== 'Whole song' || x.way === 'lead' || x.way === 'tab') return false;
+      if (real && !(x.way && x.way !== 'chords')) return false;
+      return x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= pct);
+    }; };
+    var how = mw ? (main === 'strum' ? 'with its strumming pattern' : main === 'thumb' ? 'fingerpicked' : main === 'arp' ? 'as picked arpeggios' : 'as ' + mw.name.toLowerCase()) : '';
+    if (timed) push({ id: 'song:slow', kind: 'song', stage: 'song', title: mw ? 'The whole song, one strum a chord' : 'The whole song, slowed down', view: -1, pct: SLOW_PCT, way: 'chords', sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT, false)));
+    if (mw && timed) push({ id: 'song:way', kind: 'song', stage: 'song', title: 'The whole song ' + how + ', slowed down', view: -1, pct: SLOW_PCT, way: main, sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT, true)));
+    push({ id: 'song:full', kind: 'song', stage: 'song', title: 'The whole song' + (mw ? ' ' + how : ''), view: -1, pct: 100, way: mw ? main : 'chords', final: true, sub: timed ? 'Start to finish at full speed, 80% right' : 'Start to finish, 80% right' }, passOf(mine, whole(100, !!mw)));
+    /* beyond the path: the other ways to play it, and the riff, solo or melody from a tab the player pasted */
+    var bonus = [];
+    ways.forEach(function (w) {
+      if (w.id === 'chords' || w.id === main || w.id === 'tab') return;
+      var ps = passOf(mine, function (x) { return x.section === 'Whole song' && x.way === w.id && (x.kind === 'take' || (x.pct || 100) >= SLOW_PCT); });
+      bonus.push({ id: 'way:' + w.id, kind: 'way', stage: 'more', way: w.id, view: -1, pct: SLOW_PCT, title: w.name, sub: 'The whole song, ' + w.short + ', at ' + SLOW_PCT + '% speed or faster', done: !!ps.at, at: ps.at || 0, best: ps.best });
+    });
+    if (model.chords.length) {
+      var hasTab = ways.some(function (w) { return w.id === 'tab'; }), pt = passOf(mine, function (x) { return x.way === 'tab'; });
+      bonus.push({ id: 'tab', kind: 'tab', stage: 'more', way: 'tab', view: -1, pct: 100, title: song.melody ? 'The melody' : 'The riff or solo', sub: hasTab ? 'From your tab, 80% right' : 'Paste a tab of it to add this part', missing: !hasTab, done: !!pt.at, at: pt.at || 0, best: pt.best });
+    }
+    steps.bonus = bonus;
     return steps;
   }
   var STAGES = [['shapes', 'Shapes'], ['changes', 'Changes'], ['technique', 'Technique'], ['parts', 'Parts'], ['song', 'The song']];
   function of(song) {
     if (!song) return null;
-    var ix = index(), ck = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0);
+    var ix = index(), ck = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.lead ? song.lead.at || 1 : 0);
     if (pathCache[ck] && pathCache[ck].key === ix.key) return pathCache[ck].path;
     var steps = build(song), path = null;
     if (steps && steps.length) {
       var last = steps[steps.length - 1], mastered = last.done;
       var done = steps.filter(function (s) { return s.done; }).length;
       var next = null; for (var i = 0; i < steps.length; i++) if (!steps[i].done) { next = steps[i]; break; }
-      path = { id: song.id, steps: steps, total: steps.length, done: mastered ? steps.length : done, real: done, mastered: mastered, masteredAt: last.at, next: mastered ? null : next,
+      path = { id: song.id, steps: steps, bonus: steps.bonus || [], total: steps.length, done: mastered ? steps.length : done, real: done, mastered: mastered, masteredAt: last.at, next: mastered ? null : next,
         pct: mastered ? 100 : Math.round(done / steps.length * 100),
         stages: STAGES.map(function (sg) { return { id: sg[0], title: sg[1], steps: steps.filter(function (s) { return s.stage === sg[0]; }) }; }).filter(function (sg) { return sg.steps.length; }) };
     }
@@ -4166,8 +4414,8 @@ details > summary::-webkit-details-marker { display: none; }
       return v;
     },
     hush: function () { A.voices.forEach(function (v) { v.stop(); }); A.voices = []; },
-    strum: function (midis, a4) {
-      midis.forEach(function (m, i) { setTimeout(function () { A.pluck(PR.music.midiToFreq(m, a4 || S.settings.a4), 2.2); }, i * 28); });
+    strum: function (midis, a4, gap) {
+      midis.forEach(function (m, i) { setTimeout(function () { A.pluck(PR.music.midiToFreq(m, a4 || S.settings.a4), 2.2); }, i * (gap || 28)); });
     },
     /* a rising run of bell notes, one for each star */
     chime: function (n) {
@@ -4550,11 +4798,17 @@ details > summary::-webkit-details-marker { display: none; }
         g.fillStyle = gr; g.shadowColor = tone || '#7d7aff'; g.shadowBlur = dd < 0.12 && gm.s === 0 ? 18 : 0; g.fill(); g.shadowBlur = 0;
         g.lineWidth = 1.5; g.strokeStyle = 'rgba(255,255,255,.7)'; g.stroke();
         /* frets per string once it is close enough to read, the name above */
-        if (t.pos && sc > 0.62) {
+        if (t.pos && sc > 0.62 && !t.quiet) {
           g.font = '700 ' + Math.round(15 * sc) + 'px ' + FONT; g.textAlign = 'center'; g.textBaseline = 'middle';
           t.pos.forEach(function (p) { g.fillStyle = '#fff'; g.fillText(String(p.f), X(p.s, dd), y + 0.5); });
         }
-        if (t.label) {
+        /* a strummed stroke carries an arrow: down towards the floor, up towards the ceiling */
+        if (t.stroke) {
+          var ax = t.quiet ? (x0 + x1) / 2 : x1 + 16 * sc, aw = 7 * sc, ah = 9 * sc, dir = t.stroke === 'U' ? -1 : 1;
+          g.beginPath(); g.moveTo(ax - aw, y - dir * ah * 0.6); g.lineTo(ax + aw, y - dir * ah * 0.6); g.lineTo(ax, y + dir * ah * 0.8); g.closePath();
+          g.fillStyle = t.quiet ? '#fff' : (t.stroke === 'U' ? '#ffd60a' : '#fff'); g.fill();
+        }
+        if (t.label && !t.quiet) {
           g.font = '800 ' + Math.round(Math.max(11, 22 * sc)) + 'px ' + FONT; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
           g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.8)'; g.shadowBlur = 6; g.fillText(t.label, cx, y - h / 2 - 6 * sc); g.shadowBlur = 0;
         }
@@ -5314,6 +5568,7 @@ details > summary::-webkit-details-marker { display: none; }
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
   App.accountSheet = accountSheet;
+  App.findLinks = findLinks;
   App.tunerIdle = tunerIdle;
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -5386,6 +5641,11 @@ details > summary::-webkit-details-marker { display: none; }
         html += '<div class="stack-sm"><div class="sec-head"><span class="h3">' + esc(sg.title) + '</span><span class="small muted num">' + d + ' of ' + sg.steps.length + '</span></div><div class="group group-in">' +
           sg.steps.map(function (s) { return stepRow(song.id, s, p.next === s); }).join('') + '</div></div>';
       });
+      if (p.bonus.length) {
+        var bd = p.bonus.filter(function (s) { return s.done; }).length;
+        html += '<div class="stack-sm"><div class="sec-head"><span class="h3">Go further</span><span class="small muted num">' + bd + ' of ' + p.bonus.length + '</span></div><div class="group group-in">' +
+          p.bonus.map(function (s) { return stepRow(song.id, s, false); }).join('') + '</div><span class="small muted" style="padding-inline:4px">Not needed to finish the song. Each one is the same song played another way, or the part from your own tab.</span></div>';
+      }
       html += '<p class="small muted">Shapes, changes and techniques count for every song that uses them, so the next song starts with some of its steps already done.</p>';
     }
     return html + '</section>';
@@ -5393,7 +5653,7 @@ details > summary::-webkit-details-marker { display: none; }
   /* start a step: an exercise, the one-minute change drill, or a part of the song set up and running */
   App.pathRun = function (songId, stepId) {
     var song = App.findSong(songId), p = song ? App.path.of(song) : null; if (!p) return;
-    var st = stepId ? p.steps.filter(function (s) { return s.id === stepId; })[0] : p.next;
+    var st = stepId ? p.steps.concat(p.bonus).filter(function (s) { return s.id === stepId; })[0] : p.next;
     if (!st) { App.go({ name: 'practice', id: songId }); return; }
     var P = App.practice;
     if (App.sheet.isOpen()) App.sheet.close();
@@ -5401,12 +5661,60 @@ details > summary::-webkit-details-marker { display: none; }
     if (st.kind === 'change') { if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId }); App.omc.open(st.a, st.b, songId); return; }
     if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId });
     var ps = P.st; if (!ps || ps.run) return;
-    ps.section = st.view; ps.marks = {};
+    if (st.kind === 'tab' && st.missing) { App.lead.open(songId); return; }
+    /* parts are found in the chord chart; the step may then ask for another way of playing them */
+    P.setWay('chords'); ps.section = st.view; ps.marks = {};
+    if (st.way && st.way !== 'chords') P.setWay(st.way);
     if (st.kind === 'song' || ps.pct < st.pct) ps.pct = st.pct;
     if (ps.mode === 'live') ps.live = ps.model.timed ? 'tempo' : 'wait';
     App.render(true);
     if (ps.mode === 'take') { App.toast('Record ' + (st.view < 0 ? 'the whole song' : 'this part') + ', then pick the file.'); var a = $('#pAction'); if (a && a.scrollIntoView) a.scrollIntoView({ block: 'center' }); return; }
     P.start();
+  };
+
+  /* ---------- the riff, solo or melody: pasted by the player, kept with the song ---------- */
+  var leadDraft = null;
+  function leadHtml() {
+    var d = leadDraft, song = App.findSong(d.id), q = ((song.artist || '') + ' ' + song.title).trim();
+    return '<div class="sheet-head"><div><div class="eyebrow">' + esc(song.title) + '</div><h2 class="title">Paste a tab</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+      '<p class="small muted">Find a tab of the ' + (song.melody ? 'melody' : 'riff, solo or intro') + ' on a tab site, copy the six-line tab, and paste it here. It is kept with this song, on your own account.</p>' +
+      '<div class="row-tight"><span class="small muted">Find it:</span>' + App.findLinks(q + ' tab').map(function (l) { return '<a class="btn btn-sm btn-tinted" href="' + esc(l[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(l[0]) + IC.ext + '</a>'; }).join('') + '</div>' +
+      '<label class="field"><span>The tab</span><textarea class="textarea" id="lText" spellcheck="false" placeholder="e|-----0-----|&#10;B|---1---1---|&#10;G|-0-------0-|&#10;D|-----------|&#10;A|-----------|&#10;E|-----------|">' + esc(d.text) + '</textarea></label>' +
+      (d.err ? '<div class="notice notice-bad">' + IC.warn + '<div>' + esc(d.err) + '</div></div>' : '') +
+      (d.sections ? '<div class="notice notice-good">' + IC.check + '<div><b>' + d.count + ' notes read</b> in ' + d.sections.length + (d.sections.length === 1 ? ' part' : ' parts') + (d.capo ? ', capo ' + d.capo : '') + '.</div></div><button class="btn btn-primary btn-block" data-act="lead-save">' + IC.check + 'Add it to this song</button>'
+        : '<button class="btn btn-tinted btn-block" data-act="lead-read">Read it</button>');
+  }
+  App.lead = {
+    open: function (id) { if (!App.findSong(id)) return; leadDraft = { id: id, text: '', err: '', sections: null, count: 0 }; App.sheet.open(leadHtml()); },
+    read: function () {
+      var d = leadDraft; if (!d) return;
+      d.text = ($('#lText') || {}).value || ''; d.err = ''; d.sections = null;
+      if (!d.text.trim()) d.err = 'Paste the tab first.';
+      else {
+        var p = M.parseSheet(d.text), tabs = p.sections.filter(function (s) { return s.type === 'tab' || s.systems; });
+        if (!tabs.length) d.err = 'No six-line tab found in that text. It needs six lines of dashes and fret numbers, one for each string.';
+        else {
+          var model = M.buildSong({ sections: tabs, capo: p.meta.capo || 0, tuning: p.meta.tuning || 'standard' });
+          if (model.targets.length < 3) d.err = 'The tab was recognised, but there were no notes to play in it.';
+          else { d.sections = tabs.slice(0, 24); d.count = model.targets.length; d.capo = p.meta.capo || 0; d.tuning = p.meta.tuning || 'standard'; }
+        }
+      }
+      $('#sheetBody').innerHTML = leadHtml();
+    },
+    save: function () {
+      var d = leadDraft, song = d && App.findSong(d.id); if (!song || !d.sections) return;
+      App.Store.saveSong(Object.assign({}, song, { lead: { sections: d.sections, capo: d.capo || 0, tuning: d.tuning || 'standard', at: Date.now() } }));
+      leadDraft = null; App.sheet.close();
+      var P = App.practice; P.st = null; App.go({ name: 'practice', id: d.id }); if (P.st) { P.setWay('tab'); App.render(true); }
+      App.toast('Added. It is now one of the ways to play this song.');
+    },
+    remove: function (id) {
+      var song = App.findSong(id); if (!song || !song.lead) return;
+      var copy = Object.assign({}, song); delete copy.lead;
+      App.Store.saveSong(copy);
+      var P = App.practice; P.st = null; App.go({ name: 'practice', id: id });
+      App.toast('Removed your tab from this song.');
+    }
   };
 
   /* ---------- the goal on Today ---------- */
@@ -5668,8 +5976,60 @@ details > summary::-webkit-details-marker { display: none; }
     if (!song) { App.go({ name: 'songs' }); return; }
     P.stopAll(true);
     var model = App.modelOf(song);
-    P.st = { id: id, song: song, model: model, mode: song.exercise && modeDefault() === 'take' ? 'along' : modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null, from: '', showPath: false };
+    P.st = { id: id, song: song, model: model, base: model, way: 'chords', mode: song.exercise && modeDefault() === 'take' ? 'along' : modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null, from: '', showPath: false };
   };
+  /* play the same bars another way (app-ways.js): the part being practised stays the same part */
+  P.setWay = function (way) {
+    var st = P.st; if (!st || st.run) return;
+    var ids = App.ways.list(st.song).map(function (w) { return w.id; });
+    if (ids.indexOf(way) < 0) way = 'chords';
+    var si = st.section >= 0 && st.model.view[st.section] ? st.model.view[st.section].index : -1;
+    st.way = way; st.model = way === 'chords' ? st.base : App.modelOf(App.ways.song(st.song, way)); st.marks = {};
+    st.section = -1;
+    if (si >= 0 && way !== 'tab') st.model.view.forEach(function (v, i) { if (v.index === si) st.section = i; });
+    if (st.mode === 'live' && st.live === 'tempo' && !st.model.timed) st.live = 'wait';
+  };
+  function slotCount(n, per) { return per === 4 ? ['', 'e', '&', 'a'][n % 4] : per === 3 ? ['', '&', 'a'][n % 3] : per === 2 ? ['', '&'][n % 2] : ''; }
+  /* the strumming pattern as a row of arrows over the count */
+  function strumHtml(song) {
+    var B = App.ways.barBeats(song), pat = App.ways.pattern(song), slots = M.strumSlots(pat, B);
+    if (!slots) return '';
+    var per = slots.length / B, cells = slots.map(function (s, i) {
+      var beat = i % per === 0;
+      return '<span class="sp-cell' + (beat ? ' is-beat' : '') + (s ? '' : ' is-miss') + '"><i class="' + (s === 'U' ? 'up' : s === 'D' ? 'down' : '') + '">' + (s === 'D' ? '↓' : s === 'U' ? '↑' : '·') + '</i><small>' + (beat ? (i / per + 1) : slotCount(i, per)) + '</small></span>';
+    }).join('');
+    return '<div class="strum-pat" role="img" aria-label="Strumming pattern ' + esc(pat) + '">' + cells + '</div>';
+  }
+  P.strumHtml = strumHtml;
+  /* two bars of the pattern on the song's first chord, with the click */
+  P.hearStrum = function () {
+    var st = P.st; if (!st || st.run) return;
+    var B = App.ways.barBeats(st.song), slots = M.strumSlots(App.ways.pattern(st.song), B), c = st.base.chords[0];
+    if (!slots || !c) return;
+    A.ensure(); A.hush();
+    var dur = 60 / bpmNow() * B / slots.length, per = slots.length / B, t0 = A.ctx.currentTime + 0.15;
+    clearTimeout(P.hearT); (P.hearTs || []).forEach(clearTimeout); P.hearTs = [];
+    for (var bar = 0; bar < 2; bar++) slots.forEach(function (s, i) {
+      var at = (bar * slots.length + i) * dur;
+      if (i % per === 0) A.click(t0 + at, i === 0);
+      if (!s) return;
+      P.hearTs.push(setTimeout(function () { var m = s === 'U' ? c.midis.slice(-3).reverse() : c.midis; A.hush(); m.forEach(function (x, k) { setTimeout(function () { A.pluck(M.midiToFreq(x, S.settings.a4), 1.6); }, k * 14); }); }, (0.15 + at) * 1000));
+    });
+  };
+  function waysHtml() {
+    var st = P.st, song = st.song, ways = App.ways.list(song);
+    if (ways.length < 2 && !ways.length) return '';
+    var cur = App.ways.by[st.way] || App.ways.by.chords, main = App.ways.main(song), has = !!(song.lead && song.lead.sections && song.lead.sections.length);
+    var what = song.melody ? 'melody' : 'riff or solo';
+    var html = '<section class="stack" id="pWays"><div class="sec-head"><h3 class="h2">Ways to play it</h3><span class="small muted num">' + ways.length + '</span></div>' +
+      '<div class="chips" role="group" aria-label="Way to play">' + ways.map(function (w) { return '<button class="chip" data-act="p-way" data-way="' + w.id + '" aria-pressed="' + (st.way === w.id) + '">' + esc(w.name) + (w.id === main ? ' ★' : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="panel stack-sm"><div class="spread"><b>' + esc(cur.name) + '</b>' + (cur.id === main ? '<span class="small muted">the way this song is finished</span>' : '') + '</div><span class="small">' + esc(cur.blurb) + '</span>' +
+      (cur.id === 'strum' || cur.id === 'chords' ? (cur.id === 'chords' ? '<span class="small muted">Once the changes land, this is the pattern the song is strummed with:</span>' : '') + strumHtml(song) + '<div class="row"><button class="btn btn-sm btn-tinted" data-act="strum-hear">' + IC.play + 'Hear the pattern</button>' + (cur.id === 'chords' ? '<button class="btn btn-sm" data-act="p-way" data-way="strum">Play it this way</button>' : '') + '</div>' : '') + '</div>' +
+      '<div class="panel stack-sm"><b>The ' + what + ' itself</b>' + (has
+        ? '<span class="small">Your tab is attached to this song' + (st.way === 'tab' ? ' and selected' : '') + '.</span><div class="row">' + (st.way === 'tab' ? '' : '<button class="btn btn-sm btn-tinted" data-act="p-way" data-way="tab">Play it</button>') + '<button class="btn btn-sm" data-act="lead-add" data-id="' + esc(song.id) + '">Replace</button><button class="btn btn-sm" data-act="lead-remove" data-id="' + esc(song.id) + '" style="color:var(--bad)">Remove</button></div>'
+        : '<span class="small">The recorded ' + what + ' is not written out here. Find a tab of it, paste it in, and it becomes a part of this song with its own notes on the highway and its own step on the path.</span><div class="row"><button class="btn btn-sm btn-tinted" data-act="lead-add" data-id="' + esc(song.id) + '">' + IC.plus + 'Paste a tab</button></div>') + '</div></section>';
+    return html;
+  }
   function controlsHtml() {
     var st = P.st, model = st.model, sel = selection(), timed = selTimed(sel);
     var secOpts = '<option value="-1"' + (st.section < 0 ? ' selected' : '') + '>Whole song</option>' + model.view.map(function (v, i) { return '<option value="' + i + '"' + (st.section === i ? ' selected' : '') + '>' + esc(v.name || 'Part ' + (i + 1)) + '</option>'; }).join('');
@@ -5721,19 +6081,20 @@ details > summary::-webkit-details-marker { display: none; }
       '<div class="best"><div><span>Stars</span>' + App.starsHtml(gs.stars) + '</div><div><span>Best</span><b>' + (gs.best === null ? '–' : App.pct(gs.best) + '%') + '</b></div><div><span>High score</span><b>' + (gs.score ? fmtScore(gs.score) : '–') + '</b></div></div>' +
       (song.checked === false ? '<div class="notice notice-warn">' + IC.warn + '<div>' + (song.builtin ? '<b>Not fully checked.</b> Only one source could be found for this harmony, so some bars are a best reading. Trust your ears, and fix it under Edit if it sounds wrong.' : '<b>Draft, not checked.</b> These chords came from memory. Compare them with a tab, then mark the song as checked under Edit.') + '</div></div>' : '') +
       (song.note ? '<p class="note">' + esc(song.note) + '</p>' : '') +
-      (song.strum ? '<p class="small muted" style="padding-left:4px">Strumming: <b class="mono" style="color:var(--ink);white-space:pre">' + esc(song.strum) + '</b> (D down, U up)</p>' : '') +
-      (song.melody && song.builtin ? '<div class="panel-flat stack-sm"><b>This is the chord backing.</b><span class="small">The tune itself is not written out here. Paste a tab of the melody from a tab site and the app builds a path for it, note by note.</span><button class="btn btn-sm btn-tinted" data-act="melody-add" data-id="' + esc(song.id) + '" style="align-self:flex-start">' + IC.plus + 'Add the melody tab</button></div>' : '') +
+
       (model.broken || !model.targets.length ? '<div class="notice notice-bad">' + IC.warn + '<div>This song has nothing playable in it. Delete it and add it again.</div></div>' : '') +
       '</section>';
     if (!model.targets.length) return html;
-    if (path) html += App.pathCard(song, st.showPath) + '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">any part, any tempo</span></div>';
+    if (path) html += App.pathCard(song, st.showPath);
+    if (!own) html += waysHtml();
+    if (path) html += '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">' + esc((App.ways.by[st.way] || {}).name || 'Chords') + ' · any part, any tempo</span></div>';
     html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
     html += '<section class="stack" id="pAction">' + actionHtml() + (st.mode === 'live' ? App.micNotice(true) : '') + '</section>';
-    if (model.chords.length) {
-      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + model.chords.map(function (c, i) {
+    if (st.base.chords.length) {
+      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + st.base.chords.map(function (c, i) {
         return '<button class="shape" data-act="p-hear" data-i="' + i + '" aria-label="Hear ' + esc(c.name) + '"><b>' + esc(c.name) + '</b>' + shapeSvg(c.shape) + '<small>' + (c.shape ? esc(M.shapeToString(c.shape)) : 'no shape') + '</small></button>';
       }).join('') + '</div>' +
-      (model.chords.length >= 2 ? '<button class="btn btn-tinted btn-block" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button>' : '') + '</section>';
+      (st.base.chords.length >= 2 ? '<button class="btn btn-tinted btn-block" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button>' : '') + '</section>';
     }
     html += '<section class="stack"><div class="sec-head"><h3 class="h2">Chart</h3></div><div class="stack-lg" id="pChart">' + chartHtml(model) + '</div></section>';
     return html;
@@ -5815,7 +6176,7 @@ details > summary::-webkit-details-marker { display: none; }
     run.score = 0; run.combo = 0; run.maxCombo = 0;
     clearMarks();
     App.wake.on();
-    Stage.open(Object.assign({ title: st.song.title, sub: sectionName() + ' · ' + (run.kind === 'wait' ? 'at your own pace' : bpmNow() + ' BPM'), sel: run.sel }, stage));
+    Stage.open(Object.assign({ title: st.song.title, sub: (st.way && st.way !== 'chords' ? App.ways.by[st.way].name + ' · ' : '') + sectionName() + ' · ' + (run.kind === 'wait' ? 'at your own pace' : bpmNow() + ' BPM'), sel: run.sel }, stage));
     refreshAction();
     run.timer = setInterval(run.tick, 40);
   }
@@ -5917,7 +6278,7 @@ details > summary::-webkit-details-marker { display: none; }
         while (i < sel.length - 1 && te >= sel[i].end) i++;
         if (i !== run.cur && te < sel[sel.length - 1].end) {
           run.cur = i; setNow(sel, i);
-          if (!listen && S.settings.guide !== false) { A.hush(); if (sel[i].midis.length > 1) A.strum(sel[i].midis); else A.pluck(M.midiToFreq(sel[i].midis[0], S.settings.a4), 1.4); }
+          if (!listen && S.settings.guide !== false) { A.hush(); if (sel[i].midis.length > 1) A.strum(sel[i].stroke === 'U' ? sel[i].midis.slice().reverse() : sel[i].midis, 0, sel[i].stroke ? 12 : 28); else A.pluck(M.midiToFreq(sel[i].midis[0], S.settings.a4), 1.4); }
           if (!listen) { Stage.result(i, 'pass'); setText('#hudAcc', String(Math.floor((sel[i].beat - sel[0].beat) / per) + 1)); setText('#hudHits', String(i + 1 + run.loops * sel.length)); }
         }
         var pr = $('#hudProg'); if (pr) pr.style.width = App.clamp(Math.round((te - t0) / (run.tl.end - t0) * 100), 0, 100) + '%';
@@ -6028,6 +6389,7 @@ details > summary::-webkit-details-marker { display: none; }
     if (typeof rep.acc === 'number') { doc.acc = Math.round(rep.acc * 1000) / 1000; doc.hits = rep.hits; doc.total = rep.total; }
     if (rep.changes && rep.changes.length) doc.changes = rep.changes.slice(0, 60);
     if (typeof rep.cents === 'number') doc.cents = Math.round(rep.cents);
+    if (st.way && st.way !== 'chords') doc.way = st.way;
     Object.assign(doc, extra || {});
     App.Store.addSession(doc);
     return true;
@@ -6181,7 +6543,7 @@ details > summary::-webkit-details-marker { display: none; }
   var O = App.omc = { st: null };
   O.pick = function () {
     var st = P.st; if (!st) return;
-    var names = st.model.chords.map(function (c) { return c.name; });
+    var names = st.base.chords.map(function (c) { return c.name; });
     App.sheet.open('<div class="sheet-head"><h2 class="title">One-minute changes</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
       '<p class="muted">Pick two chords. Swap between them for a minute and count the clean changes. It is the fastest way to speed up a change.</p>' +
       '<div class="fields"><label class="field"><span>From</span><select class="select" id="omcA">' + names.map(function (n, i) { return '<option' + (i === 0 ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select></label>' +
@@ -6370,7 +6732,6 @@ details > summary::-webkit-details-marker { display: none; }
       App.toast(song.title + ' is your goal now.');
       App.render(true);
     },
-    'melody-add': function (el) { var s = App.findSong(el.getAttribute('data-id')); if (s) App.addSong.open({ title: s.title + ' (melody)', artist: s.artist || '', genre: s.genre || '', album: s.album || '' }); },
     /* tuner and metronome share a tab */
     tool: function (el) { var t = el.getAttribute('data-tool'); if (t !== 'tuner' && T.on) T.stop(); if (t !== 'metro') App.met.stop(); T.tool = t; App.render(true); },
     'met-toggle': function () { if (App.met.on) App.met.stop(); else App.met.start(); App.render(true); },
@@ -6425,9 +6786,15 @@ details > summary::-webkit-details-marker { display: none; }
     'p-live': function (el) { if (!P.st || P.st.run || el.disabled) return; P.st.live = el.getAttribute('data-live'); P.refreshControls(); },
     'p-tempo': function (el) { if (!P.st || P.st.run) return; P.st.pct = App.clamp(P.st.pct + parseInt(el.getAttribute('data-d'), 10), 40, 130); P.refreshControls(); },
     'p-start': function () { P.start(); },
+    'p-way': function (el) { if (!P.st || P.st.run) return; P.setWay(el.getAttribute('data-way')); App.render(true); },
+    'strum-hear': function () { P.hearStrum(); },
+    'lead-add': function (el) { App.lead.open(el.getAttribute('data-id')); },
+    'lead-read': function () { App.lead.read(); },
+    'lead-save': function () { App.lead.save(); },
+    'lead-remove': function (el) { App.lead.remove(el.getAttribute('data-id')); },
     'p-stop': function () { P.finish(); },
     'p-skip': function () { P.skip(); },
-    'p-hear': function (el) { var c = P.st && P.st.model.chords[parseInt(el.getAttribute('data-i'), 10)]; if (c && !(P.st.run && P.st.run.kind !== 'self')) { A.hush(); A.strum(c.midis); } },
+    'p-hear': function (el) { var c = P.st && P.st.base.chords[parseInt(el.getAttribute('data-i'), 10)]; if (c && !(P.st.run && P.st.run.kind !== 'self')) { A.hush(); A.strum(c.midis); } },
     'p-again': function () { App.sheet.close(); if (P.st && P.st.mode !== 'take') P.start(); },
     'p-slower': function () { App.sheet.close(); if (P.st) { P.st.pct = App.clamp(P.st.pct - 10, 40, 130); App.render(true); if (P.st.mode !== 'take') P.start(); } },
     'p-rate': function (el) { P.rate(parseFloat(el.getAttribute('data-v'))); },

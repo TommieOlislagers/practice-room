@@ -24,7 +24,7 @@ fs.readdirSync(libDir).filter(f => /\.json$/.test(f)).sort().forEach(f => {
 const picFile = path.join(__dirname, 'seed', 'pictures.json'), pictures = fs.existsSync(picFile) ? JSON.parse(fs.readFileSync(picFile, 'utf8')) : {};
 const G = '(typeof window !== "undefined" ? window : globalThis).PR';
 const js = [src('music.js'), src('engine.js'), src('mp4audio.js'), G + '.catalog = ' + JSON.stringify(catalog) + ';\n' + G + '.pictures = ' + JSON.stringify(pictures) + ';']
-  .concat(['app-core.js', 'app-path.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-library.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
+  .concat(['app-core.js', 'app-ways.js', 'app-path.js', 'app-account.js', 'app-audio.js', 'stage.js', 'app-views.js', 'app-library.js', 'app-practice.js', 'app-boot.js'].map(src)).join('\n');
 if (/<\/script/i.test(js)) throw new Error('script end tag inside the script');
 const html = '<title>Tommie\'s Practice Room</title>\n' +
   '<style>\n' + src('style.css') + '</style>\n' + src('body.html') + '<script>\n' + js + '\n</script>\n';

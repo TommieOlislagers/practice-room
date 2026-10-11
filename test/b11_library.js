@@ -51,7 +51,7 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   check('the song page shows the path, the next step and free play below it', /Path to this song/i.test(t) && new RegExp('0 of ' + total + ' steps').test(t) && /Next step D Every string rings/.test(t) && /Free play/.test(t) && /Listen/.test(t), 'total ' + total);
   await page.click('[data-act="path-toggle"]');
   t = await main();
-  check('all steps open out in stages', /Shapes 0 of 3/.test(t) && /Changes 0 of/.test(t) && /Technique 0 of/.test(t) && /Parts 0 of/.test(t) && /The song 0 of 2/.test(t));
+  check('all steps open out in stages', /Shapes 0 of 3/.test(t) && /Changes 0 of/.test(t) && /Technique 0 of/.test(t) && /Parts 0 of/.test(t) && /The song 0 of 3/.test(t) && /Go further 0 of/.test(t) && /with its strumming pattern/.test(t));
   check('the page with every step shown fits the phone', (await overflow()) <= 0);
   await shot('2-path');
   await page.click('[data-act="goal-set"]');
@@ -95,7 +95,7 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   await page.waitForTimeout(300);
   const ps = await ev(() => { const st = window.PR.app.practice.st; return { section: st.section, pct: st.pct, mode: st.mode, run: !!st.run }; });
   check('a part step sets the part and starts (here the microphone is refused, so it falls back)', ps.section >= 0 && ps.pct >= 70, JSON.stringify(ps));
-  await ev(() => { const A = window.PR.app; A.practice.stopAll(true); A.sheet.close(); A.Store.addSession({ song: 'ccr-bad-moon-rising', title: 'Bad Moon Rising', kind: 'tempo', secs: 135, pct: 100, section: 'Whole song', acc: 0.92, hits: 92, total: 100, score: 20000, combo: 40, stars: 2 }); A.go({ name: 'practice', id: 'ccr-bad-moon-rising' }); });
+  await ev(() => { const A = window.PR.app; A.practice.stopAll(true); A.sheet.close(); A.Store.addSession({ song: 'ccr-bad-moon-rising', title: 'Bad Moon Rising', kind: 'tempo', secs: 135, pct: 100, section: 'Whole song', way: 'strum', acc: 0.92, hits: 92, total: 100, score: 20000, combo: 40, stars: 2 }); A.go({ name: 'practice', id: 'ccr-bad-moon-rising' }); });
   t = await main();
   check('playing the whole song at full speed finishes it', /You can play this song/.test(t) && /Finished/.test(t) && new RegExp(total + ' of ' + total + ' steps, finished').test(t));
   await shot('4-finished');
@@ -136,18 +136,60 @@ function check(name, cond, detail) { console.log((cond ? '  ok   ' : '  FAIL ') 
   await page.click('[data-act="met-toggle"]'); await page.click('#tabs [data-to="today"]'); await page.waitForTimeout(100);
   check('leaving the tab stops it', !(await ev(() => window.PR.app.met.on)));
 
-  console.log('8. the tune of a game piece is the player\'s to add');
+  console.log('8. more ways to play a song than chords');
+  await ev(() => window.PR.app.go({ name: 'practice', id: 'ccr-lodi' }));
+  t = await main();
+  check('the song page offers the ways to play it and shows the strumming pattern', /Ways to play it/i.test(t) && /Strumming/.test(t) && /Bass and strum/.test(t) && /Arpeggio/.test(t) && /Fingerpicking/.test(t) && /Lead line/.test(t) && (await page.locator('.strum-pat .sp-cell').count()) === 8 && (await page.locator('.strum-pat .up').count()) === 3);
+  await page.click('[data-act="strum-hear"]'); await page.waitForTimeout(300);
+  await page.click('[data-act="p-way"][data-way="strum"]');
+  let w = await ev(() => { const st = window.PR.app.practice.st; return { way: st.way, n: st.model.targets.length, base: st.base.targets.length, strokes: st.model.targets.slice(0, 6).map(x => x.stroke).join(''), cells: document.querySelectorAll('#pChart .cell').length }; });
+  check('strumming: six strokes for every bar, and the chart keeps one cell a bar', w.way === 'strum' && w.strokes === 'DDUUDU' && w.n > w.base * 4 && w.cells > 50, JSON.stringify(w));
+  await page.click('[data-act="p-mode"][data-mode="along"]'); await page.click('[data-act="p-start"]'); await page.waitForTimeout(1800);
+  check('it runs on the stage', await ev(() => !document.querySelector('#stage').hidden && /Strumming/.test(document.querySelector('#stage').textContent)));
+  await shot('7-strum-stage');
+  await page.click('[data-act="p-stop"]'); await page.waitForTimeout(250);
+  await ev(() => { window.PR.app.practice.st.report.secs = 50; });
+  await page.click('[data-act="p-rate"][data-v="0.95"]'); await page.waitForTimeout(250);
+  check('the session remembers which way it was played', (await ev(() => window.PR.app.S.sessions[0].way)) === 'strum');
+  if (await page.locator('#sheet:not([hidden]) [data-act="sheet-close"]').count()) await page.click('#sheet [data-act="sheet-close"]');
+  await page.click('[data-act="p-way"][data-way="bass"]');
+  w = await ev(() => { const st = window.PR.app.practice.st; return { way: st.way, kinds: st.model.targets.slice(0, 4).map(x => x.kind).join(), tab: document.querySelectorAll('#pChart .tabsys').length, sec: st.model.view.length === st.base.view.length }; });
+  check('bass and strum: single notes and chords in turn, shown as tab, same parts as the chart', w.way === 'bass' && w.kinds === 'note,chord,note,chord' && w.tab > 5 && w.sec, JSON.stringify(w));
+  for (const id of ['arp', 'thumb', 'boogie', 'lead']) { await page.click('[data-act="p-way"][data-way="' + id + '"]'); }
+  w = await ev(() => { const st = window.PR.app.practice.st; return { way: st.way, notes: st.model.targets.every(x => x.kind === 'note'), beats: Math.abs(st.model.totalBeats - st.base.totalBeats) < 0.01 }; });
+  check('the lead line is single notes over the same bars', w.way === 'lead' && w.notes && w.beats);
+  check('the page fits the phone with a tab chart on it', (await overflow()) <= 0);
+  await shot('8-ways');
+  await ev(() => { const A = window.PR.app; A.pathRun('ccr-lodi', 'song:way'); });
+  await page.waitForTimeout(300);
+  w = await ev(() => { const st = window.PR.app.practice.st; return { way: st.way, section: st.section, pct: st.pct }; });
+  check('the path step "with its strumming pattern" sets that way up', w.way === 'strum' && w.section === -1 && w.pct >= 75, JSON.stringify(w));
+  await ev(() => { const A = window.PR.app; A.practice.stopAll(true); A.sheet.close(); });
+
+  console.log('9. the riff, solo or melody comes from the player\'s own tab');
   const game = await ev(() => { const s = window.PR.app.allSongs().find(x => x.melody); return s ? s.id : ''; });
-  if (game) {
-    await page.evaluate(id => window.PR.app.go({ name: 'practice', id }), game);
-    check('a game piece says it is the chord backing and offers to take a pasted melody tab', /This is the chord backing/.test(await main()));
-    await page.click('[data-act="melody-add"]');
-    check('...with title and artist filled in', /\(melody\)$/.test(await page.inputValue('#dTitle')) && /Zelda/.test(await page.inputValue('#dArtist')));
-    await page.click('[data-act="sheet-close"]');
-  } else console.log('  (no game music in the library yet)');
+  await page.evaluate(id => window.PR.app.go({ name: 'practice', id }), game);
+  t = await main();
+  check('a game piece says the melody is not written out and offers to take a tab', /The melody itself/.test(t) && /Paste a tab/.test(t) && (await ev(() => window.PR.app.path.of(window.PR.app.practice.st.song).bonus.find(b => b.id === 'tab').missing)));
+  await page.click('[data-act="lead-add"]');
+  check('the sheet has links to find a tab', (await page.locator('#sheetBody a[href*="songsterr"]').count()) === 1 && /Find it/.test(await sheet()));
+  await page.click('[data-act="lead-read"]');
+  check('nothing pasted: said plainly', /Paste the tab first/.test(await sheet()));
+  await page.fill('#lText', 'G  D  Em  C\njust some chords');
+  await page.click('[data-act="lead-read"]');
+  check('chords are not a tab: said plainly', /No six-line tab found/.test(await sheet()));
+  await page.fill('#lText', '[Phrase one]\ne|-0-2-3-2-0-----|\nB|-----------3-1-|\nG|---------------|\nD|---------------|\nA|---------------|\nE|---------------|\n');
+  await page.click('[data-act="lead-read"]');
+  check('a real tab is read and counted', /7 notes read/.test(await sheet()));
+  await page.click('[data-act="lead-save"]'); await page.waitForTimeout(300);
+  w = await ev(() => { const A = window.PR.app, st = A.practice.st; return { way: st.way, n: st.model.targets.length, saved: !!A.S.songs[st.id] && !!A.S.songs[st.id].lead, ways: A.ways.list(st.song).map(x => x.id).join(), bonus: A.path.of(st.song).bonus.find(b => b.id === 'tab').missing, chords: st.base.chords.length }; });
+  check('it is saved with the song and becomes a way to play it, next to the chords', w.way === 'tab' && w.n === 7 && w.saved && /tab$/.test(w.ways) && w.bonus === false && w.chords > 0, JSON.stringify(w));
+  check('the page says so', /Your tab is attached/.test(await main()) && /Added/.test(await page.textContent('#toast')));
+  await page.click('[data-act="lead-remove"]'); await page.waitForTimeout(200);
+  check('it can be removed again', await ev(() => { const A = window.PR.app, st = A.practice.st; return !st.song.lead && st.way === 'chords' && A.path.of(st.song).bonus.find(b => b.id === 'tab').missing; }));
   await ev(() => { const A = window.PR.app; const id = A.Store.saveSong({ title: 'Pasted tune', artist: 'The Legend of Zelda', genre: 'Game music', level: 1, origin: 'paste', checked: true, sections: [{ name: 'Phrase', type: 'tab', systems: [{ lines: ['e|-0-2-3-2-0-----|', 'B|-----------3-1-|', 'G|---------------|', 'D|---------------|', 'A|---------------|', 'E|---------------|'] }] }] }); A.go({ name: 'practice', id }); });
   t = await main();
-  check('a pasted tab gets a path of its own', /Path to this song/i.test(t) && /0 of \d+ steps/.test(t) && /The whole song/.test(t));
+  check('a song added as a tab still gets a path of its own', /Path to this song/i.test(t) && /0 of \d+ steps/.test(t));
 
   check('pictures are only ever asked for from Wikimedia Commons', outside.every(u => /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//.test(u)), outside.slice(0, 3).join(' '));
   await browser.close(); srv.close();

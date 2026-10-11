@@ -554,6 +554,24 @@
   /* ---------- building a playable model from a stored song ---------- */
   function splitBar(bar) { return String(bar).trim().split(/\s+/).filter(Boolean); }
 
+  /* A strumming pattern for one bar, as slots: "D DU UDU" is eight slots (down, miss, down, up, miss, up,
+     down, up). The number of slots has to divide evenly into the beats; if it does not, each group between
+     spaces is taken as one beat ("D DU D DU"). Returns ['D', null, 'D', 'U', ...] or null. */
+  function strumSlots(pattern, beats) {
+    if (typeof pattern !== 'string' || !/[DU]/i.test(pattern)) return null;
+    var p = pattern.toUpperCase().replace(/[^DU ]/g, ' '), out = [], i;
+    if (p.length % beats !== 0 || p.length / beats > 4) {
+      var groups = p.trim().split(/\s+/), sub = 1;
+      if (groups.length !== beats) { p = p.replace(/\s+$/, ''); while (p.length % beats !== 0) p += ' '; }
+      else {
+        groups.forEach(function (g) { if (g.length > sub) sub = g.length; });
+        p = groups.map(function (g) { while (g.length < sub) g += ' '; return g; }).join('');
+      }
+    }
+    for (i = 0; i < p.length; i++) out.push(p.charAt(i) === 'D' ? 'D' : p.charAt(i) === 'U' ? 'U' : null);
+    return out.length && out.length <= 16 * 2 ? out : null;
+  }
+
   function buildSong(song) {
     var capo = song.capo || 0;
     var tuning = song.tuning || 'standard';
@@ -580,9 +598,9 @@
           String(sec.steps || '').trim().split(/\s+/).forEach(function (tok) {
             if (!tok) return;
             if (tok === '|') { if (perRow >= 8) flush(); else if (lines[0].length) lines = lines.map(function (l) { return l + '-|'; }); return; }
-            var mm = /^([^*]+)(?:\*([\d.]+))?$/.exec(tok);
+            var mm = /^([^*@]+)(?:\*([\d.]+))?(?:@(.+))?$/.exec(tok);
             if (!mm) return;
-            var beats = mm[2] ? parseFloat(mm[2]) : (sec.step || 1);
+            var beats = mm[2] ? parseFloat(mm[2]) : (sec.step || 1), named = mm[3] ? parseChord(mm[3].replace(/[↓↑]$/, '')) : null;
             var notes = [];
             mm[1].split('+').forEach(function (pr) {
               var q = /^([1-6]):(\d{1,2})$/.exec(pr);
@@ -601,13 +619,16 @@
             var midis = notes.map(function (n) { if (n.fret > feats.maxFret) feats.maxFret = n.fret; if (n.fret > 0 && n.fret < feats.minFret) feats.minFret = n.fret; return tn[n.s] + capo + n.fret; });
             feats.tabNotes++; perRow++;
             if (midis.length > 1) feats.stacks++;
-            targets.push({
+            var tg = {
               index: idx, kind: midis.length > 1 ? 'chord' : 'note', midis: midis,
-              label: midis.map(function (m) { return midiName(m); }).join(' '),
+              label: mm[3] ? mm[3].replace(/[↓↑]$/, '') : midis.map(function (m) { return midiName(m); }).join(' '),
               detail: notes.map(function (n) { return 'string ' + (6 - n.s) + ', fret ' + n.fret; }).join(' + '),
               pos: notes.map(function (n) { return { s: n.s, f: n.fret }; }),
               section: si, beat: beat, beats: beats
-            });
+            };
+            /* a named group of strings is a chord for the listener: it is matched by its root and third */
+            if (named && midis.length > 1) { tg.chordName = mm[3].replace(/[↓↑]$/, ''); tg.root = mod12(named.root + capo); tg.third = named.third; tg.capo = capo; if (/↑$/.test(mm[3])) tg.stroke = 'U'; else if (/↓$/.test(mm[3])) tg.stroke = 'D'; }
+            targets.push(tg);
             beat += beats;
           });
           flush();
@@ -650,12 +671,34 @@
         if (vsec.systems.length) view.push(vsec);
       } else {
         var vs = { name: sec.name || '', type: 'chords', index: si, cells: [], first: targets.length, repeat: reps };
+        var pat = strumSlots(sec.strum, beatsPerSlot);
         for (var r = 0; r < reps; r++) {
           (sec.bars || []).forEach(function (bar) {
             var names = splitBar(bar);
             if (!names.length) return;
             if (names.length > 1) feats.twoPerBar = true;
             var cell = { rep: r, chords: [] };
+            if (pat) {
+              /* every stroke of the pattern is something to play; the chart still shows one cell a bar */
+              var slot = beatsPerSlot / pat.length, last = -1;
+              names.forEach(function (nm) { cell.chords.push({ name: nm, target: -1 }); });
+              pat.forEach(function (stroke, pi) {
+                var ci = Math.min(names.length - 1, Math.floor(pi * names.length / pat.length)), nm = names[ci], ch = parseChord(nm);
+                if (!stroke || !ch || /^(n\.?c\.?|-|rest)$/i.test(nm)) { beat += slot; return; }
+                var shape = shapeFor(ch, song.shapes), full = shape ? shapeMidi(shape, tuning, capo) : genericVoicing(ch, capo);
+                if (!chordSet[nm]) chordSet[nm] = { name: nm, chord: ch, shape: shape, midis: full, count: 0 };
+                chordSet[nm].count++;
+                var pos = shape ? shape.map(function (f, k) { return f === null ? null : { s: k, f: f }; }).filter(Boolean) : null, midis = full;
+                /* an upstroke catches the thin strings only */
+                if (stroke === 'U' && pos && pos.length > 3) { pos = pos.slice(-3); midis = full.slice(-3); }
+                var idx = targets.length;
+                targets.push({ index: idx, kind: 'chord', midis: midis, label: nm, chordName: nm, pos: pos, section: si, beat: beat, beats: slot, root: mod12(ch.root + capo), third: ch.third, capo: capo, stroke: stroke, quiet: last === ci });
+                if (cell.chords[ci].target < 0) cell.chords[ci].target = idx;
+                last = ci; beat += slot;
+              });
+              vs.cells.push(cell);
+              return;
+            }
             var each = beatsPerSlot / names.length;
             names.forEach(function (nm) {
               var ch = parseChord(nm);
@@ -746,7 +789,7 @@
     TUNINGS: TUNINGS, tuningMidi: tuningMidi, tuningName: tuningName,
     parseChord: parseChord, parseShape: parseShape, shapeToString: shapeToString, shapeFor: shapeFor, shapeInfo: shapeInfo, shapeMidi: shapeMidi,
     genericVoicing: genericVoicing, readChordLine: readChordLine, readTabLine: readTabLine, parseSystem: parseSystem, parseSheet: parseSheet,
-    buildSong: buildSong, splitBar: splitBar, LEVELS: LEVELS, suggestLevel: suggestLevel
+    buildSong: buildSong, splitBar: splitBar, strumSlots: strumSlots, LEVELS: LEVELS, suggestLevel: suggestLevel
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = PR;
 })(typeof window !== 'undefined' ? window : globalThis);

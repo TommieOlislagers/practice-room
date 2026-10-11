@@ -252,23 +252,42 @@
       push({ id: 'part:' + pt.view, kind: 'part', stage: 'parts', title: base, view: pt.view, pct: PART_PCT, sub: timed ? 'In time at ' + PART_PCT + '% speed or faster, 80% right' : 'Start to finish, 80% right' },
         passOf(mine, function (x) { return pt.names.indexOf(x.section) >= 0 && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= PART_PCT)); }));
     });
-    /* 5. the song */
-    var whole = function (pct) { return function (x) { return x.section === 'Whole song' && (x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= pct)); }; };
-    if (timed) push({ id: 'song:slow', kind: 'song', stage: 'song', title: 'The whole song, slowed down', view: -1, pct: SLOW_PCT, sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT)));
-    push({ id: 'song:full', kind: 'song', stage: 'song', title: 'The whole song', view: -1, pct: 100, final: true, sub: timed ? 'Start to finish at full speed, 80% right' : 'Start to finish, 80% right' }, passOf(mine, whole(100)));
+    /* 5. the song: first one strum a chord, then the way it is really played (app-ways.js), then that at full speed */
+    var ways = App.ways.list(song), main = App.ways.main(song), mw = main ? App.ways.by[main] : null;
+    var whole = function (pct, real) { return function (x) {
+      if (x.section !== 'Whole song' || x.way === 'lead' || x.way === 'tab') return false;
+      if (real && !(x.way && x.way !== 'chords')) return false;
+      return x.kind === 'take' || (x.kind === 'wait' ? !timed : (x.pct || 100) >= pct);
+    }; };
+    var how = mw ? (main === 'strum' ? 'with its strumming pattern' : main === 'thumb' ? 'fingerpicked' : main === 'arp' ? 'as picked arpeggios' : 'as ' + mw.name.toLowerCase()) : '';
+    if (timed) push({ id: 'song:slow', kind: 'song', stage: 'song', title: mw ? 'The whole song, one strum a chord' : 'The whole song, slowed down', view: -1, pct: SLOW_PCT, way: 'chords', sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT, false)));
+    if (mw && timed) push({ id: 'song:way', kind: 'song', stage: 'song', title: 'The whole song ' + how + ', slowed down', view: -1, pct: SLOW_PCT, way: main, sub: 'Start to finish at ' + SLOW_PCT + '% speed, 80% right' }, passOf(mine, whole(SLOW_PCT, true)));
+    push({ id: 'song:full', kind: 'song', stage: 'song', title: 'The whole song' + (mw ? ' ' + how : ''), view: -1, pct: 100, way: mw ? main : 'chords', final: true, sub: timed ? 'Start to finish at full speed, 80% right' : 'Start to finish, 80% right' }, passOf(mine, whole(100, !!mw)));
+    /* beyond the path: the other ways to play it, and the riff, solo or melody from a tab the player pasted */
+    var bonus = [];
+    ways.forEach(function (w) {
+      if (w.id === 'chords' || w.id === main || w.id === 'tab') return;
+      var ps = passOf(mine, function (x) { return x.section === 'Whole song' && x.way === w.id && (x.kind === 'take' || (x.pct || 100) >= SLOW_PCT); });
+      bonus.push({ id: 'way:' + w.id, kind: 'way', stage: 'more', way: w.id, view: -1, pct: SLOW_PCT, title: w.name, sub: 'The whole song, ' + w.short + ', at ' + SLOW_PCT + '% speed or faster', done: !!ps.at, at: ps.at || 0, best: ps.best });
+    });
+    if (model.chords.length) {
+      var hasTab = ways.some(function (w) { return w.id === 'tab'; }), pt = passOf(mine, function (x) { return x.way === 'tab'; });
+      bonus.push({ id: 'tab', kind: 'tab', stage: 'more', way: 'tab', view: -1, pct: 100, title: song.melody ? 'The melody' : 'The riff or solo', sub: hasTab ? 'From your tab, 80% right' : 'Paste a tab of it to add this part', missing: !hasTab, done: !!pt.at, at: pt.at || 0, best: pt.best });
+    }
+    steps.bonus = bonus;
     return steps;
   }
   var STAGES = [['shapes', 'Shapes'], ['changes', 'Changes'], ['technique', 'Technique'], ['parts', 'Parts'], ['song', 'The song']];
   function of(song) {
     if (!song) return null;
-    var ix = index(), ck = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0);
+    var ix = index(), ck = song.id + ':' + (song.updatedAt || 0) + ':' + (song.builtin ? 'b' : 'u') + ':' + (song.capo || 0) + ':' + (song.bpm || 0) + ':' + (song.lead ? song.lead.at || 1 : 0);
     if (pathCache[ck] && pathCache[ck].key === ix.key) return pathCache[ck].path;
     var steps = build(song), path = null;
     if (steps && steps.length) {
       var last = steps[steps.length - 1], mastered = last.done;
       var done = steps.filter(function (s) { return s.done; }).length;
       var next = null; for (var i = 0; i < steps.length; i++) if (!steps[i].done) { next = steps[i]; break; }
-      path = { id: song.id, steps: steps, total: steps.length, done: mastered ? steps.length : done, real: done, mastered: mastered, masteredAt: last.at, next: mastered ? null : next,
+      path = { id: song.id, steps: steps, bonus: steps.bonus || [], total: steps.length, done: mastered ? steps.length : done, real: done, mastered: mastered, masteredAt: last.at, next: mastered ? null : next,
         pct: mastered ? 100 : Math.round(done / steps.length * 100),
         stages: STAGES.map(function (sg) { return { id: sg[0], title: sg[1], steps: steps.filter(function (s) { return s.stage === sg[0]; }) }; }).filter(function (sg) { return sg.steps.length; }) };
     }

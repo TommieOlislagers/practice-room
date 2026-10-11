@@ -58,6 +58,16 @@ can be added by a commit; a "copy my progress" export for coaching.
   the spot from those ids (`App.path.exercise`). A step is done when the session log holds a run of 80% or better (30 a
   minute for a change; parts at 70% speed, the song at 75% then 100%). Nothing is stored: the path is worked out from
   sessions, like the game layer. The technique drills (`TECH`) are written for this app.
+- **Ways to play** (`src/app-ways.js`). A chord chart can be played as: chords (one strum a chord), strumming (the song's
+  `strum` pattern, stroke by stroke; `M.strumSlots`), bass and strum, arpeggio, fingerpicking, power chords, boogie
+  shuffle, and a lead line through the chord tones in one position. All are standard patterns applied to the chords by
+  rule, bar for bar the same length as the chart; none is a transcription of the record. `App.ways.song(song, way)`
+  gives the derived song, `P.setWay` switches the song page, sessions carry `way`. The path ends on the song's main way
+  (`App.ways.main`: strumming unless the song's `needs` say fingerpicking or arpeggio), not on one strum a chord; the
+  other ways are "Go further" steps that do not count toward finishing.
+- **The riff, solo or melody** is never written by Claude. The player pastes a tab on the song page; it is saved with the
+  song as `song.lead = {sections, capo, tuning, at}` (in their own copy of the song, so it syncs) and becomes the way `tab`.
+  When a built-in chart is corrected later, the player's `lead` is carried over to it (`songOf` in `app-core.js`).
 - **Goal.** `S.settings.focus` is the goal song; Today shows its next step. Badges and the "finish a step" quest come from
   `App.path.summary()`.
 - **Pictures.** `seed/pictures.json` names one freely licensed Wikimedia Commons photograph per artist (credited in
@@ -98,6 +108,7 @@ can be added by a commit; a "copy my progress" export for coaching.
 | `mp4audio.js` | reads the AAC sound track out of MP4, M4A, MOV files; wraps it as M4A or ADTS |
 | (generated) | `PR.catalog`: the built-in library from `seed/`; `PR.pictures` |
 | `app-core.js` | state, technical log, storage (database, browser cache, offline queue), statistics |
+| `app-ways.js` | other ways to play a chord chart: strumming, bass and strum, picking patterns, power chords, lead line |
 | `app-path.js` | the path to a song: steps, exercises, technique drills, scales, what counts as passed |
 | `app-account.js` | the GitHub account for the Pages copy: sign-in with a key, the gist, joining and saving |
 | `app-audio.js` | microphone, tones, metronome, reading recordings |

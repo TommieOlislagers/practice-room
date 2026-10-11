@@ -712,5 +712,6 @@
   App.editSong = { open: editSheet, save: saveEdit };
   App.settingsSheet = settingsSheet;
   App.accountSheet = accountSheet;
+  App.findLinks = findLinks;
   App.tunerIdle = tunerIdle;
 })(typeof window !== 'undefined' ? window : globalThis);

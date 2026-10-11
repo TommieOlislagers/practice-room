@@ -94,7 +94,6 @@
       App.toast(song.title + ' is your goal now.');
       App.render(true);
     },
-    'melody-add': function (el) { var s = App.findSong(el.getAttribute('data-id')); if (s) App.addSong.open({ title: s.title + ' (melody)', artist: s.artist || '', genre: s.genre || '', album: s.album || '' }); },
     /* tuner and metronome share a tab */
     tool: function (el) { var t = el.getAttribute('data-tool'); if (t !== 'tuner' && T.on) T.stop(); if (t !== 'metro') App.met.stop(); T.tool = t; App.render(true); },
     'met-toggle': function () { if (App.met.on) App.met.stop(); else App.met.start(); App.render(true); },
@@ -149,9 +148,15 @@
     'p-live': function (el) { if (!P.st || P.st.run || el.disabled) return; P.st.live = el.getAttribute('data-live'); P.refreshControls(); },
     'p-tempo': function (el) { if (!P.st || P.st.run) return; P.st.pct = App.clamp(P.st.pct + parseInt(el.getAttribute('data-d'), 10), 40, 130); P.refreshControls(); },
     'p-start': function () { P.start(); },
+    'p-way': function (el) { if (!P.st || P.st.run) return; P.setWay(el.getAttribute('data-way')); App.render(true); },
+    'strum-hear': function () { P.hearStrum(); },
+    'lead-add': function (el) { App.lead.open(el.getAttribute('data-id')); },
+    'lead-read': function () { App.lead.read(); },
+    'lead-save': function () { App.lead.save(); },
+    'lead-remove': function (el) { App.lead.remove(el.getAttribute('data-id')); },
     'p-stop': function () { P.finish(); },
     'p-skip': function () { P.skip(); },
-    'p-hear': function (el) { var c = P.st && P.st.model.chords[parseInt(el.getAttribute('data-i'), 10)]; if (c && !(P.st.run && P.st.run.kind !== 'self')) { A.hush(); A.strum(c.midis); } },
+    'p-hear': function (el) { var c = P.st && P.st.base.chords[parseInt(el.getAttribute('data-i'), 10)]; if (c && !(P.st.run && P.st.run.kind !== 'self')) { A.hush(); A.strum(c.midis); } },
     'p-again': function () { App.sheet.close(); if (P.st && P.st.mode !== 'take') P.start(); },
     'p-slower': function () { App.sheet.close(); if (P.st) { P.st.pct = App.clamp(P.st.pct - 10, 40, 130); App.render(true); if (P.st.mode !== 'take') P.start(); } },
     'p-rate': function (el) { P.rate(parseFloat(el.getAttribute('data-v'))); },

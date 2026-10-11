@@ -180,11 +180,17 @@
         g.fillStyle = gr; g.shadowColor = tone || '#7d7aff'; g.shadowBlur = dd < 0.12 && gm.s === 0 ? 18 : 0; g.fill(); g.shadowBlur = 0;
         g.lineWidth = 1.5; g.strokeStyle = 'rgba(255,255,255,.7)'; g.stroke();
         /* frets per string once it is close enough to read, the name above */
-        if (t.pos && sc > 0.62) {
+        if (t.pos && sc > 0.62 && !t.quiet) {
           g.font = '700 ' + Math.round(15 * sc) + 'px ' + FONT; g.textAlign = 'center'; g.textBaseline = 'middle';
           t.pos.forEach(function (p) { g.fillStyle = '#fff'; g.fillText(String(p.f), X(p.s, dd), y + 0.5); });
         }
-        if (t.label) {
+        /* a strummed stroke carries an arrow: down towards the floor, up towards the ceiling */
+        if (t.stroke) {
+          var ax = t.quiet ? (x0 + x1) / 2 : x1 + 16 * sc, aw = 7 * sc, ah = 9 * sc, dir = t.stroke === 'U' ? -1 : 1;
+          g.beginPath(); g.moveTo(ax - aw, y - dir * ah * 0.6); g.lineTo(ax + aw, y - dir * ah * 0.6); g.lineTo(ax, y + dir * ah * 0.8); g.closePath();
+          g.fillStyle = t.quiet ? '#fff' : (t.stroke === 'U' ? '#ffd60a' : '#fff'); g.fill();
+        }
+        if (t.label && !t.quiet) {
           g.font = '800 ' + Math.round(Math.max(11, 22 * sc)) + 'px ' + FONT; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
           g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.8)'; g.shadowBlur = 6; g.fillText(t.label, cx, y - h / 2 - 6 * sc); g.shadowBlur = 0;
         }

@@ -175,8 +175,8 @@
       return v;
     },
     hush: function () { A.voices.forEach(function (v) { v.stop(); }); A.voices = []; },
-    strum: function (midis, a4) {
-      midis.forEach(function (m, i) { setTimeout(function () { A.pluck(PR.music.midiToFreq(m, a4 || S.settings.a4), 2.2); }, i * 28); });
+    strum: function (midis, a4, gap) {
+      midis.forEach(function (m, i) { setTimeout(function () { A.pluck(PR.music.midiToFreq(m, a4 || S.settings.a4), 2.2); }, i * (gap || 28)); });
     },
     /* a rising run of bell notes, one for each star */
     chime: function (n) {

@@ -354,6 +354,14 @@ details > summary::-webkit-details-marker { display: none; }
 .unlock-big { background: linear-gradient(140deg, #ffcf3f, #ff9500); color: #1c1c1e; }
 .unlock-big i { background: rgba(255, 255, 255, .4); color: #1c1c1e; }
 .unlock-big .muted { color: rgba(0, 0, 0, .68); }
+/* ---- the strumming pattern: arrows over the count ---- */
+.strum-pat { display: flex; gap: 2px; background: var(--fill); border-radius: 12px; padding: 8px 6px 6px; }
+.sp-cell { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sp-cell i { font-style: normal; font-size: 24px; line-height: 1; font-weight: 700; color: var(--ink); height: 26px; }
+.sp-cell i.up { color: var(--tint-text); }
+.sp-cell.is-miss i { color: var(--ink-3); opacity: .5; }
+.sp-cell small { font-size: 11px; font-weight: 600; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.sp-cell.is-beat small { color: var(--ink); }
 /* ---- metronome ---- */
 .metro { background: var(--card); border-radius: 24px; padding: 22px 16px 16px; display: flex; flex-direction: column; gap: 16px; }
 .metro-dots { display: flex; justify-content: center; gap: 12px; min-height: 24px; align-items: center; }

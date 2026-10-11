@@ -75,8 +75,60 @@
     if (!song) { App.go({ name: 'songs' }); return; }
     P.stopAll(true);
     var model = App.modelOf(song);
-    P.st = { id: id, song: song, model: model, mode: song.exercise && modeDefault() === 'take' ? 'along' : modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null, from: '', showPath: false };
+    P.st = { id: id, song: song, model: model, base: model, way: 'chords', mode: song.exercise && modeDefault() === 'take' ? 'along' : modeDefault(), live: 'wait', section: -1, pct: 100, loop: false, run: null, take: null, busy: '', report: null, from: '', showPath: false };
   };
+  /* play the same bars another way (app-ways.js): the part being practised stays the same part */
+  P.setWay = function (way) {
+    var st = P.st; if (!st || st.run) return;
+    var ids = App.ways.list(st.song).map(function (w) { return w.id; });
+    if (ids.indexOf(way) < 0) way = 'chords';
+    var si = st.section >= 0 && st.model.view[st.section] ? st.model.view[st.section].index : -1;
+    st.way = way; st.model = way === 'chords' ? st.base : App.modelOf(App.ways.song(st.song, way)); st.marks = {};
+    st.section = -1;
+    if (si >= 0 && way !== 'tab') st.model.view.forEach(function (v, i) { if (v.index === si) st.section = i; });
+    if (st.mode === 'live' && st.live === 'tempo' && !st.model.timed) st.live = 'wait';
+  };
+  function slotCount(n, per) { return per === 4 ? ['', 'e', '&', 'a'][n % 4] : per === 3 ? ['', '&', 'a'][n % 3] : per === 2 ? ['', '&'][n % 2] : ''; }
+  /* the strumming pattern as a row of arrows over the count */
+  function strumHtml(song) {
+    var B = App.ways.barBeats(song), pat = App.ways.pattern(song), slots = M.strumSlots(pat, B);
+    if (!slots) return '';
+    var per = slots.length / B, cells = slots.map(function (s, i) {
+      var beat = i % per === 0;
+      return '<span class="sp-cell' + (beat ? ' is-beat' : '') + (s ? '' : ' is-miss') + '"><i class="' + (s === 'U' ? 'up' : s === 'D' ? 'down' : '') + '">' + (s === 'D' ? '↓' : s === 'U' ? '↑' : '·') + '</i><small>' + (beat ? (i / per + 1) : slotCount(i, per)) + '</small></span>';
+    }).join('');
+    return '<div class="strum-pat" role="img" aria-label="Strumming pattern ' + esc(pat) + '">' + cells + '</div>';
+  }
+  P.strumHtml = strumHtml;
+  /* two bars of the pattern on the song's first chord, with the click */
+  P.hearStrum = function () {
+    var st = P.st; if (!st || st.run) return;
+    var B = App.ways.barBeats(st.song), slots = M.strumSlots(App.ways.pattern(st.song), B), c = st.base.chords[0];
+    if (!slots || !c) return;
+    A.ensure(); A.hush();
+    var dur = 60 / bpmNow() * B / slots.length, per = slots.length / B, t0 = A.ctx.currentTime + 0.15;
+    clearTimeout(P.hearT); (P.hearTs || []).forEach(clearTimeout); P.hearTs = [];
+    for (var bar = 0; bar < 2; bar++) slots.forEach(function (s, i) {
+      var at = (bar * slots.length + i) * dur;
+      if (i % per === 0) A.click(t0 + at, i === 0);
+      if (!s) return;
+      P.hearTs.push(setTimeout(function () { var m = s === 'U' ? c.midis.slice(-3).reverse() : c.midis; A.hush(); m.forEach(function (x, k) { setTimeout(function () { A.pluck(M.midiToFreq(x, S.settings.a4), 1.6); }, k * 14); }); }, (0.15 + at) * 1000));
+    });
+  };
+  function waysHtml() {
+    var st = P.st, song = st.song, ways = App.ways.list(song);
+    if (ways.length < 2 && !ways.length) return '';
+    var cur = App.ways.by[st.way] || App.ways.by.chords, main = App.ways.main(song), has = !!(song.lead && song.lead.sections && song.lead.sections.length);
+    var what = song.melody ? 'melody' : 'riff or solo';
+    var html = '<section class="stack" id="pWays"><div class="sec-head"><h3 class="h2">Ways to play it</h3><span class="small muted num">' + ways.length + '</span></div>' +
+      '<div class="chips" role="group" aria-label="Way to play">' + ways.map(function (w) { return '<button class="chip" data-act="p-way" data-way="' + w.id + '" aria-pressed="' + (st.way === w.id) + '">' + esc(w.name) + (w.id === main ? ' ★' : '') + '</button>'; }).join('') + '</div>' +
+      '<div class="panel stack-sm"><div class="spread"><b>' + esc(cur.name) + '</b>' + (cur.id === main ? '<span class="small muted">the way this song is finished</span>' : '') + '</div><span class="small">' + esc(cur.blurb) + '</span>' +
+      (cur.id === 'strum' || cur.id === 'chords' ? (cur.id === 'chords' ? '<span class="small muted">Once the changes land, this is the pattern the song is strummed with:</span>' : '') + strumHtml(song) + '<div class="row"><button class="btn btn-sm btn-tinted" data-act="strum-hear">' + IC.play + 'Hear the pattern</button>' + (cur.id === 'chords' ? '<button class="btn btn-sm" data-act="p-way" data-way="strum">Play it this way</button>' : '') + '</div>' : '') + '</div>' +
+      '<div class="panel stack-sm"><b>The ' + what + ' itself</b>' + (has
+        ? '<span class="small">Your tab is attached to this song' + (st.way === 'tab' ? ' and selected' : '') + '.</span><div class="row">' + (st.way === 'tab' ? '' : '<button class="btn btn-sm btn-tinted" data-act="p-way" data-way="tab">Play it</button>') + '<button class="btn btn-sm" data-act="lead-add" data-id="' + esc(song.id) + '">Replace</button><button class="btn btn-sm" data-act="lead-remove" data-id="' + esc(song.id) + '" style="color:var(--bad)">Remove</button></div>'
+        : '<span class="small">The recorded ' + what + ' is not written out here. Find a tab of it, paste it in, and it becomes a part of this song with its own notes on the highway and its own step on the path.</span><div class="row"><button class="btn btn-sm btn-tinted" data-act="lead-add" data-id="' + esc(song.id) + '">' + IC.plus + 'Paste a tab</button></div>') + '</div></section>';
+    return html;
+  }
   function controlsHtml() {
     var st = P.st, model = st.model, sel = selection(), timed = selTimed(sel);
     var secOpts = '<option value="-1"' + (st.section < 0 ? ' selected' : '') + '>Whole song</option>' + model.view.map(function (v, i) { return '<option value="' + i + '"' + (st.section === i ? ' selected' : '') + '>' + esc(v.name || 'Part ' + (i + 1)) + '</option>'; }).join('');
@@ -128,19 +180,20 @@
       '<div class="best"><div><span>Stars</span>' + App.starsHtml(gs.stars) + '</div><div><span>Best</span><b>' + (gs.best === null ? '–' : App.pct(gs.best) + '%') + '</b></div><div><span>High score</span><b>' + (gs.score ? fmtScore(gs.score) : '–') + '</b></div></div>' +
       (song.checked === false ? '<div class="notice notice-warn">' + IC.warn + '<div>' + (song.builtin ? '<b>Not fully checked.</b> Only one source could be found for this harmony, so some bars are a best reading. Trust your ears, and fix it under Edit if it sounds wrong.' : '<b>Draft, not checked.</b> These chords came from memory. Compare them with a tab, then mark the song as checked under Edit.') + '</div></div>' : '') +
       (song.note ? '<p class="note">' + esc(song.note) + '</p>' : '') +
-      (song.strum ? '<p class="small muted" style="padding-left:4px">Strumming: <b class="mono" style="color:var(--ink);white-space:pre">' + esc(song.strum) + '</b> (D down, U up)</p>' : '') +
-      (song.melody && song.builtin ? '<div class="panel-flat stack-sm"><b>This is the chord backing.</b><span class="small">The tune itself is not written out here. Paste a tab of the melody from a tab site and the app builds a path for it, note by note.</span><button class="btn btn-sm btn-tinted" data-act="melody-add" data-id="' + esc(song.id) + '" style="align-self:flex-start">' + IC.plus + 'Add the melody tab</button></div>' : '') +
+
       (model.broken || !model.targets.length ? '<div class="notice notice-bad">' + IC.warn + '<div>This song has nothing playable in it. Delete it and add it again.</div></div>' : '') +
       '</section>';
     if (!model.targets.length) return html;
-    if (path) html += App.pathCard(song, st.showPath) + '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">any part, any tempo</span></div>';
+    if (path) html += App.pathCard(song, st.showPath);
+    if (!own) html += waysHtml();
+    if (path) html += '<div class="sec-head"><h3 class="h2">Free play</h3><span class="small muted">' + esc((App.ways.by[st.way] || {}).name || 'Chords') + ' · any part, any tempo</span></div>';
     html += '<section class="stack" id="pControls">' + controlsHtml() + '</section>';
     html += '<section class="stack" id="pAction">' + actionHtml() + (st.mode === 'live' ? App.micNotice(true) : '') + '</section>';
-    if (model.chords.length) {
-      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + model.chords.map(function (c, i) {
+    if (st.base.chords.length) {
+      html += '<section class="stack"><div class="sec-head"><h3 class="h2">Shapes</h3><span class="small muted">tap to hear' + (song.capo ? ' · frets count from the capo' : '') + '</span></div><div class="shapes">' + st.base.chords.map(function (c, i) {
         return '<button class="shape" data-act="p-hear" data-i="' + i + '" aria-label="Hear ' + esc(c.name) + '"><b>' + esc(c.name) + '</b>' + shapeSvg(c.shape) + '<small>' + (c.shape ? esc(M.shapeToString(c.shape)) : 'no shape') + '</small></button>';
       }).join('') + '</div>' +
-      (model.chords.length >= 2 ? '<button class="btn btn-tinted btn-block" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button>' : '') + '</section>';
+      (st.base.chords.length >= 2 ? '<button class="btn btn-tinted btn-block" data-act="omc-pick">' + IC.swap + 'One-minute change drill</button>' : '') + '</section>';
     }
     html += '<section class="stack"><div class="sec-head"><h3 class="h2">Chart</h3></div><div class="stack-lg" id="pChart">' + chartHtml(model) + '</div></section>';
     return html;
@@ -222,7 +275,7 @@
     run.score = 0; run.combo = 0; run.maxCombo = 0;
     clearMarks();
     App.wake.on();
-    Stage.open(Object.assign({ title: st.song.title, sub: sectionName() + ' · ' + (run.kind === 'wait' ? 'at your own pace' : bpmNow() + ' BPM'), sel: run.sel }, stage));
+    Stage.open(Object.assign({ title: st.song.title, sub: (st.way && st.way !== 'chords' ? App.ways.by[st.way].name + ' · ' : '') + sectionName() + ' · ' + (run.kind === 'wait' ? 'at your own pace' : bpmNow() + ' BPM'), sel: run.sel }, stage));
     refreshAction();
     run.timer = setInterval(run.tick, 40);
   }
@@ -324,7 +377,7 @@
         while (i < sel.length - 1 && te >= sel[i].end) i++;
         if (i !== run.cur && te < sel[sel.length - 1].end) {
           run.cur = i; setNow(sel, i);
-          if (!listen && S.settings.guide !== false) { A.hush(); if (sel[i].midis.length > 1) A.strum(sel[i].midis); else A.pluck(M.midiToFreq(sel[i].midis[0], S.settings.a4), 1.4); }
+          if (!listen && S.settings.guide !== false) { A.hush(); if (sel[i].midis.length > 1) A.strum(sel[i].stroke === 'U' ? sel[i].midis.slice().reverse() : sel[i].midis, 0, sel[i].stroke ? 12 : 28); else A.pluck(M.midiToFreq(sel[i].midis[0], S.settings.a4), 1.4); }
           if (!listen) { Stage.result(i, 'pass'); setText('#hudAcc', String(Math.floor((sel[i].beat - sel[0].beat) / per) + 1)); setText('#hudHits', String(i + 1 + run.loops * sel.length)); }
         }
         var pr = $('#hudProg'); if (pr) pr.style.width = App.clamp(Math.round((te - t0) / (run.tl.end - t0) * 100), 0, 100) + '%';
@@ -435,6 +488,7 @@
     if (typeof rep.acc === 'number') { doc.acc = Math.round(rep.acc * 1000) / 1000; doc.hits = rep.hits; doc.total = rep.total; }
     if (rep.changes && rep.changes.length) doc.changes = rep.changes.slice(0, 60);
     if (typeof rep.cents === 'number') doc.cents = Math.round(rep.cents);
+    if (st.way && st.way !== 'chords') doc.way = st.way;
     Object.assign(doc, extra || {});
     App.Store.addSession(doc);
     return true;
@@ -588,7 +642,7 @@
   var O = App.omc = { st: null };
   O.pick = function () {
     var st = P.st; if (!st) return;
-    var names = st.model.chords.map(function (c) { return c.name; });
+    var names = st.base.chords.map(function (c) { return c.name; });
     App.sheet.open('<div class="sheet-head"><h2 class="title">One-minute changes</h2><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
       '<p class="muted">Pick two chords. Swap between them for a minute and count the clean changes. It is the fastest way to speed up a change.</p>' +
       '<div class="fields"><label class="field"><span>From</span><select class="select" id="omcA">' + names.map(function (n, i) { return '<option' + (i === 0 ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') + '</select></label>' +

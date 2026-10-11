@@ -67,6 +67,11 @@
         html += '<div class="stack-sm"><div class="sec-head"><span class="h3">' + esc(sg.title) + '</span><span class="small muted num">' + d + ' of ' + sg.steps.length + '</span></div><div class="group group-in">' +
           sg.steps.map(function (s) { return stepRow(song.id, s, p.next === s); }).join('') + '</div></div>';
       });
+      if (p.bonus.length) {
+        var bd = p.bonus.filter(function (s) { return s.done; }).length;
+        html += '<div class="stack-sm"><div class="sec-head"><span class="h3">Go further</span><span class="small muted num">' + bd + ' of ' + p.bonus.length + '</span></div><div class="group group-in">' +
+          p.bonus.map(function (s) { return stepRow(song.id, s, false); }).join('') + '</div><span class="small muted" style="padding-inline:4px">Not needed to finish the song. Each one is the same song played another way, or the part from your own tab.</span></div>';
+      }
       html += '<p class="small muted">Shapes, changes and techniques count for every song that uses them, so the next song starts with some of its steps already done.</p>';
     }
     return html + '</section>';
@@ -74,7 +79,7 @@
   /* start a step: an exercise, the one-minute change drill, or a part of the song set up and running */
   App.pathRun = function (songId, stepId) {
     var song = App.findSong(songId), p = song ? App.path.of(song) : null; if (!p) return;
-    var st = stepId ? p.steps.filter(function (s) { return s.id === stepId; })[0] : p.next;
+    var st = stepId ? p.steps.concat(p.bonus).filter(function (s) { return s.id === stepId; })[0] : p.next;
     if (!st) { App.go({ name: 'practice', id: songId }); return; }
     var P = App.practice;
     if (App.sheet.isOpen()) App.sheet.close();
@@ -82,12 +87,60 @@
     if (st.kind === 'change') { if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId }); App.omc.open(st.a, st.b, songId); return; }
     if (!(S.route.name === 'practice' && P.st && P.st.id === songId)) App.go({ name: 'practice', id: songId });
     var ps = P.st; if (!ps || ps.run) return;
-    ps.section = st.view; ps.marks = {};
+    if (st.kind === 'tab' && st.missing) { App.lead.open(songId); return; }
+    /* parts are found in the chord chart; the step may then ask for another way of playing them */
+    P.setWay('chords'); ps.section = st.view; ps.marks = {};
+    if (st.way && st.way !== 'chords') P.setWay(st.way);
     if (st.kind === 'song' || ps.pct < st.pct) ps.pct = st.pct;
     if (ps.mode === 'live') ps.live = ps.model.timed ? 'tempo' : 'wait';
     App.render(true);
     if (ps.mode === 'take') { App.toast('Record ' + (st.view < 0 ? 'the whole song' : 'this part') + ', then pick the file.'); var a = $('#pAction'); if (a && a.scrollIntoView) a.scrollIntoView({ block: 'center' }); return; }
     P.start();
+  };
+
+  /* ---------- the riff, solo or melody: pasted by the player, kept with the song ---------- */
+  var leadDraft = null;
+  function leadHtml() {
+    var d = leadDraft, song = App.findSong(d.id), q = ((song.artist || '') + ' ' + song.title).trim();
+    return '<div class="sheet-head"><div><div class="eyebrow">' + esc(song.title) + '</div><h2 class="title">Paste a tab</h2></div><button class="icon-btn" data-act="sheet-close" aria-label="Close">' + IC.x + '</button></div>' +
+      '<p class="small muted">Find a tab of the ' + (song.melody ? 'melody' : 'riff, solo or intro') + ' on a tab site, copy the six-line tab, and paste it here. It is kept with this song, on your own account.</p>' +
+      '<div class="row-tight"><span class="small muted">Find it:</span>' + App.findLinks(q + ' tab').map(function (l) { return '<a class="btn btn-sm btn-tinted" href="' + esc(l[1]) + '" target="_blank" rel="noopener noreferrer">' + esc(l[0]) + IC.ext + '</a>'; }).join('') + '</div>' +
+      '<label class="field"><span>The tab</span><textarea class="textarea" id="lText" spellcheck="false" placeholder="e|-----0-----|&#10;B|---1---1---|&#10;G|-0-------0-|&#10;D|-----------|&#10;A|-----------|&#10;E|-----------|">' + esc(d.text) + '</textarea></label>' +
+      (d.err ? '<div class="notice notice-bad">' + IC.warn + '<div>' + esc(d.err) + '</div></div>' : '') +
+      (d.sections ? '<div class="notice notice-good">' + IC.check + '<div><b>' + d.count + ' notes read</b> in ' + d.sections.length + (d.sections.length === 1 ? ' part' : ' parts') + (d.capo ? ', capo ' + d.capo : '') + '.</div></div><button class="btn btn-primary btn-block" data-act="lead-save">' + IC.check + 'Add it to this song</button>'
+        : '<button class="btn btn-tinted btn-block" data-act="lead-read">Read it</button>');
+  }
+  App.lead = {
+    open: function (id) { if (!App.findSong(id)) return; leadDraft = { id: id, text: '', err: '', sections: null, count: 0 }; App.sheet.open(leadHtml()); },
+    read: function () {
+      var d = leadDraft; if (!d) return;
+      d.text = ($('#lText') || {}).value || ''; d.err = ''; d.sections = null;
+      if (!d.text.trim()) d.err = 'Paste the tab first.';
+      else {
+        var p = M.parseSheet(d.text), tabs = p.sections.filter(function (s) { return s.type === 'tab' || s.systems; });
+        if (!tabs.length) d.err = 'No six-line tab found in that text. It needs six lines of dashes and fret numbers, one for each string.';
+        else {
+          var model = M.buildSong({ sections: tabs, capo: p.meta.capo || 0, tuning: p.meta.tuning || 'standard' });
+          if (model.targets.length < 3) d.err = 'The tab was recognised, but there were no notes to play in it.';
+          else { d.sections = tabs.slice(0, 24); d.count = model.targets.length; d.capo = p.meta.capo || 0; d.tuning = p.meta.tuning || 'standard'; }
+        }
+      }
+      $('#sheetBody').innerHTML = leadHtml();
+    },
+    save: function () {
+      var d = leadDraft, song = d && App.findSong(d.id); if (!song || !d.sections) return;
+      App.Store.saveSong(Object.assign({}, song, { lead: { sections: d.sections, capo: d.capo || 0, tuning: d.tuning || 'standard', at: Date.now() } }));
+      leadDraft = null; App.sheet.close();
+      var P = App.practice; P.st = null; App.go({ name: 'practice', id: d.id }); if (P.st) { P.setWay('tab'); App.render(true); }
+      App.toast('Added. It is now one of the ways to play this song.');
+    },
+    remove: function (id) {
+      var song = App.findSong(id); if (!song || !song.lead) return;
+      var copy = Object.assign({}, song); delete copy.lead;
+      App.Store.saveSong(copy);
+      var P = App.practice; P.st = null; App.go({ name: 'practice', id: id });
+      App.toast('Removed your tab from this song.');
+    }
   };
 
   /* ---------- the goal on Today ---------- */
